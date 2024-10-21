@@ -1,0 +1,132 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderManagementService", "OrderManagementService", "{C77EBB1A-22AE-4E30-AFAB-C5A7677085AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.OrderManagementService.Domain", "DineConnect.OrderManagementService.Domain\DineConnect.OrderManagementService.Domain.csproj", "{E4F67956-7C07-4951-A168-7A81E0F4F7BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.OrderManagementService.Application", "DineConnect.OrderManagementService.Application\DineConnect.OrderManagementService.Application.csproj", "{1A1068D4-E92E-47F7-9682-F5BC8276A084}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.OrderManagementService.Contracts", "DineConnect.OrderManagementService.Contracts\DineConnect.OrderManagementService.Contracts.csproj", "{60926399-E9B8-40E0-9181-6BFE9EDE6C7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.OrderManagementService.Infrastructure", "DineConnect.OrderManagementService.Infrastructure\DineConnect.OrderManagementService.Infrastructure.csproj", "{F20C81B5-8CA6-4F94-9BA3-A890FE6D8988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.OrderManagementService.API", "DineConnect.OrderManagementService.API\DineConnect.OrderManagementService.API.csproj", "{7F6456C4-B754-4274-BE8C-9B8F2058915F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RestaurantManagementService", "RestaurantManagementService", "{4C7B0DA9-36F7-4EFB-BB6A-DD80A45777C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.RestaurantManagementService.Domain", "DineConnect.RestaurantManagementService.Domain\DineConnect.RestaurantManagementService.Domain.csproj", "{18C4DDE9-4F39-45B1-89B8-858FB5980F12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentManagementService", "PaymentManagementService", "{FC8E1336-6750-45E0-A24E-21AB5F86C627}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PaymentManagementService.Domain", "DineConnect.PaymentManagementService.Domain\DineConnect.PaymentManagementService.Domain.csproj", "{282C1438-B6D7-4BCF-A8A7-DA326567731C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PaymentManagementService.Application", "DineConnect.PaymentManagementService.Application\DineConnect.PaymentManagementService.Application.csproj", "{69CC176A-4495-4D46-AF5C-E6DF9684599C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PaymentManagementService.Infrastructure", "DineConnect.PaymentManagementService.Infrastructure\DineConnect.PaymentManagementService.Infrastructure.csproj", "{C62298F7-8098-4A7E-8413-9CB262F6A98C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PaymentManagementService.Contracts", "DineConnect.PaymentManagementService.Contracts\DineConnect.PaymentManagementService.Contracts.csproj", "{83EE880F-AB95-470D-ABC0-57143FC75158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PaymentManagementService.API", "DineConnect.PaymentManagementService.API\DineConnect.PaymentManagementService.API.csproj", "{713ABAE6-69DB-4253-ADBC-F04D04D48D42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.RestaurantManagementService.API", "DineConnect.RestaurantManagementService.API\DineConnect.RestaurantManagementService.API.csproj", "{CDEEEE68-3735-4E45-8957-08801E541F86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.RestaurantManagementService.Application", "DineConnect.RestaurantManagementService.Application\DineConnect.RestaurantManagementService.Application.csproj", "{580FB273-C87B-406D-8246-341983572EA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.RestaurantManagementService.Contracts", "DineConnect.RestaurantManagementService.Contracts\DineConnect.RestaurantManagementService.Contracts.csproj", "{5BEC4C02-2FDD-4D3C-8674-17C8B893F4AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.RestaurantManagementService.Infrastructure", "DineConnect.RestaurantManagementService.Infrastructure\DineConnect.RestaurantManagementService.Infrastructure.csproj", "{713A6422-6720-47EE-B71D-273A5789593F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4F67956-7C07-4951-A168-7A81E0F4F7BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4F67956-7C07-4951-A168-7A81E0F4F7BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4F67956-7C07-4951-A168-7A81E0F4F7BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4F67956-7C07-4951-A168-7A81E0F4F7BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A1068D4-E92E-47F7-9682-F5BC8276A084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A1068D4-E92E-47F7-9682-F5BC8276A084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A1068D4-E92E-47F7-9682-F5BC8276A084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A1068D4-E92E-47F7-9682-F5BC8276A084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60926399-E9B8-40E0-9181-6BFE9EDE6C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60926399-E9B8-40E0-9181-6BFE9EDE6C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60926399-E9B8-40E0-9181-6BFE9EDE6C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60926399-E9B8-40E0-9181-6BFE9EDE6C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20C81B5-8CA6-4F94-9BA3-A890FE6D8988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20C81B5-8CA6-4F94-9BA3-A890FE6D8988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20C81B5-8CA6-4F94-9BA3-A890FE6D8988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20C81B5-8CA6-4F94-9BA3-A890FE6D8988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6456C4-B754-4274-BE8C-9B8F2058915F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6456C4-B754-4274-BE8C-9B8F2058915F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6456C4-B754-4274-BE8C-9B8F2058915F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6456C4-B754-4274-BE8C-9B8F2058915F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C4DDE9-4F39-45B1-89B8-858FB5980F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C4DDE9-4F39-45B1-89B8-858FB5980F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C4DDE9-4F39-45B1-89B8-858FB5980F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C4DDE9-4F39-45B1-89B8-858FB5980F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282C1438-B6D7-4BCF-A8A7-DA326567731C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282C1438-B6D7-4BCF-A8A7-DA326567731C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282C1438-B6D7-4BCF-A8A7-DA326567731C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282C1438-B6D7-4BCF-A8A7-DA326567731C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69CC176A-4495-4D46-AF5C-E6DF9684599C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69CC176A-4495-4D46-AF5C-E6DF9684599C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69CC176A-4495-4D46-AF5C-E6DF9684599C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69CC176A-4495-4D46-AF5C-E6DF9684599C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C62298F7-8098-4A7E-8413-9CB262F6A98C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C62298F7-8098-4A7E-8413-9CB262F6A98C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C62298F7-8098-4A7E-8413-9CB262F6A98C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C62298F7-8098-4A7E-8413-9CB262F6A98C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83EE880F-AB95-470D-ABC0-57143FC75158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83EE880F-AB95-470D-ABC0-57143FC75158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83EE880F-AB95-470D-ABC0-57143FC75158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83EE880F-AB95-470D-ABC0-57143FC75158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713ABAE6-69DB-4253-ADBC-F04D04D48D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713ABAE6-69DB-4253-ADBC-F04D04D48D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713ABAE6-69DB-4253-ADBC-F04D04D48D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713ABAE6-69DB-4253-ADBC-F04D04D48D42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDEEEE68-3735-4E45-8957-08801E541F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDEEEE68-3735-4E45-8957-08801E541F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDEEEE68-3735-4E45-8957-08801E541F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDEEEE68-3735-4E45-8957-08801E541F86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{580FB273-C87B-406D-8246-341983572EA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{580FB273-C87B-406D-8246-341983572EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{580FB273-C87B-406D-8246-341983572EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{580FB273-C87B-406D-8246-341983572EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BEC4C02-2FDD-4D3C-8674-17C8B893F4AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BEC4C02-2FDD-4D3C-8674-17C8B893F4AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BEC4C02-2FDD-4D3C-8674-17C8B893F4AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BEC4C02-2FDD-4D3C-8674-17C8B893F4AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713A6422-6720-47EE-B71D-273A5789593F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713A6422-6720-47EE-B71D-273A5789593F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713A6422-6720-47EE-B71D-273A5789593F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713A6422-6720-47EE-B71D-273A5789593F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4F67956-7C07-4951-A168-7A81E0F4F7BD} = {C77EBB1A-22AE-4E30-AFAB-C5A7677085AF}
+		{1A1068D4-E92E-47F7-9682-F5BC8276A084} = {C77EBB1A-22AE-4E30-AFAB-C5A7677085AF}
+		{60926399-E9B8-40E0-9181-6BFE9EDE6C7C} = {C77EBB1A-22AE-4E30-AFAB-C5A7677085AF}
+		{F20C81B5-8CA6-4F94-9BA3-A890FE6D8988} = {C77EBB1A-22AE-4E30-AFAB-C5A7677085AF}
+		{7F6456C4-B754-4274-BE8C-9B8F2058915F} = {C77EBB1A-22AE-4E30-AFAB-C5A7677085AF}
+		{18C4DDE9-4F39-45B1-89B8-858FB5980F12} = {4C7B0DA9-36F7-4EFB-BB6A-DD80A45777C4}
+		{282C1438-B6D7-4BCF-A8A7-DA326567731C} = {FC8E1336-6750-45E0-A24E-21AB5F86C627}
+		{69CC176A-4495-4D46-AF5C-E6DF9684599C} = {FC8E1336-6750-45E0-A24E-21AB5F86C627}
+		{C62298F7-8098-4A7E-8413-9CB262F6A98C} = {FC8E1336-6750-45E0-A24E-21AB5F86C627}
+		{83EE880F-AB95-470D-ABC0-57143FC75158} = {FC8E1336-6750-45E0-A24E-21AB5F86C627}
+		{713ABAE6-69DB-4253-ADBC-F04D04D48D42} = {FC8E1336-6750-45E0-A24E-21AB5F86C627}
+		{CDEEEE68-3735-4E45-8957-08801E541F86} = {4C7B0DA9-36F7-4EFB-BB6A-DD80A45777C4}
+		{580FB273-C87B-406D-8246-341983572EA4} = {4C7B0DA9-36F7-4EFB-BB6A-DD80A45777C4}
+		{5BEC4C02-2FDD-4D3C-8674-17C8B893F4AC} = {4C7B0DA9-36F7-4EFB-BB6A-DD80A45777C4}
+		{713A6422-6720-47EE-B71D-273A5789593F} = {4C7B0DA9-36F7-4EFB-BB6A-DD80A45777C4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B7579AD-DC48-4DBC-BBA4-AA1004199EA6}
+	EndGlobalSection
+EndGlobal
