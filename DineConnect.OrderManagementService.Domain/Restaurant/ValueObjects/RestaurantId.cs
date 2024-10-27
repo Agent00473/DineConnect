@@ -2,11 +2,16 @@
 
 namespace DineConnect.OrderManagementService.Domain.Restaurant.ValueObjects
 {
-    public class RestaurentId : AggregateRootId<Guid>
+    public class RestaurantId : AggregateRootId<Guid>
     {
-        private RestaurentId(Guid id)
+        private RestaurantId(Guid id)
         {
             IdValue = id;
+        }
+
+        private RestaurantId()
+        {
+            
         }
         public override Guid IdValue { get; protected set; }
 
@@ -14,13 +19,13 @@ namespace DineConnect.OrderManagementService.Domain.Restaurant.ValueObjects
         {
             yield return IdValue;
         }
-        public static RestaurentId Create()
+        public static RestaurantId Create()
         {
-            return new RestaurentId(Guid.NewGuid());
+            return new RestaurantId(Guid.NewGuid());
         }
-        public static RestaurentId Create(Guid id)
+        public static RestaurantId Create(Guid id)
         {
-            return new RestaurentId(id);
+            return new RestaurantId(id);
         }
     }
 }

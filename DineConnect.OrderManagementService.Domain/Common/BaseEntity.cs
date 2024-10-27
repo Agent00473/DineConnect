@@ -14,6 +14,9 @@ namespace DineConnect.OrderManagementService.Domain.Common
         {
             Id = id;
         }
+        protected BaseEntity()
+        {
+        }
 
         public void AddDomainEvent(IDomainEvent domainEvent)
         {

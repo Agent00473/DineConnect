@@ -8,6 +8,10 @@ namespace DineConnect.OrderManagementService.Domain.Customer.ValueObjects
         {
             IdValue = id;
         }
+
+        private CustomerId()
+        {
+        }
         public override Guid IdValue { get; protected set; }
 
         public override IEnumerable<object> GetEqualityComponents()
@@ -24,4 +28,5 @@ namespace DineConnect.OrderManagementService.Domain.Customer.ValueObjects
             return new CustomerId(guid);
         }
     }
+   
 }

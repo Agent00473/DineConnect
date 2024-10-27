@@ -2,26 +2,30 @@
 
 namespace DineConnect.OrderManagementService.Domain.Customer.ValueObjects
 {
-    public class DeliveryAddressId : AggregateRootId<Guid>
+    public class DeliveryAddressId : ValueObject
     {
-        private DeliveryAddressId(Guid id)
+        private DeliveryAddressId(Guid value)
         {
-            IdValue = id;
+            Value = value;
         }
-        public override Guid IdValue { get; protected set; }
+
+        private DeliveryAddressId()
+        {
+        }
+
+        public Guid Value { get; }
 
         public override IEnumerable<object> GetEqualityComponents()
         {
-            yield return IdValue;
+            yield return Value;
         }
-
         public static DeliveryAddressId Create()
         {
-            return new DeliveryAddressId(Guid.NewGuid());
+            return new(Guid.NewGuid());
         }
-        public static DeliveryAddressId Create(Guid guid)
+        public static DeliveryAddressId Create(Guid value)
         {
-            return new DeliveryAddressId(guid);
+            return new(value);
         }
     }
 }

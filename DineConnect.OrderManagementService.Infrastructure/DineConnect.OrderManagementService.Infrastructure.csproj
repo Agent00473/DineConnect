@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DineConnect.OrderManagementService.Application\DineConnect.OrderManagementService.Application.csproj" />
+    <ProjectReference Include="..\DineConnect.OrderManagementService.Domain\DineConnect.OrderManagementService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
