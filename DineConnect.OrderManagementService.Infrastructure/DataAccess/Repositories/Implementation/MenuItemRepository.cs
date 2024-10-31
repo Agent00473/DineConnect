@@ -1,4 +1,4 @@
-﻿using DineConnect.OrderManagementService.Domain.Order.Entities;
+﻿using DineConnect.OrderManagementService.Domain.Orders.Entities;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories.Implementation
 {

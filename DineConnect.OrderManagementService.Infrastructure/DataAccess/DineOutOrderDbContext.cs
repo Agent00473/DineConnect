@@ -1,8 +1,8 @@
-﻿using DineConnect.OrderManagementService.Domain.Order.Entities;
-using DineConnect.OrderManagementService.Domain.Order;
+﻿using DineConnect.OrderManagementService.Domain.Orders.Entities;
+using DineConnect.OrderManagementService.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Domain.Interfaces;
-using DineConnect.OrderManagementService.Domain.Customer;
+using DineConnect.OrderManagementService.Domain.Customers;
 using DineConnect.OrderManagementService.Infrastructure.DataAccess.Configurations;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess

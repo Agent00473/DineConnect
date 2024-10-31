@@ -24,7 +24,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<OrderResponse>> Get(int id)
         {
-            return await Task.FromResult(Ok(new OrderResponse(Guid.NewGuid().ToString(),"CUST123456", "REST123456", "Created", PaymentResponse.Create())));
+            return await Task.FromResult(Ok(new OrderResponse(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 1, PaymentResponse.Create())));
         }
 
         // POST api/<OrderController>
@@ -33,7 +33,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] CreateOrderRequest value)
+        public async Task<IActionResult> Post([FromBody] NewOrderRequest value)
         {
             return await Task.FromResult(Created());
         }
@@ -44,7 +44,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, [FromBody] CreateOrderRequest value)
+        public async Task<IActionResult> Put(int id, [FromBody] NewOrderRequest value)
         {
             return await Task.FromResult(Ok());
         }

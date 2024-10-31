@@ -33,7 +33,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] CreateRestaurantRequest value)
+        public async Task<IActionResult> Post([FromBody] NewRestaurantRequest value)
         {
             return await Task.FromResult(Created());
         }
@@ -44,7 +44,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, [FromBody] CreateRestaurantRequest value)
+        public async Task<IActionResult> Put(int id, [FromBody] NewRestaurantRequest value)
         {
             return await Task.FromResult(Ok());
         }

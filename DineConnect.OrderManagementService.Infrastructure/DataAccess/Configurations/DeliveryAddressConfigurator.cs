@@ -1,6 +1,5 @@
-﻿using DineConnect.OrderManagementService.Domain.Customer;
-using DineConnect.OrderManagementService.Domain.Customer.Entities;
-using DineConnect.OrderManagementService.Domain.Customer.ValueObjects;
+﻿using DineConnect.OrderManagementService.Domain.Customers.Entities;
+using DineConnect.OrderManagementService.Domain.Customers.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,5 +1,6 @@
 ﻿using DineConnect.OrderManagementService.Application.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories
 {
@@ -30,6 +31,12 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddAsync(IEnumerable<T> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
@@ -45,6 +52,18 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<T>> GetPaginatedDataAsync(int pageNumber, int pageSize)
+        {
+            
+            var totalRecords = await _dbSet.CountAsync();
+
+            var data = await _dbSet.Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            return data;
+        }
+       
     }
 
 }

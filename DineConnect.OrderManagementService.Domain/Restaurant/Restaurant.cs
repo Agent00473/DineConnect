@@ -1,8 +1,8 @@
 ﻿using DineConnect.OrderManagementService.Domain.Common;
-using DineConnect.OrderManagementService.Domain.Order.ValueObjects;
+using DineConnect.OrderManagementService.Domain.Orders.ValueObjects;
 using DineConnect.OrderManagementService.Domain.Restaurant.ValueObjects;
 
-namespace DineConnect.OrderManagementService.Domain.Order
+namespace DineConnect.OrderManagementService.Domain.Orders
 {
     public class Restaurant : AggregateRoot<RestaurantId, Guid>
     {

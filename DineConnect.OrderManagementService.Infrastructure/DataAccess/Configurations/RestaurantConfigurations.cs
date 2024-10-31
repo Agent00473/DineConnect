@@ -1,4 +1,4 @@
-﻿using DineConnect.OrderManagementService.Domain.Order;
+﻿using DineConnect.OrderManagementService.Domain.Orders;
 using DineConnect.OrderManagementService.Domain.Restaurant.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

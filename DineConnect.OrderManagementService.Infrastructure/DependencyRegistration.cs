@@ -1,7 +1,7 @@
 ﻿using DineConnect.OrderManagementService.Application.DataAccess;
-using DineConnect.OrderManagementService.Domain.Customer;
-using DineConnect.OrderManagementService.Domain.Order.Entities;
-using DineConnect.OrderManagementService.Domain.Order;
+using DineConnect.OrderManagementService.Domain.Customers;
+using DineConnect.OrderManagementService.Domain.Orders.Entities;
+using DineConnect.OrderManagementService.Domain.Orders;
 using DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories.Implementation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
