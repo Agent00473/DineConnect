@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DineConnect.OrderManagementService.Contracts\DineConnect.OrderManagementService.Contracts.csproj" />
     <ProjectReference Include="..\DineConnect.OrderManagementService.Domain\DineConnect.OrderManagementService.Domain.csproj" />
   </ItemGroup>
 

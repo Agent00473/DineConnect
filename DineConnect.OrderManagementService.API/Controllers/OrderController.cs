@@ -1,4 +1,5 @@
-﻿using DineConnect.OrderManagementService.Contracts.Order;
+﻿using DineConnect.OrderManagementService.Contracts.Requests;
+using DineConnect.OrderManagementService.Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

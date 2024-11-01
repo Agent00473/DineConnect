@@ -1,5 +1,4 @@
-﻿using DineConnect.OrderManagementService.Application.DataAccess;
-using DineConnect.OrderManagementService.Domain.Customers;
+﻿using DineConnect.OrderManagementService.Domain.Customers;
 using DineConnect.OrderManagementService.Domain.Orders.Entities;
 using DineConnect.OrderManagementService.Domain.Orders;
 using DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories.Implementation;
@@ -7,19 +6,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DineConnect.OrderManagementService.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using DineConnect.OrderManagementService.Application.Interfaces;
 
 namespace DineConnect.OrderManagementService.Infrastructure
 {
     public static class DependencyRegistration
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        public static IServiceCollection AddOrderManagementInfrastructureDependencies(this IServiceCollection services,
                                     IConfiguration configration)
         {
             services.AddPersistance(configration);
             return services;
         }
 
-        public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DineOutOrderDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
@@ -28,8 +28,7 @@ namespace DineConnect.OrderManagementService.Infrastructure
             services.AddScoped<IRepository<OrderItem>, MenuItemRepository>();
             services.AddScoped<IRepository<Customer>, CustomerRepository>();
             services.AddScoped<IRepository<Restaurant>, RestaurantRepository>();
-
-
+            
             return services;
         }
     }

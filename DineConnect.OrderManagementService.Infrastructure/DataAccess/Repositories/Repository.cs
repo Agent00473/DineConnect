@@ -1,6 +1,5 @@
-﻿using DineConnect.OrderManagementService.Application.DataAccess;
+﻿using DineConnect.OrderManagementService.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories
 {

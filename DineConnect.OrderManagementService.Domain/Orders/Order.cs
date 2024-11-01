@@ -63,6 +63,11 @@ namespace DineConnect.OrderManagementService.Domain.Orders
         {
             return new Order(OrderId.Create(), customerid, restaurentId);
         }
+
+        public static Order Create(Guid customerid, Guid restaurentId)
+        {
+            return new Order(OrderId.Create(), CustomerId.Create(customerid), RestaurantId.Create(restaurentId));
+        }
     }
 
 }

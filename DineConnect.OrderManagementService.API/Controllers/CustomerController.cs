@@ -1,6 +1,9 @@
-﻿using DineConnect.OrderManagementService.Contracts.Customer;
+﻿using DineConnect.OrderManagementService.Contracts.Requests;
+using DineConnect.OrderManagementService.Contracts.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace DineConnect.OrderManagementService.API.Controllers
@@ -9,6 +12,13 @@ namespace DineConnect.OrderManagementService.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private readonly ISender _mediator;
+
+        public CustomerController(ISender mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<CustomerController>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CustomerResponse>), (int)HttpStatusCode.OK)]
@@ -34,9 +44,28 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)] 
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] NewCustomerRequest value)
+        public async Task<IActionResult> Post([FromBody] IEnumerable<NewCustomerRequest> value)
         {
             return await Task.FromResult(Created());
+        }
+
+        // POST api/Customer/AddCustomer
+        [HttpPost("AddCustomer")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddCustomer([FromBody] NewCustomerRequest customer)
+        {
+            //var data = new List<NewCustomerRequest>
+            //{
+            //    customer
+            //};
+            //var cmd = new CreateNewCustomersCommand(data);
+            //var result = await _mediator.Send(cmd);
+
+
+            return await Task.FromResult(Ok());
         }
 
         // PUT api/<CustomerController>/5
