@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DineConnect.PaymentManagementService.Infrastructure.Migrations
 {
     [DbContext(typeof(DineOutPaymentDbContext))]
-    [Migration("20241029214135_InitialCreate")]
+    [Migration("20241104213411_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -1,16 +1,10 @@
-﻿using DineConnect.PaymentManagementService.Domain.Common;
-using DineConnect.PaymentManagementService.Domain.Invoice;
+﻿using DineConnect.PaymentManagementService.Domain.Invoice;
 using DineConnect.PaymentManagementService.Domain.Invoice.ValueObjects;
 using DineConnect.PaymentManagementService.Domain.Payment;
 using DineConnect.PaymentManagementService.Domain.Payment.Entities;
 using DineConnect.PaymentManagementService.Domain.Payment.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DineConnect.PaymentManagementService.Infrastructure.DataAccess.Configurations
 {

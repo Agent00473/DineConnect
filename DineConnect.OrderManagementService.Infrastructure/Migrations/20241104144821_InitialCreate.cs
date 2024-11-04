@@ -67,7 +67,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                     RestaurantId = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Payment_Amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    Payment_PaymentMethod = table.Column<string>(type: "text", nullable: false),
+                    Payment_PaymentMethod = table.Column<int>(type: "integer", nullable: false),
                     Payment_Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

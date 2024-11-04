@@ -2,7 +2,11 @@ Migration for OrderManagement Service
 Add Migration [Working]
 dotnet ef migrations add InitialCreate --project ./DineConnect.OrderManagementService.Infrastructure/DineConnect.OrderManagementService.Infrastructure.csproj --context DineOutOrderDbContext --startup-project ./DineConnect.OrderManagementService.API/DineConnect.OrderManagementService.API.csproj
 
-dotnet ef database update --verbose --project ./DineConnect.OrderManagementService.Infrastructure.csproj --context DineOutOrderDbContext --startup -DineConnect.OrderManagementService.API
+Update Migration [Working]
+dotnet ef database update --verbose --project ./DineConnect.OrderManagementService.Infrastructure/DineConnect.OrderManagementService.Infrastructure.csproj --context DineOutOrderDbContext --startup-project ./DineConnect.OrderManagementService.API/DineConnect.OrderManagementService.API.csproj
+Rollback Migration [Working]
+dotnet ef database update 0 --verbose --project ./DineConnect.OrderManagementService.Infrastructure/DineConnect.OrderManagementService.Infrastructure.csproj --context DineOutOrderDbContext --startup-project ./DineConnect.OrderManagementService.API/DineConnect.OrderManagementService.API.csproj
+
 
 Remove Migration [Working]
 dotnet ef migrations remove --project ./DineConnect.OrderManagementService.Infrastructure/DineConnect.OrderManagementService.Infrastructure.csproj --context DineOutOrderDbContext --startup-project ./DineConnect.OrderManagementService.API/DineConnect.OrderManagementService.API.csproj
@@ -10,3 +14,15 @@ dotnet ef migrations remove --project ./DineConnect.OrderManagementService.Infra
 Migration for PaymentManagementService Service
 Add Migration [Working]
 dotnet ef migrations add InitialCreate --project ./DineConnect.PaymentManagementService.Infrastructure/DineConnect.PaymentManagementService.Infrastructure.csproj --context DineOutPaymentDbContext --startup-project ./DineConnect.PaymentManagementService.API/DineConnect.PaymentManagementService.API.csproj
+
+Update Migration [Working]
+dotnet ef database update --verbose --project ./DineConnect.PaymentManagementService.Infrastructure/DineConnect.PaymentManagementService.Infrastructure.csproj --context DineOutPaymentDbContext --startup-project ./DineConnect.PaymentManagementService.API/DineConnect.PaymentManagementService.API.csproj
+
+
+Rollback Migration [Working]
+dotnet ef database update 0 --verbose --project ./DineConnect.PaymentManagementService.Infrastructure/DineConnect.PaymentManagementService.Infrastructure.csproj --context DineOutPaymentDbContext --startup-project ./DineConnect.PaymentManagementService.API/DineConnect.PaymentManagementService.API.csproj
+
+
+
+Remove Migration [Working]
+dotnet ef migrations remove --project ./DineConnect.PaymentManagementService.Infrastructure/DineConnect.PaymentManagementService.Infrastructure.csproj --context DineOutPaymentDbContext --startup-project ./DineConnect.PaymentManagementService.API/DineConnect.PaymentManagementService.API.csproj

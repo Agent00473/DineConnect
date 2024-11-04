@@ -3,19 +3,23 @@ using DineConnect.OrderManagementService.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Domain.Interfaces;
 using DineConnect.OrderManagementService.Domain.Customers;
-using DineConnect.OrderManagementService.Infrastructure.DataAccess.Configurations;
+using Microsoft.Extensions.Configuration;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess
 {
     public sealed class DineOutOrderDbContext: DbContext
     {
+        private readonly IConfiguration _configuration;
+
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> MenuItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Restaurant> Restaurant { get; set; }
 
-        public DineOutOrderDbContext(DbContextOptions<DineOutOrderDbContext> options) : base(options)
+        public DineOutOrderDbContext(DbContextOptions<DineOutOrderDbContext> options, IConfiguration configuration) : base(options)
         {
+            _configuration = configuration;
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +36,14 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess
                 .Ignore<List<IDomainEvent>>()
                 .ApplyConfigurationsFromAssembly(typeof(DineOutOrderDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"));
+            }
         }
     }
 

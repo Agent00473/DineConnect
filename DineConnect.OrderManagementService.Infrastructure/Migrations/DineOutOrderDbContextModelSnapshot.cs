@@ -22,7 +22,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customer.Customer", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customers.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -44,7 +44,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customer.Entities.DeliveryAddress", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customers.Entities.DeliveryAddress", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -78,7 +78,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                     b.ToTable("DeliveryAddress", (string)null);
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Order.Order", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Orders.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -101,7 +101,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Order.Restaurant", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Orders.Restaurant", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -117,24 +117,24 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                     b.ToTable("Restaurants", (string)null);
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customer.Entities.DeliveryAddress", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customers.Entities.DeliveryAddress", b =>
                 {
-                    b.HasOne("DineConnect.OrderManagementService.Domain.Customer.Customer", null)
+                    b.HasOne("DineConnect.OrderManagementService.Domain.Customers.Customer", null)
                         .WithOne("DeliveryAddress")
-                        .HasForeignKey("DineConnect.OrderManagementService.Domain.Customer.Entities.DeliveryAddress", "DeliveryAddressId")
+                        .HasForeignKey("DineConnect.OrderManagementService.Domain.Customers.Entities.DeliveryAddress", "DeliveryAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Order.Order", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Orders.Order", b =>
                 {
-                    b.HasOne("DineConnect.OrderManagementService.Domain.Customer.Customer", null)
+                    b.HasOne("DineConnect.OrderManagementService.Domain.Customers.Customer", null)
                         .WithOne()
-                        .HasForeignKey("DineConnect.OrderManagementService.Domain.Order.Order", "CustomerId")
+                        .HasForeignKey("DineConnect.OrderManagementService.Domain.Orders.Order", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("DineConnect.OrderManagementService.Domain.Order.Entities.OrderItem", "OrderItems", b1 =>
+                    b.OwnsMany("DineConnect.OrderManagementService.Domain.Orders.Entities.OrderItem", "OrderItems", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid")
@@ -165,7 +165,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.OwnsOne("DineConnect.OrderManagementService.Domain.Order.ValueObjects.Payment", "Payment", b1 =>
+                    b.OwnsOne("DineConnect.OrderManagementService.Domain.Orders.ValueObjects.Payment", "Payment", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uuid");
@@ -173,9 +173,8 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("numeric");
 
-                            b1.Property<string>("PaymentMethod")
-                                .IsRequired()
-                                .HasColumnType("text");
+                            b1.Property<int>("PaymentMethod")
+                                .HasColumnType("integer");
 
                             b1.Property<int>("Status")
                                 .HasColumnType("integer");
@@ -194,9 +193,9 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Order.Restaurant", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Orders.Restaurant", b =>
                 {
-                    b.OwnsMany("DineConnect.OrderManagementService.Domain.Order.ValueObjects.OrderId", "OrderIds", b1 =>
+                    b.OwnsMany("DineConnect.OrderManagementService.Domain.Orders.ValueObjects.OrderId", "OrderIds", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -224,7 +223,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.Migrations
                     b.Navigation("OrderIds");
                 });
 
-            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customer.Customer", b =>
+            modelBuilder.Entity("DineConnect.OrderManagementService.Domain.Customers.Customer", b =>
                 {
                     b.Navigation("DeliveryAddress");
                 });
