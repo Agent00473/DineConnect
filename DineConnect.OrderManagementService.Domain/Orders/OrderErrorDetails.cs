@@ -9,7 +9,13 @@ namespace DineConnect.OrderManagementService.Domain.Orders
         OrderNotFound = 2,
         PaymentFailed = 3,
         OrderAlreadyCompleted = 4,
-        OutOfStock = 5
+        OutOfStock = 5,
+        DuplicateOrder = 6,
+        InvalidQuantity = 7,
+        InvalidProduct = 8,
+        MissingData = 9,
+        InvalidPrice = 10,
+        UnauthorizedAccess = 11
     }
 
     public sealed record OrderErrorDetails
@@ -20,5 +26,11 @@ namespace DineConnect.OrderManagementService.Domain.Orders
         public static readonly ErrorDetails<OrderErrorCode> PaymentFailed = new(ErrorType.Conflict, OrderErrorCode.PaymentFailed, "Payment for the order has failed.");
         public static readonly ErrorDetails<OrderErrorCode> OrderAlreadyCompleted = new(ErrorType.Conflict, OrderErrorCode.OrderAlreadyCompleted, "Order has already been completed.");
         public static readonly ErrorDetails<OrderErrorCode> OutOfStock = new(ErrorType.Conflict, OrderErrorCode.OutOfStock, "Item is out of stock.");
+        public static readonly ErrorDetails<OrderErrorCode> DuplicateOrder = new(ErrorType.Conflict, OrderErrorCode.DuplicateOrder, "Order already exists.");
+        public static readonly ErrorDetails<OrderErrorCode> InvalidQuantity = new(ErrorType.Validation, OrderErrorCode.InvalidQuantity, "Order quantity is invalid.");
+        public static readonly ErrorDetails<OrderErrorCode> InvalidProduct = new(ErrorType.Validation, OrderErrorCode.InvalidProduct, "Product is invalid.");
+        public static readonly ErrorDetails<OrderErrorCode> NullData = new(ErrorType.Validation, OrderErrorCode.MissingData, "Data cannot be empty.");
+        public static readonly ErrorDetails<OrderErrorCode> InvalidPrice = new(ErrorType.Validation, OrderErrorCode.InvalidPrice, "Order price is invalid.");
+        public static readonly ErrorDetails<OrderErrorCode> UnauthorizedAccess = new(ErrorType.Authorization, OrderErrorCode.UnauthorizedAccess, "Unauthorized access to order.");
     }
 }

@@ -6,10 +6,11 @@ namespace DineConnect.OrderManagementService.Domain.Orders.Entities
 
     public class OrderItem : BaseEntity<OrderItemId>
     {
-        private OrderItem(OrderItemId itemId, string itemName, decimal price) : base(itemId)
+        private OrderItem(OrderItemId itemId, string itemName, decimal price, int quantity) : base(itemId)
         {
             ItemName = itemName;
             Price = price;
+            Quantity = quantity;
         }
         private OrderItem()
         {
@@ -19,13 +20,13 @@ namespace DineConnect.OrderManagementService.Domain.Orders.Entities
         public decimal Price { get; private set; }
         public int Quantity { get; private set; }
 
-        public static OrderItem Create(OrderItemId itemId, string itemName, decimal price)
+        public static OrderItem Create(OrderItemId itemId, string itemName, decimal price, int quantity)
         {
-            return new OrderItem(itemId, itemName, price);
+            return new OrderItem(itemId, itemName, price, quantity);
         }
-        public static OrderItem Create(string itemName, decimal price)
+        public static OrderItem Create(string itemName, decimal price, int quantity)
         {
-            return new OrderItem(OrderItemId.Create(), itemName, price);
+            return new OrderItem(OrderItemId.Create(), itemName, price, quantity);
         }
     }
 
