@@ -3,7 +3,7 @@
 
 namespace DineConnect.OrderManagementService.Application.Features.Customers.Query
 {
-    public class CustomerQueryValidator : AbstractValidator<OrderQuery>
+    public class CustomerQueryValidator : AbstractValidator<CustomerQuery>
     {
         public CustomerQueryValidator()
         {

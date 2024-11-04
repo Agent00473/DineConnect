@@ -1,9 +1,8 @@
-﻿using DineConnect.OrderManagementService.Contracts.Requests;
-using DineConnect.OrderManagementService.Contracts.Responses;
+﻿using DineConnect.OrderManagementService.Application.Features.Customers.Command;
+using DineConnect.OrderManagementService.Application.Features.Customers.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace DineConnect.OrderManagementService.API.Controllers
@@ -35,7 +34,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         public async Task<ActionResult<CustomerResponse>> Get(int id)
         {
             return await Task.FromResult(Ok(new CustomerResponse(Guid.NewGuid(), "Test Customer", "cusrtomer@test.com", 
-                new DeliveryAddressResponse(Guid.NewGuid(), "Street" , "Aalborg", "9000"))));
+                new AddressResponse(Guid.NewGuid(), "Street" , "Aalborg", "9000"))));
         }
 
         // POST api/<CustomerController>
@@ -44,9 +43,17 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)] 
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] IEnumerable<NewCustomerRequest> value)
+        public async Task<IActionResult> Post([FromBody] IEnumerable<CustomerCommandModel> models)
         {
-            return await Task.FromResult(Created());
+
+            var cmd = new CreateCustomerCommand(models);
+            var result = await _mediator.Send(cmd);
+            if (result.IsSuccess)
+            {
+                var responses = result.Value;
+                return Ok(responses);
+            }
+            return BadRequest(result.Error);
         }
 
         // POST api/Customer/AddCustomer
@@ -55,17 +62,17 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddCustomer([FromBody] NewCustomerRequest customer)
+        public async Task<IActionResult> AddCustomer([FromBody] CustomerCommandModel customer)
         {
-            //var data = new List<NewCustomerRequest>
-            //{
-            //    customer
-            //};
-            //var cmd = new CreateNewCustomersCommand(data);
-            //var result = await _mediator.Send(cmd);
-
-
-            return await Task.FromResult(Ok());
+            var lst = new List<CustomerCommandModel> { customer };
+            var cmd = new CreateCustomerCommand(lst);
+            var result = await _mediator.Send(cmd);
+            if (result.IsSuccess)
+            {
+                var responses = result.Value;
+                return Ok(responses);
+            }
+            return BadRequest(result.Error);
         }
 
         // PUT api/<CustomerController>/5
@@ -74,7 +81,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)] 
         [ProducesResponseType(StatusCodes.Status404NotFound)] 
         [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
-        public async Task<IActionResult> Put(int id, [FromBody] NewCustomerRequest value)
+        public async Task<IActionResult> Put(int id, [FromBody] CustomerCommandModel value)
         {
             return await Task.FromResult(Ok());
         }
