@@ -8,12 +8,13 @@ namespace DineConnect.OrderManagementService.Application.Features.Orders.Command
     }
 
     public record OrderCommandModel(
-             Guid CustomerId, Guid RestaurentId,
+             Guid CustomerId, Guid RestaurantId,
              int OrderStatus, PaymentCommandModel PaymentResponse, IEnumerable<OrderItemCommandModel> MenuItems)
     {
         public OrderCommandModel(
-             Guid CustomerId, Guid RestaurentId, int OrderStatus,
-             PaymentCommandModel PaymentResponse) : this(CustomerId, RestaurentId, OrderStatus, PaymentResponse, new List<OrderItemCommandModel>()) { }
+             Guid CustomerId, Guid RestaurantId, int OrderStatus,
+             PaymentCommandModel PaymentResponse) : this(CustomerId, RestaurantId, OrderStatus, PaymentResponse, new List<OrderItemCommandModel>()) { }
+        public OrderCommandModel(): this(Guid.Empty, Guid.Empty, 0, new PaymentCommandModel(0,0), new List<OrderItemCommandModel>()) { }
     }
 
     public record OrderItemCommandModel(string Name, decimal Price, int Quantity);

@@ -46,6 +46,8 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Configura
                 .WithOne()
                 .HasForeignKey<Order>("CustomerId")
                 .HasPrincipalKey<Customer>(c => c.Id);
+
+         
         }
 
         private void ConfigureOrderOrderItemsTable(EntityTypeBuilder<Order> builder)
@@ -88,10 +90,11 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Configura
                .HasColumnType("int")
                .IsRequired();
 
-            });
-            builder.Metadata
-               .FindNavigation(nameof(Order.OrderItems))!
-               .SetPropertyAccessMode(PropertyAccessMode.Field);
+            }).Navigation(s => s.OrderItems).Metadata
+                .SetField("_orderItems");
+            builder.Navigation(s => s.OrderItems)
+                 .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         }
 
         #endregion

@@ -22,9 +22,16 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CustomerResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<CustomerResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<CustomerResponse>>> Get(int PageNumber = 1, int PageSize = 10)
         {
-            return await Task.FromResult(Ok(new List<CustomerResponse>()));
+            var qry = new CustomerQuery(PageNumber, PageSize);
+            var result = await _mediator.Send(qry);
+            if (result.IsSuccess)
+            {
+                var responses = result.Value;
+                return Ok(responses);
+            }
+            return NotFound(result.Error);
         }
 
         // GET api/<CustomerController>/5

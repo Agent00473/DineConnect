@@ -7,8 +7,8 @@ namespace DineConnect.OrderManagementService.Application.Features.Customers.Quer
     {
         public CustomerQueryValidator()
         {
-            RuleFor(x => x.PageNumber).LessThan(0).WithMessage("Page Number {PageNumber} is Invalid");
-            RuleFor(x => x.PageSize).LessThan(1).WithMessage("Page Size {PageSize} is Cannot be less than 25");
+            RuleFor(x => x.PageNumber).GreaterThan(0).WithMessage("Page Number {PageNumber} is Invalid");
+            RuleFor(x => x.PageSize).GreaterThan(0).WithMessage("Page Size {PageSize} cannot be less than 1");
         }
     }
 }

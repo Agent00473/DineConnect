@@ -1,5 +1,8 @@
-﻿using DineConnect.OrderManagementService.Application.Features.Orders.Command;
+﻿using DineConnect.OrderManagementService.Application.Features.Customers.Command;
+using DineConnect.OrderManagementService.Application.Features.Customers.Query;
+using DineConnect.OrderManagementService.Application.Features.Orders.Command;
 using DineConnect.OrderManagementService.Application.Features.Orders.Query;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,13 +13,26 @@ namespace DineConnect.OrderManagementService.API.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        private readonly ISender _mediator;
+        public OrderController(ISender mediator)
+        {
+            _mediator = mediator;
+
+        }
         // GET: api/<OrderController>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<OrderResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<OrderResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderResponse>>> Get(int PageNumber = 1, int PageSize = 10)
         {
-            return await Task.FromResult(Ok(new List<OrderResponse>()));
+            var qry = new OrderQuery(PageNumber, PageSize);
+            var result = await _mediator.Send(qry);
+            if (result.IsSuccess)
+            {
+                var responses = result.Value;
+                return Ok(responses);
+            }
+            return NotFound(result.Error);
         }
 
         // GET api/<OrderController>/5
@@ -36,7 +52,14 @@ namespace DineConnect.OrderManagementService.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] OrderCommandModel value)
         {
-            return await Task.FromResult(Created());
+            var cmd = new CreateOrderCommand(value);
+            var result = await _mediator.Send(cmd);
+            if (result.IsSuccess)
+            {
+                var responses = result.Value;
+                return Ok(responses);
+            }
+            return BadRequest(result.Error);
         }
 
         // PUT api/<OrderController>/5

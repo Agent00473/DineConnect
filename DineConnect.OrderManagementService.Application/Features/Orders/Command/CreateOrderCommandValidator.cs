@@ -16,9 +16,9 @@ namespace DineConnect.OrderManagementService.Application.Features.Orders.Command
     {
         public OrderCommandModelValidator()
         {
-            RuleFor(x => x.RestaurentId).NotEmpty().WithMessage("Restaurant Id {RestaurentId} cannot be empty");
-            RuleFor(x => x.CustomerId).NotEmpty().WithMessage("Customer Id {CustomerId} cannot be empty");
-            RuleFor(x => x.OrderStatus).LessThan(1).WithMessage("Invalid Order status {OrderStatus}.");
+            RuleFor(x => x.RestaurantId).NotEmpty().WithMessage(x=>$"Restaurant Id {x.RestaurantId} cannot be empty");
+            RuleFor(x => x.CustomerId).NotEmpty().WithMessage(x => $"Customer Id {x.CustomerId} cannot be empty");
+            RuleFor(x => x.OrderStatus).GreaterThan(0).WithMessage(x => $"Invalid Order status {x.OrderStatus}.");
         }
     }
 

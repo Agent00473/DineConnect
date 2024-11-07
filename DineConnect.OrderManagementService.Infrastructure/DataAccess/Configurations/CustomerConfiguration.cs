@@ -1,8 +1,10 @@
 ﻿using DineConnect.OrderManagementService.Domain.Customers;
 using DineConnect.OrderManagementService.Domain.Customers.Entities;
 using DineConnect.OrderManagementService.Domain.Customers.ValueObjects;
+using DineConnect.OrderManagementService.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Configurations
 {
@@ -36,6 +38,11 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Configura
                 .WithOne()
                 .HasForeignKey<DeliveryAddress>("DeliveryAddressId")
                 .IsRequired();
+            
+            builder.Navigation(c => c.DeliveryAddress).AutoInclude();
+            builder.Metadata
+             .FindNavigation(nameof(Customer.DeliveryAddress))!
+             .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
         #endregion
 

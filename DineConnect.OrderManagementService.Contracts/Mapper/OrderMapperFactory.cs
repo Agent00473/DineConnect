@@ -78,7 +78,7 @@ namespace DineConnect.OrderManagementService.Contracts.Mapper
         public static Order CreateOrder(this OrderCommandModel request)
         {
             var result = Order.Create(
-                CustomerId.Create(request.CustomerId), RestaurantId.Create(request.RestaurentId));
+                CustomerId.Create(request.CustomerId), RestaurantId.Create(request.RestaurantId));
 
             foreach (var item in request.MenuItems)
             {

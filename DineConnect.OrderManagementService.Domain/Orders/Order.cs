@@ -10,7 +10,7 @@ namespace DineConnect.OrderManagementService.Domain.Orders
     public class Order : AggregateRoot<OrderId, Guid>
     {
         private const string DefaultCurrency = "DKK";
-        private IList<OrderItem> _orderItems;
+        private List<OrderItem> _orderItems = new();
         private void NotifyStatusChange(OrderStatus newStatus)
         {
             // Logic to notify status change, e.g., through an event
@@ -19,13 +19,12 @@ namespace DineConnect.OrderManagementService.Domain.Orders
         {
             CustomerId = customerid;
             RestaurantId = restaurentId;
-            _orderItems = new List<OrderItem>();
             Status = OrderStatus.Pending;
         }
         private Order() { }
         public CustomerId CustomerId { get; private set; }
         public RestaurantId RestaurantId { get; private set; }
-        public ReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
+        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
         public OrderStatus Status { get; private set; }
         public Payment Payment { get; private set; }
         public void AddItem(OrderItem item)
