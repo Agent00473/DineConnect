@@ -1,19 +1,18 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-
-namespace RAbbitTest
+namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
-    public class RabbitMQueueSubscriber : RabbitMQueueBase
+    public class RabbitMQueueSubscriber : RabbitMQueueBase, IMessageSubscriber
     {
         private EventingBasicConsumer? _consumer;
         private string _queueName = string.Empty;
-        public RabbitMQueueSubscriber(IConnection connection) : base(connection)
+        private RabbitMQueueSubscriber(IConnection connection) : base(connection)
         {
 
         }
 
-        public override void Configure(RabbitMQConfig config)
+        public override void Configure(QueueConfiguration config)
         {
             if (_initialized) return;
             base.Configure(config);
@@ -30,8 +29,14 @@ namespace RAbbitTest
 
         public void RemoveListener(EventHandler<BasicDeliverEventArgs> handler)
         {
-            if(_consumer != null)
+            if (_consumer != null)
                 _consumer.Received -= handler;
+        }
+
+        public static RabbitMQueueSubscriber Create()
+        {
+            var factory = QueueConnectionFactory.GetFactory();
+            return new RabbitMQueueSubscriber(factory.CreateConnection());  
         }
     }
 }

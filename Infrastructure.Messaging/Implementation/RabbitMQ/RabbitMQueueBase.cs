@@ -1,27 +1,37 @@
 ﻿using RabbitMQ.Client;
 
-namespace RAbbitTest
+namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
-    public abstract class RabbitMQueueBase: IDisposable
+    public abstract class RabbitMQueueBase : IDisposable, IMessageServiceBase
     {
+        #region Constants and Static Fields
+        #endregion
+
+        #region Private & Protected Fields
         private readonly IConnection _connection;
         private IModel _channel;
         private bool disposedValue;
         protected bool _initialized = false;
         protected string _exchangeName = string.Empty;
+        #endregion
 
-        protected IModel Channel
+        #region Protected Methods
+        protected void InitializeRabbitMQueue(QueueConfiguration config)
         {
-            get
+            // Declare the exchange with the specified type
+            DeclareExchange(Channel, config.ExchangeName, config.ExchangeType);
+            // Declare the queue
+            var queue = DeclareQueue(Channel, config.QueueName);
+            // Bind the queue to the exchange with the provided routing keys
+            foreach (var routingKey in config.RoutingKeys)
             {
-                if (_channel == null)
-                {
-                    _channel = _connection.CreateModel();
-                }
-                return _channel;
+                BindQueueToExchange(Channel, config.QueueName, config.ExchangeName, routingKey);
             }
-        }
 
+        }
+        #endregion
+
+        #region Private Methods
         private void DeclareExchange(IModel channel, string exchangeName, string exchangeType)
         {
             // Declare an exchange (e.g., direct, fanout, topic)
@@ -39,25 +49,31 @@ namespace RAbbitTest
             return channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
         }
 
-        protected void InitializeRabbitMQueue(RabbitMQConfig config)
-        {
-            // Declare the exchange with the specified type
-            DeclareExchange(Channel, config.ExchangeName, config.ExchangeType);
-            // Declare the queue
-            var queue = DeclareQueue(Channel, config.QueueName);
-            // Bind the queue to the exchange with the provided routing keys
-            foreach (var routingKey in config.RoutingKeys)
-            {
-                BindQueueToExchange(Channel, config.QueueName, config.ExchangeName, routingKey);
-            }
+        #endregion
 
-        }
-
+        #region Constructors
         protected RabbitMQueueBase(IConnection connection)
         {
             _connection = connection;
         }
-        public virtual void Configure(RabbitMQConfig config)
+        #endregion
+
+        #region Public & Protected Properties
+        protected IModel Channel
+        {
+            get
+            {
+                if (_channel == null)
+                {
+                    _channel = _connection.CreateModel();
+                }
+                return _channel;
+            }
+        }
+        #endregion
+
+        #region Public Methods
+        public virtual void Configure(QueueConfiguration config)
         {
             if (!_initialized)
             {
@@ -65,8 +81,9 @@ namespace RAbbitTest
                 _initialized = true;
             }
         }
-        //public abstract void Cleanup();
+        #endregion
 
+        #region IDispose Implementations
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -79,19 +96,19 @@ namespace RAbbitTest
                 disposedValue = true;
             }
         }
-
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-        
+
         //Optionl added to handle any missed cleanups
         ~RabbitMQueueBase()
         {
             Dispose(disposing: false);
         }
-
+        #endregion
     }
 }
+

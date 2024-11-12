@@ -28,117 +28,123 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
+            btnRabbitConfigure = new Button();
+            btnRabbitPublish = new Button();
+            btnRabbitConsume = new Button();
             textBox1 = new TextBox();
             listView1 = new ListView();
             label1 = new Label();
-            button5 = new Button();
+            btnRabbitStop = new Button();
+            groupBox1 = new GroupBox();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // btnRabbitConfigure
             // 
-            button1.Location = new Point(637, 334);
-            button1.Name = "button1";
-            button1.Size = new Size(100, 44);
-            button1.TabIndex = 0;
-            button1.Text = "Create Connection";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnRabbitConfigure.Location = new Point(20, 237);
+            btnRabbitConfigure.Name = "btnRabbitConfigure";
+            btnRabbitConfigure.Size = new Size(100, 44);
+            btnRabbitConfigure.TabIndex = 0;
+            btnRabbitConfigure.Text = "Configure";
+            btnRabbitConfigure.UseVisualStyleBackColor = true;
+            btnRabbitConfigure.Click += button1_Click;
             // 
-            // button2
+            // btnRabbitPublish
             // 
-            button2.Location = new Point(637, 211);
-            button2.Name = "button2";
-            button2.Size = new Size(100, 44);
-            button2.TabIndex = 1;
-            button2.Text = "Publish Message";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            btnRabbitPublish.Enabled = false;
+            btnRabbitPublish.Location = new Point(20, 176);
+            btnRabbitPublish.Name = "btnRabbitPublish";
+            btnRabbitPublish.Size = new Size(100, 44);
+            btnRabbitPublish.TabIndex = 1;
+            btnRabbitPublish.Text = "Publish Message";
+            btnRabbitPublish.UseVisualStyleBackColor = true;
+            btnRabbitPublish.Click += button2_Click;
             // 
-            // button3
+            // btnRabbitConsume
             // 
-            button3.Location = new Point(637, 275);
-            button3.Name = "button3";
-            button3.Size = new Size(100, 44);
-            button3.TabIndex = 2;
-            button3.Text = "Create Channel";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(637, 142);
-            button4.Name = "button4";
-            button4.Size = new Size(100, 44);
-            button4.TabIndex = 3;
-            button4.Text = "Consume Message";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            btnRabbitConsume.Enabled = false;
+            btnRabbitConsume.Location = new Point(20, 110);
+            btnRabbitConsume.Name = "btnRabbitConsume";
+            btnRabbitConsume.Size = new Size(100, 44);
+            btnRabbitConsume.TabIndex = 3;
+            btnRabbitConsume.Text = "Consume Message";
+            btnRabbitConsume.UseVisualStyleBackColor = true;
+            btnRabbitConsume.Click += button4_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(83, 117);
+            textBox1.Location = new Point(83, 16);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(511, 23);
             textBox1.TabIndex = 4;
             // 
             // listView1
             // 
-            listView1.Location = new Point(12, 158);
+            listView1.Location = new Point(12, 57);
             listView1.Name = "listView1";
             listView1.Size = new Size(582, 280);
             listView1.TabIndex = 5;
             listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = View.List;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(16, 121);
+            label1.Location = new Point(16, 20);
             label1.Name = "label1";
             label1.Size = new Size(53, 15);
             label1.TabIndex = 6;
             label1.Text = "Message";
             // 
-            // button5
+            // btnRabbitStop
             // 
-            button5.Location = new Point(637, 92);
-            button5.Name = "button5";
-            button5.Size = new Size(100, 44);
-            button5.TabIndex = 7;
-            button5.Text = "Stop Consuming";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            btnRabbitStop.Enabled = false;
+            btnRabbitStop.Location = new Point(20, 45);
+            btnRabbitStop.Name = "btnRabbitStop";
+            btnRabbitStop.Size = new Size(100, 44);
+            btnRabbitStop.TabIndex = 7;
+            btnRabbitStop.Text = "Stop Consuming";
+            btnRabbitStop.UseVisualStyleBackColor = true;
+            btnRabbitStop.Click += button5_Click;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(btnRabbitStop);
+            groupBox1.Controls.Add(btnRabbitConfigure);
+            groupBox1.Controls.Add(btnRabbitPublish);
+            groupBox1.Controls.Add(btnRabbitConsume);
+            groupBox1.Location = new Point(626, 16);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(144, 305);
+            groupBox1.TabIndex = 8;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "RabbitMQ";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(button5);
+            ClientSize = new Size(964, 450);
+            Controls.Add(groupBox1);
             Controls.Add(label1);
             Controls.Add(listView1);
             Controls.Add(textBox1);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
+        private Button btnRabbitConfigure;
+        private Button btnRabbitPublish;
+        private Button btnRabbitConsume;
         private TextBox textBox1;
         private ListView listView1;
         private Label label1;
-        private Button button5;
+        private Button btnRabbitStop;
+        private GroupBox groupBox1;
     }
 }

@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "DineOutApp.Grpc";
+
+package dineout.PromotionsService;
+
+service SeasonalFlashSale {
+  rpc GetSeasonalDiscount(SeasonalDiscountRequest) returns (SeasonalDiscountResponse);
+}
+
+message SeasonalDiscountRequest {
+  string item_id = 1;
+  string event_type = 2; // Example: "holiday", "flash_sale"
+}
+
+message SeasonalDiscountResponse {
+  bool discount_available = 1;
+  double discount_percentage = 2;
+  string message = 3;
+}

@@ -48,9 +48,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderManagementService", "O
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServicesBuildingBlocks", "ServicesBuildingBlocks", "{F3B265F0-EF0C-4732-A253-DECB8C34659D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Messaging", "Infrastructure.Messaging\Infrastructure.Messaging.csproj", "{E8DFD1BE-3B11-42ED-8520-0DB9CDEB5EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Messaging", "Infrastructure.Messaging\Infrastructure.Messaging.csproj", "{E8DFD1BE-3B11-42ED-8520-0DB9CDEB5EA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAbbitTest", "RAbbitTest\RAbbitTest.csproj", "{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfraTest", "RAbbitTest\InfraTest.csproj", "{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.GRPC", "Infrastructure.GRPC\Infrastructure.GRPC.csproj", "{682F941A-B669-4A22-91D5-4974A1F4A417}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PromotionsService", "PromotionsService", "{D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.txt = Readme.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.API", "DineConnect.PromotionsManagementService.API\DineConnect.PromotionsManagementService.API.csproj", "{EAD346C0-94DF-467A-B637-DC95305A1162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.Domain", "DineConnect.PromotionsManagementService.Domain\DineConnect.PromotionsManagementService.Domain.csproj", "{85932BD3-05AE-40A0-9194-BC9B1E5D312D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.Infrastructure", "DineConnect.PromotionsManagementService.Infrastructure\DineConnect.PromotionsManagementService.Infrastructure.csproj", "{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.Application", "DineConnect.PromotionsManagementService.Application\DineConnect.PromotionsManagementService.Application.csproj", "{87685750-9E11-4453-8C19-CB10DC981C42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,6 +141,26 @@ Global
 		{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{682F941A-B669-4A22-91D5-4974A1F4A417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{682F941A-B669-4A22-91D5-4974A1F4A417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{682F941A-B669-4A22-91D5-4974A1F4A417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{682F941A-B669-4A22-91D5-4974A1F4A417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAD346C0-94DF-467A-B637-DC95305A1162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD346C0-94DF-467A-B637-DC95305A1162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD346C0-94DF-467A-B637-DC95305A1162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD346C0-94DF-467A-B637-DC95305A1162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85932BD3-05AE-40A0-9194-BC9B1E5D312D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85932BD3-05AE-40A0-9194-BC9B1E5D312D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85932BD3-05AE-40A0-9194-BC9B1E5D312D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85932BD3-05AE-40A0-9194-BC9B1E5D312D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87685750-9E11-4453-8C19-CB10DC981C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87685750-9E11-4453-8C19-CB10DC981C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87685750-9E11-4453-8C19-CB10DC981C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87685750-9E11-4453-8C19-CB10DC981C42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +184,11 @@ Global
 		{BA0DFCB5-5F73-48B9-9D3B-639C48EFE3B8} = {E85599E6-69EA-4424-9B80-05C17400DCEA}
 		{E8DFD1BE-3B11-42ED-8520-0DB9CDEB5EA2} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
 		{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
+		{682F941A-B669-4A22-91D5-4974A1F4A417} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
+		{EAD346C0-94DF-467A-B637-DC95305A1162} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
+		{85932BD3-05AE-40A0-9194-BC9B1E5D312D} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
+		{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
+		{87685750-9E11-4453-8C19-CB10DC981C42} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B7579AD-DC48-4DBC-BBA4-AA1004199EA6}
