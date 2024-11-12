@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option csharp_namespace = "Infrastructure.GRPC.Protos";
+
+package dineout.PromotionsService;
+
+// FlashSale gRPC service definition
+service FlashSaleService {
+  rpc GetFlashSaleDetails (FlashSaleRequest) returns (FlashSaleResponse);
+  rpc CalculateDiscount (DiscountRequest) returns (DiscountResponse);
+}
+
+// Request for flash sale details
+message FlashSaleRequest {
+  int32  sale_type = 1; 
+}
+
+// Response with flash sale information
+message FlashSaleResponse {
+  string sale_name = 1;
+  int32  sale_type = 2;
+  double discount_percentage = 3;
+  bool is_free_delivery = 4;
+  string product_category = 5;
+  string brand_name = 6;
+}
+
+// Request to calculate discount
+message DiscountRequest {
+  string customer_id = 1;
+  double order_amount = 2;
+  string location = 3;
+  bool is_premium_customer = 4;
+  int32  sale_type = 5; 
+}
+
+// Response with calculated discount
+message DiscountResponse {
+  double discount_amount = 1;
+  double final_price = 2;
+  string message = 3;
+}

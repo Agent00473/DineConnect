@@ -52,20 +52,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Messaging", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfraTest", "RAbbitTest\InfraTest.csproj", "{39332B46-ACA1-4D25-86AE-50B8BA9DAA7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.GRPC", "Infrastructure.GRPC\Infrastructure.GRPC.csproj", "{682F941A-B669-4A22-91D5-4974A1F4A417}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.GRPC", "Infrastructure.GRPC\Infrastructure.GRPC.csproj", "{682F941A-B669-4A22-91D5-4974A1F4A417}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PromotionsService", "PromotionsService", "{D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.txt = Readme.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.API", "DineConnect.PromotionsManagementService.API\DineConnect.PromotionsManagementService.API.csproj", "{EAD346C0-94DF-467A-B637-DC95305A1162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DineConnect.PromotionsManagementService.API", "DineConnect.PromotionsManagementService.API\DineConnect.PromotionsManagementService.API.csproj", "{EAD346C0-94DF-467A-B637-DC95305A1162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.Domain", "DineConnect.PromotionsManagementService.Domain\DineConnect.PromotionsManagementService.Domain.csproj", "{85932BD3-05AE-40A0-9194-BC9B1E5D312D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DineConnect.PromotionsManagementService.Domain", "DineConnect.PromotionsManagementService.Domain\DineConnect.PromotionsManagementService.Domain.csproj", "{85932BD3-05AE-40A0-9194-BC9B1E5D312D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.Infrastructure", "DineConnect.PromotionsManagementService.Infrastructure\DineConnect.PromotionsManagementService.Infrastructure.csproj", "{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DineConnect.PromotionsManagementService.Infrastructure", "DineConnect.PromotionsManagementService.Infrastructure\DineConnect.PromotionsManagementService.Infrastructure.csproj", "{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineConnect.PromotionsManagementService.Application", "DineConnect.PromotionsManagementService.Application\DineConnect.PromotionsManagementService.Application.csproj", "{87685750-9E11-4453-8C19-CB10DC981C42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DineConnect.PromotionsManagementService.Application", "DineConnect.PromotionsManagementService.Application\DineConnect.PromotionsManagementService.Application.csproj", "{87685750-9E11-4453-8C19-CB10DC981C42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

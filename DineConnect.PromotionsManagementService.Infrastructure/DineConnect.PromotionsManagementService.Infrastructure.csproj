@@ -24,12 +24,9 @@
 		<Protobuf Include="..\Infrastructure.GRPC\Protos\greet.proto" GrpcServices="Server">
 			<Link>Protos\greet.proto</Link>
 		</Protobuf>
-		<Protobuf Include="..\Infrastructure.GRPC\Protos\deliverychargewaiver.proto" GrpcServices="Server">
-			<Link>Protos\deliverychargewaiver.proto</Link>
+		<!--Valid Cases Implmentation-->
+		<Protobuf Include="..\Infrastructure.GRPC\Protos\flashsaleservice.proto" GrpcServices="Server">
+			<Link>Protos\flashsaleservice.proto</Link>
 		</Protobuf>
-		<Protobuf Include="..\Infrastructure.GRPC\Protos\seasonalflashsales.proto" GrpcServices="Server">
-			<Link>Protos\seasonalflashsales.proto</Link>
-		</Protobuf>
-
 	</ItemGroup>
 </Project>
