@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataAccess\Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DineConnect.PaymentManagementService.Domain\DineConnect.PaymentManagementService.Domain.csproj" />
   </ItemGroup>
 
