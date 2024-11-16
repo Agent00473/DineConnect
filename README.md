@@ -1,4 +1,4 @@
-# DineConnect
+# DineConnect (Under Development)
 A food delivery platform that allows users to browse local restaurants, place orders, and track deliveries. The platform serves customers, restaurant owners, and delivery personnel through a web application built using Angular, with a backend powered by Web API, utilizing microservices architecture, PostgreSQL/SQL databases, and messaging through Azure Service Bus or RabbitMQ.
 
 # Use Cases
