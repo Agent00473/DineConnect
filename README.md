@@ -30,6 +30,10 @@ A food delivery platform that allows users to browse local restaurants, place or
     DineConnect
 ## Angular Solution Name
     DineNow
+## Decisions
+   * Syncronous inter-service communication with gRPC.
+   * Asyncronous Communication with RabbitMQ / Azure Service bus.
+   * Using RabbitMQ Publish/Subscribe Topic Exchange Model.
 
 ## System Overview
 ![image](https://github.com/user-attachments/assets/eb5c59f3-b73b-4348-a60e-c5156f90f927)
