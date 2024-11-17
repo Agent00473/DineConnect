@@ -1,5 +1,4 @@
-﻿using DineConnect.OrderManagementService.Application.Features.Customers.Command;
-using DineConnect.OrderManagementService.Application.Features.Customers.Query;
+﻿using DineConnect.OrderManagementService.API.Common;
 using DineConnect.OrderManagementService.Application.Features.Orders.Command;
 using DineConnect.OrderManagementService.Application.Features.Orders.Query;
 using MediatR;
@@ -11,7 +10,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderController : BaseAPIController
     {
         private readonly ISender _mediator;
         public OrderController(ISender mediator)

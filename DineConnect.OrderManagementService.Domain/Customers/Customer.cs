@@ -1,5 +1,6 @@
 ﻿using DineConnect.OrderManagementService.Domain.Common;
 using DineConnect.OrderManagementService.Domain.Customers.Entities;
+using DineConnect.OrderManagementService.Domain.Customers.Events;
 using DineConnect.OrderManagementService.Domain.Customers.ValueObjects;
 
 namespace DineConnect.OrderManagementService.Domain.Customers
@@ -28,7 +29,9 @@ namespace DineConnect.OrderManagementService.Domain.Customers
         }
         public static Customer Create(string name, string email, string street, string city, string postalCode)
         {
-            return new Customer(CustomerId.Create(), name, email, DeliveryAddress.Create(street, city, postalCode));
+            var customer = new Customer(CustomerId.Create(), name, email, DeliveryAddress.Create(street, city, postalCode));
+            customer.AddDomainEvent(CustomerCreated.Create(customer));
+            return customer;
         }
 
         public static Customer Create(CustomerId id, string name, string email, string street, string city, string postalCode)

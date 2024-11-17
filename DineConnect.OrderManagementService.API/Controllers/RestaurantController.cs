@@ -1,4 +1,5 @@
-﻿using DineConnect.OrderManagementService.Contracts.Requests;
+﻿using DineConnect.OrderManagementService.API.Common;
+using DineConnect.OrderManagementService.Contracts.Requests;
 using DineConnect.OrderManagementService.Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -8,7 +9,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController : ControllerBase
+    public class RestaurantController : BaseAPIController
     {
         // GET: api/<RestaurantController>
         [HttpGet]

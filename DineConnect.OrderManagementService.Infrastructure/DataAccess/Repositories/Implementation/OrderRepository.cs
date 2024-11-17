@@ -7,6 +7,10 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
     {
         public OrderRepository(DineOutOrderDbContext context) : base(context) { }
 
+        protected override string GetEntityName()
+        {
+            return "Order";
+        }
     }
 
 }

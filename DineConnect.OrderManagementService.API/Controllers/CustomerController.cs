@@ -1,4 +1,5 @@
-﻿using DineConnect.OrderManagementService.Application.Features.Customers.Command;
+﻿using DineConnect.OrderManagementService.API.Common;
+using DineConnect.OrderManagementService.Application.Features.Customers.Command;
 using DineConnect.OrderManagementService.Application.Features.Customers.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomerController : BaseAPIController
     {
         private readonly ISender _mediator;
 
@@ -26,12 +27,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
         {
             var qry = new CustomerQuery(PageNumber, PageSize);
             var result = await _mediator.Send(qry);
-            if (result.IsSuccess)
-            {
-                var responses = result.Value;
-                return Ok(responses);
-            }
-            return NotFound(result.Error);
+            return HandleResult(result);
         }
 
         // GET api/<CustomerController>/5
@@ -55,12 +51,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
 
             var cmd = new CreateCustomerCommand(models);
             var result = await _mediator.Send(cmd);
-            if (result.IsSuccess)
-            {
-                var responses = result.Value;
-                return Ok(responses);
-            }
-            return BadRequest(result.Error);
+            return Handle(result);
         }
 
         // POST api/Customer/AddCustomer
@@ -74,12 +65,7 @@ namespace DineConnect.OrderManagementService.API.Controllers
             var lst = new List<CustomerCommandModel> { customer };
             var cmd = new CreateCustomerCommand(lst);
             var result = await _mediator.Send(cmd);
-            if (result.IsSuccess)
-            {
-                var responses = result.Value;
-                return Ok(responses);
-            }
-            return BadRequest(result.Error);
+            return Handle(result);
         }
 
         // PUT api/<CustomerController>/5

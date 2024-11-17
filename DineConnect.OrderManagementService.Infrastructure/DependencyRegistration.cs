@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DineConnect.OrderManagementService.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Application.Interfaces;
+using DineConnect.OrderManagementService.Infrastructure.ExceptionHandlers;
 
 namespace DineConnect.OrderManagementService.Infrastructure
 {
@@ -15,10 +16,16 @@ namespace DineConnect.OrderManagementService.Infrastructure
         public static IServiceCollection AddOrderManagementInfrastructureDependencies(this IServiceCollection services,
                                     IConfiguration configration)
         {
-            services.AddPersistance(configration);
+            services.AddPersistance(configration)
+                    .AddExceptionHandler(configration);
             return services;
         }
 
+        private static IServiceCollection AddExceptionHandler(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddExceptionHandler<CreateCustomerExceptionHandler>();
+            return services;
+        }
         private static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DineOutOrderDbContext>(options =>

@@ -1,10 +1,8 @@
 ﻿using DineConnect.OrderManagementService.Domain.Customers;
 using DineConnect.OrderManagementService.Domain.Customers.Entities;
 using DineConnect.OrderManagementService.Domain.Customers.ValueObjects;
-using DineConnect.OrderManagementService.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Configurations
 {
@@ -32,7 +30,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Configura
                 .HasColumnName("Email")
                 .IsRequired()
                 .HasMaxLength(50);
-
+            builder.HasIndex(c => c.Email).IsUnique();
 
             builder.HasOne(addr => addr.DeliveryAddress)
                 .WithOne()

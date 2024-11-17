@@ -67,6 +67,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DineConnect.PromotionsManag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DineConnect.PromotionsManagementService.Application", "DineConnect.PromotionsManagementService.Application\DineConnect.PromotionsManagementService.Application.csproj", "{87685750-9E11-4453-8C19-CB10DC981C42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.PostgressExceptions", "Infrastructure.PostgressExceptions\Infrastructure.PostgressExceptions.csproj", "{1CF51F1C-C7A9-4766-AB5B-C3695CD87898}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,10 @@ Global
 		{87685750-9E11-4453-8C19-CB10DC981C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87685750-9E11-4453-8C19-CB10DC981C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87685750-9E11-4453-8C19-CB10DC981C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF51F1C-C7A9-4766-AB5B-C3695CD87898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF51F1C-C7A9-4766-AB5B-C3695CD87898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF51F1C-C7A9-4766-AB5B-C3695CD87898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF51F1C-C7A9-4766-AB5B-C3695CD87898}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +195,7 @@ Global
 		{85932BD3-05AE-40A0-9194-BC9B1E5D312D} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
 		{1BCBCCA7-F12E-4B68-817A-C23725ECE7DD} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
 		{87685750-9E11-4453-8C19-CB10DC981C42} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
+		{1CF51F1C-C7A9-4766-AB5B-C3695CD87898} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B7579AD-DC48-4DBC-BBA4-AA1004199EA6}

@@ -3,10 +3,10 @@ using DineConnect.OrderManagementService.Domain.Customers.ValueObjects;
 using DineConnect.OrderManagementService.Domain.Orders.Entities;
 using DineConnect.OrderManagementService.Domain.Orders.ValueObjects;
 using DineConnect.OrderManagementService.Domain.Restaurant.ValueObjects;
-using System.Collections.ObjectModel;
 
 namespace DineConnect.OrderManagementService.Domain.Orders
 {
+
     public class Order : AggregateRoot<OrderId, Guid>
     {
         private const string DefaultCurrency = "DKK";

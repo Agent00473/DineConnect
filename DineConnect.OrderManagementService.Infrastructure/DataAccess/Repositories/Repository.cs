@@ -1,12 +1,28 @@
 ﻿using DineConnect.OrderManagementService.Application.Interfaces;
+using Infrastructure.PostgressExceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
         protected readonly DineOutOrderDbContext _context;
         private readonly DbSet<T> _dbSet;
+        protected abstract string GetEntityName();
+
+        private async Task<int> SaveChangesAsync(string failuremessage, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                var err = ExceptionFactory.GetDatabaseError(ex, GetEntityName(), failuremessage);
+                throw err;
+            }
+
+        }
 
         public Repository(DineOutOrderDbContext context)
         {
@@ -27,19 +43,19 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task AddAsync(IEnumerable<T> entities)
         {
             await _dbSet.AddRangeAsync(entities);
-            await _context.SaveChangesAsync();
+            await SaveChangesAsync($"Error in Create {GetEntityName()}");
         }
 
         public async Task UpdateAsync(T entity)
         {
+
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
+            await SaveChangesAsync($"Error in Update {GetEntityName()}");
         }
 
         public async Task DeleteAsync(Guid id)
@@ -48,13 +64,13 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
+                await SaveChangesAsync($"Error in Delete {GetEntityName()}");
             }
         }
 
         public async Task<IEnumerable<T>> GetPaginatedDataAsync(int pageNumber, int pageSize)
         {
-            
+
             var totalRecords = await _dbSet.CountAsync();
 
             var data = await _dbSet.Skip((pageNumber - 1) * pageSize)
@@ -62,7 +78,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
                 .ToListAsync();
             return data;
         }
-       
+
     }
 
 }
