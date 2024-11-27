@@ -12,11 +12,5 @@ namespace DineConnect.PaymentManagementService.Application.Payments.Query
     /// Represents a request for initial payment details, including invoice and amount information.
     /// </summary>
     public record PaymentRequest(
-        Guid CustomerId,
-        Guid InvoiceId,
-        decimal Amount,
-        string Currency,
-        decimal Discount,
-        decimal Tax
-    );
+        Guid CustomerId,  Guid InvoiceId, decimal Amount, string Currency, string Location, decimal Tax);
 }

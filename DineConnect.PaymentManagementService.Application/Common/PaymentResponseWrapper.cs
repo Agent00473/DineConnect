@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DineConnect.PaymentManagementService.Application.Common
+﻿namespace DineConnect.PaymentManagementService.Application.Common
 {
     public class PaymentResponseWrapper<TResponse> where TResponse : class
     {
