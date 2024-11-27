@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.28.3" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.67.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -15,7 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DineConnect.PaymentManagementService.Application\DineConnect.PaymentManagementService.Application.csproj" />
     <ProjectReference Include="..\DineConnect.PaymentManagementService.Domain\DineConnect.PaymentManagementService.Domain.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<Protobuf Include="..\Infrastructure.GRPC\Protos\flashsaleservice.proto" GrpcServices="Client">
+			<Link>Protos\flashsaleservice.proto</Link>
+		</Protobuf>
+	</ItemGroup>
+	
 </Project>
