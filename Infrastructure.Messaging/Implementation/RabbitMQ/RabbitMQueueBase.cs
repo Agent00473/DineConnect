@@ -4,9 +4,6 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
     public abstract class RabbitMQueueBase : IDisposable, IMessageServiceBase
     {
-        #region Constants and Static Fields
-        #endregion
-
         #region Private & Protected Fields
         private readonly IConnection _connection;
         private IModel _channel;

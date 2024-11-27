@@ -1,5 +1,4 @@
 ﻿using RabbitMQ.Client;
-using System.Text.Json;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
