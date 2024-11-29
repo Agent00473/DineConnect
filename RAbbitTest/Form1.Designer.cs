@@ -36,7 +36,15 @@
             label1 = new Label();
             btnRabbitStop = new Button();
             groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
+            button5 = new Button();
+            button4 = new Button();
+            button3 = new Button();
+            button2 = new Button();
+            button1 = new Button();
+            Detail = new ColumnHeader();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // btnRabbitConfigure
@@ -80,12 +88,14 @@
             // 
             // listView1
             // 
+            listView1.Columns.AddRange(new ColumnHeader[] { Detail });
+            listView1.GridLines = true;
             listView1.Location = new Point(12, 57);
             listView1.Name = "listView1";
             listView1.Size = new Size(582, 280);
             listView1.TabIndex = 5;
             listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.List;
+            listView1.View = View.Details;
             // 
             // label1
             // 
@@ -120,11 +130,81 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "RabbitMQ";
             // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(button5);
+            groupBox2.Controls.Add(button4);
+            groupBox2.Controls.Add(button3);
+            groupBox2.Controls.Add(button2);
+            groupBox2.Controls.Add(button1);
+            groupBox2.Location = new Point(808, 20);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(144, 317);
+            groupBox2.TabIndex = 9;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Event Context";
+            groupBox2.Enter += groupBox2_Enter;
+            // 
+            // button5
+            // 
+            button5.Enabled = false;
+            button5.Location = new Point(20, 257);
+            button5.Name = "button5";
+            button5.Size = new Size(100, 44);
+            button5.TabIndex = 11;
+            button5.Text = "Consume Events";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click_1;
+            // 
+            // button4
+            // 
+            button4.Enabled = false;
+            button4.Location = new Point(20, 207);
+            button4.Name = "button4";
+            button4.Size = new Size(100, 44);
+            button4.TabIndex = 10;
+            button4.Text = "Publish Events";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click_1;
+            // 
+            // button3
+            // 
+            button3.Enabled = false;
+            button3.Location = new Point(20, 157);
+            button3.Name = "button3";
+            button3.Size = new Size(100, 44);
+            button3.TabIndex = 9;
+            button3.Text = "Load Event Log";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click_1;
+            // 
+            // button2
+            // 
+            button2.Enabled = false;
+            button2.Location = new Point(20, 106);
+            button2.Name = "button2";
+            button2.Size = new Size(100, 44);
+            button2.TabIndex = 8;
+            button2.Text = "Generate Event Log";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(20, 45);
+            button1.Name = "button1";
+            button1.Size = new Size(100, 44);
+            button1.TabIndex = 7;
+            button1.Text = "Load Data Context";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(964, 450);
+            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label1);
             Controls.Add(listView1);
@@ -132,6 +212,7 @@
             Name = "Form1";
             Text = "Form1";
             groupBox1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -146,5 +227,12 @@
         private Label label1;
         private Button btnRabbitStop;
         private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
+        private Button button5;
+        private ColumnHeader Detail;
     }
 }
