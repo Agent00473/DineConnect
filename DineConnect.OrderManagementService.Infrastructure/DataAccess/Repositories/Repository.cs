@@ -110,8 +110,8 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             try
             {
                 await BeginTransaction();
-                //await _dbSet.AddRangeAsync(entities);
-                //await SaveChangesAsync($"Error in Create Entities {GetEntityName()}");
+                await _dbSet.AddRangeAsync(entities);
+                await SaveChangesAsync($"Error in Create Entities {GetEntityName()}");
                 foreach (var entity in entities)
                 {
                     PublishEvents(entity);

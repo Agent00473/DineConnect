@@ -8,6 +8,7 @@ using DineConnect.OrderManagementService.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Application.Interfaces;
 using DineConnect.OrderManagementService.Infrastructure.ExceptionHandlers;
+using DineConnect.OrderManagementService.Infrastructure.EventHandlers;
 
 namespace DineConnect.OrderManagementService.Infrastructure
 {
@@ -30,11 +31,13 @@ namespace DineConnect.OrderManagementService.Infrastructure
         {
             services.AddDbContext<DineOutOrderDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddScoped<IDomainEventPublisher, DomainEventPublisher>();
+           
             services.AddScoped<IRepository<Order>, OrderRepository>();
             services.AddScoped<IRepository<OrderItem>, MenuItemRepository>();
             services.AddScoped<IRepository<Customer>, CustomerRepository>();
             services.AddScoped<IRepository<Restaurant>, RestaurantRepository>();
+
             
             return services;
         }
