@@ -51,12 +51,16 @@ namespace Infrastructure.IntegrationEvents
             _eventCommandService.MarkEventAsInProgress(logEvt.EventId);
             //TODO : Select RoutingKeys based on the Event type
             var obj = logEvt.IntegrationEvent;
+            if (obj is not TData eventData)
+            {
+                throw new InvalidCastException($"The event data is not of type {typeof(TData).Name}");
+            }
+
             var msg = new EventMessage<TData>
             {
+                Data = eventData
+            };
 
-                Data = 
-
-            }; 
             if (_messagePublisher.SendMessage(_rabbitMQConfig.RoutingKeys[0], msg))
             {
                 _eventCommandService.MarkEventAsPublished(logEvt.EventId);

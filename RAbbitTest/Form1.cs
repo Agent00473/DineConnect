@@ -1,11 +1,9 @@
 using Infrastructure.IntegrationEvents;
 using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Entities;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using InfraTest.Events;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
@@ -113,8 +111,9 @@ namespace RAbbitTest
             }
             else
             {
-                var result = $"Event ID: {data.Id}\nCreated On: {data.CreationDate}\n Name: {data.Data.Name} \n email : {data.Data.Email}";
-                // Add the new item to the ListView
+                var result = $"Event ID: {data.Id}\nCreated On: {data.CreationDate}\n";
+                listView1.Items.Add(new ListViewItem(result));
+                result = $" Name: {data.Data.Name} \n email : {data.Data.Email}";
                 listView1.Items.Add(new ListViewItem(result));
             }
         }

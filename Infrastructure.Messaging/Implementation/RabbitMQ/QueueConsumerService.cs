@@ -12,9 +12,8 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
             _consumer.AddListener((_, args) =>
             {
                 var body = args.Body.ToArray();
-                var data = SerializationHelper.DeserializeMessage<TData>(body, typeof(EventMessage<TData>));
+                var data = SerializationHelper.DeserializeMessage<TData>(body);
                 _handler?.Invoke(data);
-                //_listView1.Invoke(new Action(() => UpdateListView(data)));
             });
 
             return Task.CompletedTask;
