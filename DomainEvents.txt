@@ -1,0 +1,38 @@
+
+Domain Events are triggered for internal notifications.
+Domain Events internally Triggers IntegrationEvents notifying other services asyncronously.
+
+Domain Events &  Integration Events
+===================================
+CustomerCreated
+CustomerUpdated
+CustomerDeleted
+
+CustomerCreated [OrderService] ---> BuyerCreated [Payment]
+							   ---> CustomerCreated [Resturant]
+							   
+Domain Events &  Integration Events
+===================================
+OrderCreated
+OrderUpdated
+OrderDeleted
+
+
+CustomerCreated: INotification [Domain Event]
+CustomerCreatedHandler [Domain Event Handler]
+
+CustomerCreated: [IntegrationEvent]
+IntegrationEventPublisher [IntegrationEventPublisher]
+
+CreateCustomerCommandHandler Application Layer Adds Creates Customer
+CreateCustomerFactory Domain Layer Adds DomainEvents
+Save Customer   Infrastructure Layer	Publish Domain Events
+MediatRHandler  Infrastructure Layer	Handles Domain Events & Publish Inegration Events
+IntegrationEventPublisher Infrastructure Layer Publish Event to Message Q
+
+IntegrationEventPublisher
+   Has IntegrationEvent Event Logger
+		Marks & Stores Event In Progress (ID, Name)
+		Marks & Stores Event Publised (ID, Name)
+		Marks & Stores Event Failed (ID, Name)
+	
