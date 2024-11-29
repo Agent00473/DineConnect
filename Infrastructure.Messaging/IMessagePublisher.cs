@@ -3,6 +3,6 @@
     public interface IMessagePublisher<TData> : IMessageServiceBase
     {
         void Configure(QueueConfiguration config);
-        void SendMessage(string routingkey, EventMessage<TData> message);
+        bool SendMessage(string routingkey, EventMessage<TData> message);
     }
 }
