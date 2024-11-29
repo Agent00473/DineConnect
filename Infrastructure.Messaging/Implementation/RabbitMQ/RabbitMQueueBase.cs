@@ -63,7 +63,9 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
                 if (_channel == null)
                 {
                     _channel = _connection.CreateModel();
+                    _channel.ConfirmSelect();
                 }
+
                 return _channel;
             }
         }

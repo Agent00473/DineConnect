@@ -1,4 +1,5 @@
 ﻿using RabbitMQ.Client;
+using System.Threading.Channels;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
@@ -7,13 +8,14 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         private RabbitMQueuePublisher(IConnection connection) : base(connection)
         {
         }
-        public void SendMessage(string routingkey, EventMessage<TData> message)
+        public bool SendMessage(string routingkey, EventMessage<TData> message)
         {
             try
             {
                 var body = SerializationHelper.SerializeMessage(message);
                 var properties = Channel.CreateBasicProperties();
                 Channel.BasicPublish(_exchangeName, routingkey, true, properties, body);
+                return Channel.WaitForConfirms();
             }
             catch (Exception ex)
             {
