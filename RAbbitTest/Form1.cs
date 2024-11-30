@@ -1,5 +1,6 @@
 using Infrastructure.IntegrationEvents;
 using Infrastructure.IntegrationEvents.Database;
+using Infrastructure.IntegrationEvents.EventHandlers;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using InfraTest.Events;
@@ -12,7 +13,7 @@ namespace RAbbitTest
     public partial class Form1 : Form
     {
         private QueueConsumerService<string> _rabbitMQueueConsumerService;
-        private RabbitMQueuePublisher<string> _rabbitMQueuePublisher;
+        private RabbitMQueuePublisher _rabbitMQueuePublisher;
         private RabbitMQueueSubscriber _rabbitMQueueSubscriber;
         private QueueConfiguration _rabbitMQConfig = new QueueConfiguration("TestExchange", ExchangeType.Direct, "SampleQueue", ["Sample.Test"]);
         public Form1()
@@ -25,7 +26,7 @@ namespace RAbbitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _rabbitMQueuePublisher = RabbitMQueuePublisher<string>.Create();
+            _rabbitMQueuePublisher = RabbitMQueuePublisher.Create();
             _rabbitMQueueSubscriber = RabbitMQueueSubscriber.Create();
             _rabbitMQueueConsumerService = new QueueConsumerService<string>(_rabbitMQueueSubscriber, UpdateListView);
 
@@ -96,7 +97,7 @@ namespace RAbbitTest
 
         private IntegrationEventDataContext _context;
         private IEventPublisher _eventPublisher;
-        private RabbitMQueuePublisher<CustomerEvent> _rabbitMQueueEventPublisher;
+        private RabbitMQueuePublisher _rabbitMQueueEventPublisher;
 
         private RabbitMQueueSubscriber _rabbitMQueueEventConsumer;
         private QueueConsumerService<CustomerEvent> _rabbitMQueueEventConsumerService;
@@ -133,9 +134,9 @@ namespace RAbbitTest
             //listView1.Items.Add(new ListViewItem($"Event Count : {resut}"));
             _service = new IntegrationEventCommandService(_context);
             //Publisher
-            _rabbitMQueueEventPublisher = RabbitMQueuePublisher<CustomerEvent>.Create();
+            _rabbitMQueueEventPublisher = RabbitMQueuePublisher.Create();
             _rabbitMQueueEventPublisher.Configure(_rabbitMQConfig);
-            _eventPublisher = new EventPublisher<CustomerEvent>(_context, _rabbitMQueueEventPublisher);
+            _eventPublisher = new DomainEventPublisher(_context, _rabbitMQueueEventPublisher);
 
             ///Subscriber
             _rabbitMQueueEventConsumer = RabbitMQueueSubscriber.Create();
@@ -196,7 +197,7 @@ namespace RAbbitTest
 
                 foreach (var id in tids)
                 {
-                    var result = await _eventPublisher.Publish(id);
+                    var result = await _eventPublisher.Publish<CustomerEvent>(id);
                     listView1.Items.Add(new ListViewItem($" Publish ID {id} Status : {result.ToString()}"));
                 }
                 listView1.Items.Add("--------Publish Done-----------");

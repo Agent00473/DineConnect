@@ -1,14 +1,13 @@
 ﻿using RabbitMQ.Client;
-using System.Threading.Channels;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
-    public class RabbitMQueuePublisher<TData> : RabbitMQueueBase, IMessagePublisher<TData>
+    public class RabbitMQueuePublisher : RabbitMQueueBase, IMessagePublisher
     {
         private RabbitMQueuePublisher(IConnection connection) : base(connection)
         {
         }
-        public bool SendMessage(string routingkey, EventMessage<TData> message)
+        public bool SendMessage<TData>(string routingkey, EventMessage<TData> message)
         {
             try
             {
@@ -29,11 +28,11 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
             base.Configure(config);
         }
 
-        public static RabbitMQueuePublisher<TData> Create() 
+        public static RabbitMQueuePublisher Create()
         {
             var factory = QueueConnectionFactory.GetFactory();
-            return new RabbitMQueuePublisher<TData>(factory.CreateConnection());
+            return new RabbitMQueuePublisher(factory.CreateConnection());
         }
-
     }
+
 }

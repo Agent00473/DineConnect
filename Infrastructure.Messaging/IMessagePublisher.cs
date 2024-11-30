@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Messaging
 {
-    public interface IMessagePublisher<TData> : IMessageServiceBase
+   public interface IMessagePublisher: IMessageServiceBase
     {
         void Configure(QueueConfiguration config);
-        bool SendMessage(string routingkey, EventMessage<TData> message);
+        bool SendMessage<TData>(string routingkey, EventMessage<TData> message);
     }
 }
