@@ -7,16 +7,9 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
     {
         private EventingBasicConsumer? _consumer;
         private string _queueName = string.Empty;
-        private RabbitMQueueSubscriber(IConnection connection) : base(connection)
+        private RabbitMQueueSubscriber(string queueName, IConnection connection) : base(connection)
         {
-
-        }
-
-        public override void Configure(QueueConfiguration config)
-        {
-            if (_initialized) return;
-            base.Configure(config);
-            _queueName = config.QueueName;
+            _queueName = queueName;
             _consumer = new EventingBasicConsumer(Channel);
         }
 
@@ -33,10 +26,12 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
                 _consumer.Received -= handler;
         }
 
-        public static RabbitMQueueSubscriber Create()
+        public static RabbitMQueueSubscriber Create(string queueName, IRabbitMQConfigurationManager configurationManager)
         {
-            var factory = QueueConnectionFactory.GetFactory();
-            return new RabbitMQueueSubscriber(factory.CreateConnection());  
+            var connection = configurationManager.GetConnection();
+            return new RabbitMQueueSubscriber(queueName, connection);  
         }
+
+      
     }
 }

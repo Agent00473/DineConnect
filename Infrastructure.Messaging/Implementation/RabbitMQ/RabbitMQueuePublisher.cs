@@ -1,18 +1,21 @@
-﻿using RabbitMQ.Client;
+﻿using Infrastructure.Messaging.Entities;
+using RabbitMQ.Client;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
     public class RabbitMQueuePublisher : RabbitMQueueBase, IMessagePublisher
     {
-        private RabbitMQueuePublisher(IConnection connection) : base(connection)
+        private RabbitMQueuePublisher(IConnection connection, string exchangeName) : base(connection)
         {
+            _exchangeName = exchangeName;
         }
-        public bool SendMessage<TData>(string routingkey, EventMessage<TData> message)
+        public bool SendMessage(string routingkey, EventMessage message)
         {
             try
             {
                 var body = SerializationHelper.SerializeMessage(message);
                 var properties = Channel.CreateBasicProperties();
+                Console.WriteLine($"Exchange : {_exchangeName} RouteKey : {routingkey}");
                 Channel.BasicPublish(_exchangeName, routingkey, true, properties, body);
                 return Channel.WaitForConfirms();
             }
@@ -22,16 +25,11 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
             }
         }
 
-        public override void Configure(QueueConfiguration config)
-        {
-            if (_initialized) return;
-            base.Configure(config);
-        }
 
-        public static RabbitMQueuePublisher Create()
+        public static RabbitMQueuePublisher Create(string exchangeName, IRabbitMQConfigurationManager configurationManager)
         {
-            var factory = QueueConnectionFactory.GetFactory();
-            return new RabbitMQueuePublisher(factory.CreateConnection());
+            var connection = configurationManager.GetConnection();
+            return new RabbitMQueuePublisher(connection, exchangeName);
         }
     }
 

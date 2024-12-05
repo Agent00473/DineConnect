@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Infrastructure.Messaging.Entities;
+using Microsoft.Extensions.Hosting;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
-    public delegate void MessageHandler<TData>(EventMessage<TData> data);
+    public delegate void MessageHandler<TData>(EventMessage data);
     public class QueueConsumerService<TData> : BackgroundService
     {
         private readonly MessageHandler<TData> _handler;
@@ -12,7 +13,10 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
             _consumer.AddListener((_, args) =>
             {
                 var body = args.Body.ToArray();
-                var data = SerializationHelper.DeserializeMessage<TData>(body);
+                Type type = typeof(TData);
+                var data = SerializationHelper.DeserializeMessage(body, type);
+
+
                 _handler?.Invoke(data);
             });
 
@@ -25,8 +29,5 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
             _consumer = consumer;
         }
 
-
-
     }
-
 }
