@@ -5,3 +5,27 @@ Run Rabbit MQ using Command
 
 Windows Powershell
 docker run -d --hostname rmq --name rabbit-server -p 5672:5672 -p 15672:15672 rabbitmq:4-management
+
+Queue Configuration
+
+All Integration Event Queue Config
+
+ Approach 1
+
+	IntegrationExchange
+	 ├── CustomerQueue (Routing Key: CustomerEvent)
+	 ├── OrderQueue (Routing Key: OrderEvent)
+
+	 Most event types have similar lifecycle and expecting moderate traffic.
+
+ Approach 2
+	 CustomerExchange
+	 ├── CustomerQueue (Routing Key: CustomerEvent)
+
+	OrderExchange
+	 ├── OrderQueue (Routing Key: OrderEvent)
+	
+	Preferred for scaling and domain separation.
+
+Decision
+Approach 1 is preffered now because Most event types have similar lifecycle and expecting moderate traffic.
