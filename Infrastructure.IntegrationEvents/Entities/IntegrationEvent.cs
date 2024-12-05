@@ -1,19 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using Infrastructure.Messaging.Entities;
 
 namespace Infrastructure.IntegrationEvents.Entities
 {
-    public record IntegrationEvent
+    /// <summary>
+    /// Placeholder record for Integration Events
+    /// </summary>
+    public record IntegrationEvent: EventMessage
     {
-        public IntegrationEvent()
-        {
-            Id = Guid.NewGuid();
-            CreationDate = DateTime.UtcNow;
-        }
-
-        [JsonInclude]
-        public Guid Id { get; set; }
-
-        [JsonInclude]
-        public DateTime CreationDate { get; set; }
+        public IntegrationEvent(): base(){}
     }
 }

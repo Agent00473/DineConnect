@@ -13,6 +13,7 @@ namespace Infrastructure.IntegrationEvents.Entities
         {
            return JsonSerializer.Serialize(entity, entity.GetType(), s_indentedOptions);
         }
+
         public static IntegrationEvent DeSerialize(string json, Type type)
         {
             return JsonSerializer.Deserialize(json, type, s_caseInsensitiveOptions) as IntegrationEvent;

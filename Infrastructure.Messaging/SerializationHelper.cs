@@ -1,27 +1,49 @@
-﻿using System.Text.Json;
+﻿using Infrastructure.Messaging.Entities;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Infrastructure.Messaging
 {
     internal static class SerializationHelper
     {
 
-        private static readonly JsonSerializerOptions s_caseInsensitiveOptions = new() { PropertyNameCaseInsensitive = true };
+        private static readonly JsonSerializerOptions s_caseInsensitiveOptions = new() { 
+            PropertyNameCaseInsensitive = true,
+              PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
         private static readonly JsonSerializerOptions s_writeOptions = new() { WriteIndented = false };
 
-        public static byte[] SerializeMessage<TData>(EventMessage<TData> message)
+        //private static EventMessage DeSerialize(string json, Type type)
+        //{
+        //    return JsonSerializer.Deserialize(json, type, s_caseInsensitiveOptions) as IntegrationEvent;
+
+        //}
+        public static byte[] SerializeMessage(EventMessage message)
         {
             return JsonSerializer.SerializeToUtf8Bytes(message, message.GetType(), s_writeOptions);
         }
    
-        public static EventMessage<TData> DeserializeMessage<TData>(byte[] data, Type type)
+        public static EventMessage? DeserializeMessage(byte[] data, Type type)
         {
-            return JsonSerializer.Deserialize(data, type, s_caseInsensitiveOptions) as EventMessage<TData>;
+            return JsonSerializer.Deserialize(data, type, s_caseInsensitiveOptions) as EventMessage;
         }
 
-        public static EventMessage<TData> DeserializeMessage<TData>(byte[] data)
-        {
-            var result = JsonSerializer.Deserialize<EventMessage<TData>>(data, s_caseInsensitiveOptions);
-            return result;
-        }
+
+        //public static EventMessage DeserializeMessage(byte[] data)
+        //{
+        //    var eventMessage = JsonSerializer.Deserialize<EventMessage>(data, s_caseInsensitiveOptions);
+        //    if (eventMessage == null) throw new Exception("Invalid message format.");
+
+        //    var dataType = Type.GetType(eventMessage.EventTypeName);
+        //    if (dataType == null) throw new Exception($"Type not found: {eventMessage.EventTypeName}");
+
+        //    var msgData = JsonSerializer.Deserialize(eventMessage.Data, dataType);
+        //    eventMessage.Data = (EventMessageData)msgData!; // Cast to base type
+        //    return eventMessage;
+
+        //    //var result = JsonSerializer.Deserialize<EventMessage>(data, s_caseInsensitiveOptions);
+        //    //return result;
+        //}
     }
 }
