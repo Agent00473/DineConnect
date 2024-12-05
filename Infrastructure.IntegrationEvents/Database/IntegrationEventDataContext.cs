@@ -6,11 +6,16 @@ namespace Infrastructure.IntegrationEvents.Database
 {
     public sealed class IntegrationEventDataContext: DbContext
     {
-        private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
-        public IntegrationEventDataContext(DbContextOptions<IntegrationEventDataContext> options, IConfiguration configuration) : base(options)
+        public IntegrationEventDataContext(DbContextOptions<IntegrationEventDataContext> options) : base(options)
         {
-            _configuration = configuration;
+            _connectionString = string.Empty;
+        }
+        public IntegrationEventDataContext(string connectionString)
+        : this(new DbContextOptionsBuilder<IntegrationEventDataContext>().UseNpgsql(connectionString) .Options)
+        {
+            _connectionString = connectionString;
         }
         public DbSet<IntegrationEventDetail> EventDetails { get; set; }
 
@@ -30,7 +35,7 @@ namespace Infrastructure.IntegrationEvents.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseNpgsql(_connectionString);
             }
         }
     }

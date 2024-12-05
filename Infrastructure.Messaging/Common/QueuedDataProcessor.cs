@@ -1,23 +1,25 @@
-﻿using Infrastructure.IntegrationEvents.Entities;
-
-namespace Infrastructure.IntegrationEvents.Common
+﻿namespace Infrastructure.Messaging.Common
 {
-    public abstract class BackgroundDispatcher<TData> : IDisposable
+    /// <summary>
+    /// Base class for processing jobs in a queued order with configurable worker threads.
+    /// </summary>
+    /// <typeparam name="TData"></typeparam>
+    public abstract class QueuedDataProcessor<TData> : IDisposable
     {
-        private readonly Queue<Guid> _queue = new();
+        private readonly Queue<TData> _queue = new();
         private readonly AutoResetEvent _itemAddedEvent = new(false);
         private readonly List<Thread> _workerThreads = new();
         private readonly object _lock = new();
         private bool _isRunning = true;
         private bool _disposedValue;
 
-        private async void Consume()
+        private void Consume()
         {
             while (true)
             {
                 // Wait for a signal
                 _itemAddedEvent.WaitOne();
-                Guid item;
+                TData item;
 
                 lock (_lock)
                 {
@@ -33,9 +35,9 @@ namespace Infrastructure.IntegrationEvents.Common
             }
         }
 
-        protected abstract Task<bool> DispatchData(Guid transactionId);
+        protected abstract Task<bool> DispatchData(TData transactionId);
 
-        public BackgroundDispatcher(int threadCount = 2)
+        public QueuedDataProcessor(int threadCount = 2)
         {
             for (int i = 0; i < threadCount; i++)
             {
@@ -44,7 +46,7 @@ namespace Infrastructure.IntegrationEvents.Common
             }
         }
 
-        public void Start()
+        public virtual void Start()
         {
             foreach (var thread in _workerThreads)
             {
@@ -52,7 +54,7 @@ namespace Infrastructure.IntegrationEvents.Common
             }
         }
 
-        public void AddData(Guid data)
+        public void AddData(TData data)
         {
             lock (_lock)
             {
@@ -61,9 +63,7 @@ namespace Infrastructure.IntegrationEvents.Common
             _itemAddedEvent.Set(); // Signal that an item has been added
         }
 
-
-
-        public void Stop()
+        public virtual void Stop()
         {
             const int TIME_OUT = 5000;
             lock (_lock)

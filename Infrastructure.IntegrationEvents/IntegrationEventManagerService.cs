@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents
 {
-    public interface IIntegrationEventManagerService
+    internal interface IIntegrationEventManagerService
     {
         bool MarkEventAsFailed(Guid eventId);
         bool MarkEventAsInProgress(Guid eventId);
@@ -18,7 +18,7 @@ namespace Infrastructure.IntegrationEvents
 
     }
 
-    public class IntegrationEventManagerService : IIntegrationEventManagerService
+    internal class IntegrationEventManagerService : IIntegrationEventManagerService
     {
         #region Private & Protected Fields
         private readonly IntegrationEventDataContext _context;
@@ -55,7 +55,7 @@ namespace Infrastructure.IntegrationEvents
         {
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventDataContext>();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-            _context = new IntegrationEventDataContext(optionsBuilder.Options, configuration);
+            _context = new IntegrationEventDataContext(optionsBuilder.Options);
         }
         #endregion
 

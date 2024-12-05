@@ -6,11 +6,15 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.EventHandlers
 {
+    /// <summary>
+    /// Dispatches Integration Events to Queues Configured
+    /// </summary>
     public class IntegrationEventDispatcher : IEventPublisher 
     {
         #region Private & Protected Fields
         private IIntegrationEventManagerService _eventManagerService;
-        private IMessagePublisher _messagePublisher;
+        private IQueueMessagePublisher _messagePublisher;
+        ///TODO: Make this a Seperate class Injected Refer RouteKeyManager
         private IDictionary<Type, string> _routedata = new Dictionary<Type, string>();
 
         #endregion
@@ -20,54 +24,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
         {
             return _routedata[type];
         }
-        #endregion
 
-        #region Constructors
-        private  IntegrationEventDispatcher(IConfiguration configuration, IMessagePublisher messagePublisher)
+        private async Task<bool> PublishEvents(IEnumerable<IntegrationEventDetail> pendingLogEvents)
         {
-            _eventManagerService = new IntegrationEventManagerService(configuration);
-            _messagePublisher = messagePublisher;
-        }
-
-        /// <summary>
-        /// Only for Test Application
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="messagePublisher"></param>
-        private IntegrationEventDispatcher(IntegrationEventDataContext context, IMessagePublisher messagePublisher)
-        {
-            _eventManagerService = new IntegrationEventManagerService(context);
-            _messagePublisher = messagePublisher;
-        }
-
-        #endregion
-
-        #region Public Properties
-        // Add public properties here
-        #endregion
-
-        #region Public Methods
-
-        private bool ProcessEvent<TData>(IntegrationEventDetail logEvt) where TData : IntegrationEvent
-        {
-            _eventManagerService.MarkEventAsInProgress(logEvt.EventId);
-            var obj = logEvt.IntegrationEvent;
-            var key = GetRouteKey(obj.GetType());
-            var msg = obj;
-            if (_messagePublisher.SendMessage(key, msg))
-            {
-                _eventManagerService.MarkEventAsPublished(logEvt.EventId);
-                return true;
-            }
-            return false;
-        }
-
-        internal void AddRouteData(Type key, string value) {
-            _routedata[key]= value;
-        }
-        public async Task<bool> Publish<TData>(Guid transactionId) where TData : IntegrationEvent
-        {
-            var pendingLogEvents = await _eventManagerService.RetrievePendingEventLogsToPublishAsync(transactionId);
             bool allEventsProcessed = true;
 
             foreach (var logEvt in pendingLogEvents)
@@ -79,7 +38,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
                     // Retry logic
                     for (int attempt = 1; attempt <= 3; attempt++)
                     {
-                        if (ProcessEvent<TData>(logEvt))
+                        if (ProcessEvent(logEvt))
                         {
                             eventProcessed = true;
                             break; // Exit retry loop on success
@@ -120,10 +79,66 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
             return allEventsProcessed;
         }
 
+        private bool ProcessEvent(IntegrationEventDetail logEvt)
+        {
+            _eventManagerService.MarkEventAsInProgress(logEvt.EventId);
+            var obj = logEvt.IntegrationEvent;
+            var key = GetRouteKey(obj.GetType());
+            var msg = obj;
+            if (_messagePublisher.SendMessage(key, msg))
+            {
+                _eventManagerService.MarkEventAsPublished(logEvt.EventId);
+                return true;
+            }
+            return false;
+        }
         #endregion
-         
+
+        #region Constructors
+        private  IntegrationEventDispatcher(IConfiguration configuration, IQueueMessagePublisher messagePublisher)
+        {
+            _eventManagerService = new IntegrationEventManagerService(configuration);
+            _messagePublisher = messagePublisher;
+        }
+
+        /// <summary>
+        /// Only for Test Application
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="messagePublisher"></param>
+        private IntegrationEventDispatcher(IntegrationEventDataContext context, IQueueMessagePublisher messagePublisher)
+        {
+            _eventManagerService = new IntegrationEventManagerService(context);
+            _messagePublisher = messagePublisher;
+        }
+
+        #endregion
+
+        #region Public Properties
+        // Add public properties here
+        #endregion
+
+        #region Public Methods
+
+        internal void AddRouteData(Type key, string value) {
+            _routedata[key]= value;
+        }
+        public async Task<bool> Publish<TData>(Guid transactionId) where TData : IntegrationEvent
+        {
+            var pendingLogEvents = await _eventManagerService.RetrievePendingEventLogsToPublishAsync(transactionId);
+            return await PublishEvents(pendingLogEvents);
+        }
+
+        public async Task<bool> PublishAll<TData>() where TData : IntegrationEvent
+        {
+            var pendingLogEvents = await _eventManagerService.RetrieveAllPendingEventLogsToPublishAsync();
+            return await PublishEvents(pendingLogEvents);
+        }
+
+        #endregion
+
         #region Factory Methods
-        public static IntegrationEventDispatcher Create(IntegrationEventDataContext context, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        public static IntegrationEventDispatcher Create(IntegrationEventDataContext context, IQueueMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
         {
             var dispatcher =  new IntegrationEventDispatcher(context, messagePublisher);
             var key=configurationManager.GetRoutingKey("SampleQueue");
@@ -131,6 +146,8 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
             key = configurationManager.GetRoutingKey("CustomerQueue");
             dispatcher.AddRouteData(typeof(CustomerEvent), key);
 
+            key = configurationManager.GetRoutingKey("OrderQueue");
+            dispatcher.AddRouteData(typeof(OrderEvent), key);
             return dispatcher;
         }
         #endregion
