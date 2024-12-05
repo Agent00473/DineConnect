@@ -1,6 +1,5 @@
 ﻿using Infrastructure.IntegrationEvents.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.Database
 {
@@ -8,14 +7,13 @@ namespace Infrastructure.IntegrationEvents.Database
     {
         private readonly string _connectionString;
 
-        public IntegrationEventDataContext(DbContextOptions<IntegrationEventDataContext> options) : base(options)
-        {
-            _connectionString = string.Empty;
-        }
-        public IntegrationEventDataContext(string connectionString)
-        : this(new DbContextOptionsBuilder<IntegrationEventDataContext>().UseNpgsql(connectionString) .Options)
+        public IntegrationEventDataContext(DbContextOptions<IntegrationEventDataContext> options, string connectionString) : base(options)
         {
             _connectionString = connectionString;
+        }
+        public IntegrationEventDataContext(string connectionString)
+        : this(new DbContextOptionsBuilder<IntegrationEventDataContext>().UseNpgsql(connectionString).Options, connectionString)
+        {
         }
         public DbSet<IntegrationEventDetail> EventDetails { get; set; }
 
@@ -38,5 +36,6 @@ namespace Infrastructure.IntegrationEvents.Database
                 optionsBuilder.UseNpgsql(_connectionString);
             }
         }
+
     }
 }
