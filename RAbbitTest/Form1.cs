@@ -5,6 +5,7 @@ using Infrastructure.IntegrationEvents.EventHandlers;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
+using InfraTest;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -19,7 +20,7 @@ namespace RAbbitTest
         private QueueConsumerService<StringDataMessage> _rabbitMSampleQueueConsumerService;
         private RabbitMQueuePublisher _rabbitMSampleQueuePublisher;
         private RabbitMQueueSubscriber _rabbitMSampleQueueSubscriber;
-       
+
 
         public Form1()
         {
@@ -206,7 +207,7 @@ namespace RAbbitTest
                 var orderId = Guid.NewGuid();
                 Guid customerId = Guid.NewGuid();
                 string orderName = "Deleted Order for Tablet";
-                EventActionCategory category = EventActionCategory.Deleted; 
+                EventActionCategory category = EventActionCategory.Deleted;
                 OrderEvent deletedOrderEvent = new OrderEvent(orderId, customerId, orderName, category);
                 await _service.SaveIntegrationEventAsync(deletedOrderEvent, trnasaction);
 
@@ -280,6 +281,22 @@ namespace RAbbitTest
             finally
             {
                 button5.Enabled = true;
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                button6.Enabled = false;
+                var frm = new Form2();
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowDialog();
+            }
+            finally
+            {
+                button6.Enabled = true;
+
             }
         }
     }

@@ -33,6 +33,7 @@
             btnRabbitConsume = new Button();
             textBox1 = new TextBox();
             listView1 = new ListView();
+            Detail = new ColumnHeader();
             label1 = new Label();
             btnRabbitStop = new Button();
             groupBox1 = new GroupBox();
@@ -42,7 +43,7 @@
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
-            Detail = new ColumnHeader();
+            button6 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -92,7 +93,7 @@
             listView1.GridLines = true;
             listView1.Location = new Point(12, 57);
             listView1.Name = "listView1";
-            listView1.Size = new Size(582, 280);
+            listView1.Size = new Size(721, 280);
             listView1.TabIndex = 5;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -123,7 +124,7 @@
             groupBox1.Controls.Add(btnRabbitConfigure);
             groupBox1.Controls.Add(btnRabbitPublish);
             groupBox1.Controls.Add(btnRabbitConsume);
-            groupBox1.Location = new Point(626, 16);
+            groupBox1.Location = new Point(739, 20);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(144, 305);
             groupBox1.TabIndex = 8;
@@ -137,7 +138,7 @@
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(button2);
             groupBox2.Controls.Add(button1);
-            groupBox2.Location = new Point(808, 20);
+            groupBox2.Location = new Point(909, 20);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(144, 317);
             groupBox2.TabIndex = 9;
@@ -199,11 +200,22 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
             // 
+            // button6
+            // 
+            button6.Location = new Point(1079, 31);
+            button6.Name = "button6";
+            button6.Size = new Size(100, 44);
+            button6.TabIndex = 12;
+            button6.Text = "Queued Publisher";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(964, 450);
+            ClientSize = new Size(1281, 450);
+            Controls.Add(button6);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label1);
@@ -234,5 +246,6 @@
         private Button button4;
         private Button button5;
         private ColumnHeader Detail;
+        private Button button6;
     }
 }
