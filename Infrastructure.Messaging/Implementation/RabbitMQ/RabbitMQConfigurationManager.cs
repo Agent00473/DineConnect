@@ -1,7 +1,6 @@
 ﻿using global::RabbitMQ.Client;
 using Infrastructure.Messaging.Implementation.RabbitMQ.Configs;
 using Microsoft.Extensions.Options;
-using System.Threading.Channels;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
