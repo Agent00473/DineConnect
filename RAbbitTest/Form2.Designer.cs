@@ -31,11 +31,11 @@
             listView1 = new ListView();
             Detail = new ColumnHeader();
             groupBox3 = new GroupBox();
-            button7 = new Button();
-            button8 = new Button();
+            button2 = new Button();
             button9 = new Button();
             button10 = new Button();
             button11 = new Button();
+            button4 = new Button();
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,72 +52,74 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(button7);
-            groupBox3.Controls.Add(button8);
+            groupBox3.Controls.Add(button2);
             groupBox3.Controls.Add(button9);
             groupBox3.Controls.Add(button10);
             groupBox3.Controls.Add(button11);
             groupBox3.Location = new Point(1120, 36);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(144, 317);
+            groupBox3.Size = new Size(144, 352);
             groupBox3.TabIndex = 13;
             groupBox3.TabStop = false;
             groupBox3.Text = "Queued Event";
             // 
-            // button7
+            // button2
             // 
-            button7.Enabled = false;
-            button7.Location = new Point(20, 257);
-            button7.Name = "button7";
-            button7.Size = new Size(100, 44);
-            button7.TabIndex = 11;
-            button7.Text = "Consume Events";
-            button7.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            button8.Enabled = false;
-            button8.Location = new Point(20, 207);
-            button8.Name = "button8";
-            button8.Size = new Size(100, 44);
-            button8.TabIndex = 10;
-            button8.Text = "Publish Events";
-            button8.UseVisualStyleBackColor = true;
+            button2.Location = new Point(20, 285);
+            button2.Name = "button2";
+            button2.Size = new Size(100, 44);
+            button2.TabIndex = 11;
+            button2.Text = "Generate Events";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button9
             // 
-            button9.Enabled = false;
-            button9.Location = new Point(20, 157);
+            button9.Location = new Point(20, 72);
             button9.Name = "button9";
             button9.Size = new Size(100, 44);
             button9.TabIndex = 9;
-            button9.Text = "Load Event Log";
+            button9.Text = "Subscribe Events";
             button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
             // 
             // button10
             // 
             button10.Enabled = false;
-            button10.Location = new Point(20, 106);
+            button10.Location = new Point(20, 122);
             button10.Name = "button10";
             button10.Size = new Size(100, 44);
             button10.TabIndex = 8;
-            button10.Text = "Generate Event Log";
+            button10.Text = "Close Publisher";
             button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
             // 
             // button11
             // 
-            button11.Location = new Point(20, 45);
+            button11.Location = new Point(20, 22);
             button11.Name = "button11";
             button11.Size = new Size(100, 44);
             button11.TabIndex = 7;
-            button11.Text = "Load Data Context";
+            button11.Text = "Start Publisher";
             button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(842, 344);
+            button4.Name = "button4";
+            button4.Size = new Size(100, 44);
+            button4.TabIndex = 13;
+            button4.Text = "Clear Events";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1353, 450);
+            Controls.Add(button4);
             Controls.Add(groupBox3);
             Controls.Add(listView1);
             Name = "Form2";
@@ -132,10 +134,10 @@
         private ListView listView1;
         private ColumnHeader Detail;
         private GroupBox groupBox3;
-        private Button button7;
-        private Button button8;
         private Button button9;
         private Button button10;
         private Button button11;
+        private Button button2;
+        private Button button4;
     }
 }
