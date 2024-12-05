@@ -1,5 +1,6 @@
 ﻿
 using Infrastructure.IntegrationEvents.Entities;
+using Infrastructure.Messaging.Entities;
 
 namespace Infrastructure.IntegrationEvents
 {
@@ -7,6 +8,7 @@ namespace Infrastructure.IntegrationEvents
     {
         public Task<bool> Publish<TData>(Guid transactionId) where TData : IntegrationEvent;
         public Task<bool> PublishAll<TData>() where TData : IntegrationEvent;
+        public Task<bool> AddPulse<TData>() where TData : EventMessage;
 
     }
 }

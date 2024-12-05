@@ -3,6 +3,7 @@ using Infrastructure.IntegrationEvents.Entities;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Infrastructure.Messaging.Entities;
 
 namespace Infrastructure.IntegrationEvents
 {
@@ -15,13 +16,14 @@ namespace Infrastructure.IntegrationEvents
         Task<IEnumerable<IntegrationEventDetail>> RetrievePendingEventLogsToPublishAsync(Guid transactionId);
         Task SaveIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction);
         Task<int> SaveChagesAsync();
-
+        Task<bool> AddHeartBeatAsync();
     }
 
     internal class IntegrationEventManagerService : IIntegrationEventManagerService
     {
         #region Private & Protected Fields
         private readonly IntegrationEventDataContext _context;
+        private readonly string _connectionString;
         #endregion
 
         #region Protected & Private  Methods
@@ -45,6 +47,7 @@ namespace Infrastructure.IntegrationEvents
         public IntegrationEventManagerService(IntegrationEventDataContext context)
         {
             _context = context;
+            _connectionString = context.Database.GetDbConnection().ConnectionString;
         }
 
         /// <summary>
@@ -55,7 +58,7 @@ namespace Infrastructure.IntegrationEvents
         {
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventDataContext>();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-            _context = new IntegrationEventDataContext(optionsBuilder.Options);
+            _context = new IntegrationEventDataContext(optionsBuilder.Options, configuration.GetConnectionString("DefaultConnection"));
         }
         #endregion
 
@@ -135,7 +138,32 @@ namespace Infrastructure.IntegrationEvents
             return _context.SaveChangesAsync();
         }
 
-        #endregion
+        public async Task<bool> AddHeartBeatAsync()
+        {
+            using (var context = new IntegrationEventDataContext(_connectionString))
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var data = new HeartBeatEvent("Pulse Check...!!");
+                        var eventLogEntry = new IntegrationEventDetail(data, transaction.TransactionId);
 
+                        context.EventDetails.Add(eventLogEntry);
+
+                        await context.SaveChangesAsync();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        //TODO: Add logging here, e.g., logger.LogError(ex, "Error adding heartbeat");
+                        return false;
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

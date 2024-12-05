@@ -1,6 +1,7 @@
 ﻿using Infrastructure.IntegrationEvents.Database;
 using Infrastructure.IntegrationEvents.Entities;
 using Infrastructure.Messaging;
+using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 
@@ -135,21 +136,31 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
             return await PublishEvents(pendingLogEvents);
         }
 
+        public Task<bool> AddPulse<TData>() where TData : EventMessage
+        {
+            return _eventManagerService.AddHeartBeatAsync();
+        }
         #endregion
 
         #region Factory Methods
         public static IntegrationEventDispatcher Create(IntegrationEventDataContext context, IQueueMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
         {
             var dispatcher =  new IntegrationEventDispatcher(context, messagePublisher);
-            var key=configurationManager.GetRoutingKey("SampleQueue");
-            dispatcher.AddRouteData(typeof(string), key);
-            key = configurationManager.GetRoutingKey("CustomerQueue");
+            //var key=configurationManager.GetRoutingKey("SampleQueue");
+            //dispatcher.AddRouteData(typeof(string), key);
+            var key = configurationManager.GetRoutingKey("CustomerQueue");
             dispatcher.AddRouteData(typeof(CustomerEvent), key);
 
             key = configurationManager.GetRoutingKey("OrderQueue");
             dispatcher.AddRouteData(typeof(OrderEvent), key);
+            key = configurationManager.GetRoutingKey("HeartBeatQueue");
+            dispatcher.AddRouteData(typeof(HeartBeatEvent), key);
+
+            
             return dispatcher;
         }
+
+       
         #endregion
     }
 }

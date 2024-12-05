@@ -1,4 +1,7 @@
-﻿namespace Infrastructure.Messaging.Common
+﻿using System.Diagnostics;
+using System.Threading;
+
+namespace Infrastructure.Messaging.Common
 {
     /// <summary>
     /// Base class for processing jobs in a queued order with configurable worker threads.
@@ -11,18 +14,27 @@
         private readonly List<Thread> _workerThreads = new();
         private readonly object _lock = new();
         private bool _isRunning = true;
+        private bool _isStarted = false;
+
         private bool _disposedValue;
+        private ManualResetEvent _pauseEvent = new ManualResetEvent(true); // Initially set to true (not paused)
 
         private void Consume()
         {
             while (true)
             {
+                _pauseEvent.WaitOne();
                 // Wait for a signal
+                Debug.WriteLine($"_pauseEvent.WaitOne() Queue Count = {_queue.Count}");
                 _itemAddedEvent.WaitOne();
+                Debug.WriteLine($"_itemAddedEvent.WaitOne() Queue Count = {_queue.Count}");
+
                 TData item;
 
                 lock (_lock)
                 {
+                    Debug.WriteLine($"Queue Count = {_queue.Count}");
+
                     if (_queue.Count == 0 && !_isRunning)
                         return;
                     if (_queue.Count == 0)
@@ -31,7 +43,7 @@
                 }
                 DispatchData(item).Wait();
                 // Process the item outside the lock
-                Console.WriteLine($"Consumed: {item} on Thread {Thread.CurrentThread.ManagedThreadId}");
+                Debug.WriteLine($"Consumed: {item} on Thread {Thread.CurrentThread.ManagedThreadId}");
             }
         }
 
@@ -46,12 +58,26 @@
             }
         }
 
+
         public virtual void Start()
         {
-            foreach (var thread in _workerThreads)
+            if (!_isStarted)
             {
-                thread.Start();
+                foreach (var thread in _workerThreads)
+                {
+                    thread.Start();
+                }
             }
+            else
+            {
+                _itemAddedEvent.Set();
+            }
+            _isStarted = true;
+            _pauseEvent.Set();
+        }
+        public virtual void Pause()
+        {
+            _pauseEvent.Reset();
         }
 
         public void AddData(TData data)
