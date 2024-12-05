@@ -3,6 +3,9 @@ using RabbitMQ.Client.Events;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
+    /// <summary>
+    /// Message Consumer
+    /// </summary>
     public class RabbitMQueueSubscriber : RabbitMQueueBase, IMessageSubscriber
     {
         private EventingBasicConsumer? _consumer;

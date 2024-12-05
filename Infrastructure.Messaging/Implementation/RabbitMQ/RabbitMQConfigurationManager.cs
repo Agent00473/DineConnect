@@ -16,6 +16,9 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
 
     }
 
+    /// <summary>
+    /// Manager class responsible for configuring Queues, Exchanges, and Bindings based on the defined Queue Configuration settings.
+    /// </summary>
     public sealed class RabbitMQConfigurationManager : IRabbitMQConfigurationManager
     {
         private readonly QueueConfigurations _settings;

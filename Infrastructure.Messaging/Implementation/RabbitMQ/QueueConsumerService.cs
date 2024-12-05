@@ -4,6 +4,11 @@ using Microsoft.Extensions.Hosting;
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
     public delegate void MessageHandler<TData>(EventMessage data);
+
+    /// <summary>
+    /// The service listens to a specified queue, processes incoming messages.
+    /// </summary>
+    /// <typeparam name="TData"></typeparam>
     public class QueueConsumerService<TData> : BackgroundService
     {
         private readonly MessageHandler<TData> _handler;

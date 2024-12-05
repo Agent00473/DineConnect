@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Infrastructure.Messaging
 {
+    /// <summary>
+    /// Event Message Serilization Helpers 
+    /// </summary>
     internal static class SerializationHelper
     {
 

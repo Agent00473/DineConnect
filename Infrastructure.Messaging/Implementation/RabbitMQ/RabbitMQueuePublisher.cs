@@ -3,6 +3,9 @@ using RabbitMQ.Client;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
+    /// <summary>
+    /// Message Publisher
+    /// </summary>
     public class RabbitMQueuePublisher : RabbitMQueueBase, IMessagePublisher
     {
         private RabbitMQueuePublisher(IConnection connection, string exchangeName) : base(connection)

@@ -3,6 +3,10 @@ using System.Xml.Serialization;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
 {
+
+    /// <summary>
+    /// Queue configurations definition loaded from config file.
+    /// </summary>
     [XmlRoot("QueueConfigurations")]
     public class QueueConfigurations
     {

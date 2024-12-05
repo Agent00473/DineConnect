@@ -2,6 +2,9 @@
 
 namespace Infrastructure.IntegrationEvents.Entities
 {
+    /// <summary>
+    /// Integration Event Serializer for outbox table
+    /// </summary>
     internal static class EventSerializer
     {
         private static readonly JsonSerializerOptions s_indentedOptions = new() { WriteIndented = true };
