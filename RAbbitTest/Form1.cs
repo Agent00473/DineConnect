@@ -1,9 +1,10 @@
 using Infrastructure.IntegrationEvents;
 using Infrastructure.IntegrationEvents.Database;
+using Infrastructure.IntegrationEvents.Entities;
 using Infrastructure.IntegrationEvents.EventHandlers;
 using Infrastructure.Messaging;
+using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
-using InfraTest.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -12,26 +13,41 @@ namespace RAbbitTest
 {
     public partial class Form1 : Form
     {
-        private QueueConsumerService<string> _rabbitMQueueConsumerService;
-        private RabbitMQueuePublisher _rabbitMQueuePublisher;
-        private RabbitMQueueSubscriber _rabbitMQueueSubscriber;
-        private QueueConfiguration _rabbitMQConfig = new QueueConfiguration("TestExchange", ExchangeType.Direct, "SampleQueue", ["Sample.Test"]);
+        private QueueConfiguration _rabbitMSampleQConfig = new QueueConfiguration("TestExchange", ExchangeType.Direct, "SampleQueue", "Sample.Test", false, true);
+        private RabbitMQConfigurationManager _rabbitMQConfigurationManager;
+
+        private QueueConsumerService<StringDataMessage> _rabbitMSampleQueueConsumerService;
+        private RabbitMQueuePublisher _rabbitMSampleQueuePublisher;
+        private RabbitMQueueSubscriber _rabbitMSampleQueueSubscriber;
+       
+
         public Form1()
         {
             InitializeComponent();
             listView1.Scrollable = true;
             listView1.FullRowSelect = true;
             listView1.Columns[0].Width = listView1.ClientSize.Width;
+            var configs = RabbitMQConfigLoader.LoadFromXml(".\\App.config");
+            _rabbitMQConfigurationManager = new RabbitMQConfigurationManager(configs);
+            _rabbitMQConfigurationManager.AddQueue(_rabbitMSampleQConfig);
+            _rabbitMQConfigurationManager.AddQueue(_rabbitMCustomerQConfig);
+
+
         }
+        //private void ConfigureServices(IServiceCollection services)
+        //{
+        //    _rabbitMQConfigurationManager.
+        //    services.Configure<RabbitMQSettings>(ConfigurationManager.GetSection("QueueConfigurations"));
+        //    services.AddSingleton<RabbitMQConfigurationManager>();
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _rabbitMQueuePublisher = RabbitMQueuePublisher.Create();
-            _rabbitMQueueSubscriber = RabbitMQueueSubscriber.Create();
-            _rabbitMQueueConsumerService = new QueueConsumerService<string>(_rabbitMQueueSubscriber, UpdateListView);
+            _rabbitMSampleQueuePublisher = RabbitMQueuePublisher.Create(_rabbitMSampleQConfig.ExchangeName, _rabbitMQConfigurationManager);
 
-            _rabbitMQueuePublisher.Configure(_rabbitMQConfig);
-            _rabbitMQueueSubscriber.Configure(_rabbitMQConfig);
+            _rabbitMSampleQueueSubscriber = RabbitMQueueSubscriber.Create(_rabbitMSampleQConfig.QueueName, _rabbitMQConfigurationManager);
+            _rabbitMSampleQueueConsumerService = new QueueConsumerService<StringDataMessage>(_rabbitMSampleQueueSubscriber, UpdateListViewStringMessage);
+
             btnRabbitConsume.Enabled = true;
             btnRabbitPublish.Enabled = true;
             btnRabbitStop.Enabled = true;
@@ -40,14 +56,14 @@ namespace RAbbitTest
 
         private void button4_Click(object sender, EventArgs e)
         {
-            _rabbitMQueueConsumerService.StartAsync(new CancellationToken());
+            _rabbitMSampleQueueConsumerService.StartAsync(new CancellationToken());
         }
 
 
 
         private void button5_Click(object sender, EventArgs e)
         {
-            _rabbitMQueueConsumerService.StopAsync(new CancellationToken());
+            _rabbitMSampleQueueConsumerService.StopAsync(new CancellationToken());
         }
         public static string GenerateRandomString(int length)
         {
@@ -58,13 +74,10 @@ namespace RAbbitTest
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            var msg = textBox1.Text == string.Empty ? GenerateRandomString(10) : textBox1.Text;
+            var testEvent = new StringDataMessage(msg);
 
-            var testEvent = new EventMessage<string>
-            {
-                Data = textBox1.Text == string.Empty ? GenerateRandomString(10) : textBox1.Text
-
-            };
-            var result = _rabbitMQueuePublisher.SendMessage(_rabbitMQConfig.RoutingKeys[0], testEvent);
+            var result = _rabbitMSampleQueuePublisher.SendMessage(_rabbitMSampleQConfig.RoutingKey, testEvent);
             listView1.Items.Add(result.ToString());
 
         }
@@ -75,19 +88,24 @@ namespace RAbbitTest
             listView1.Items.Add("Babu");
 
         }
-        private void UpdateListView(EventMessage<string> data)
+        private void UpdateListViewStringMessage(EventMessage data)
         {
             if (listView1.InvokeRequired)
             {
                 // Invoke on the UI thread if called from a background thread
-                listView1.Invoke(new Action(() => UpdateListView(data)));
+                listView1.Invoke(new Action(() => UpdateListViewStringMessage(data)));
             }
             else
             {
-                var result = $"Event ID: {data.Id}\nCreated On: {data.CreationDate}\nData: {data.Data}";
+                var result = $"Event ID: {data.Id}\n Created On: {data.CreationDate}";
                 // Add the new item to the ListView
                 listView1.Items.Add(new ListViewItem(result));
+                result = $"Data: {((StringDataMessage)data).Data}";
+                // Add the new item to the ListView
+                listView1.Items.Add(new ListViewItem(result));
+
             }
+
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -96,14 +114,14 @@ namespace RAbbitTest
         }
 
         private IntegrationEventDataContext _context;
-        private IEventPublisher _eventPublisher;
-        private RabbitMQueuePublisher _rabbitMQueueEventPublisher;
+        private IEventPublisher _customerIntegrationEventDispatcher;
+        private RabbitMQueuePublisher _rabbitMQueueCustEventPublisher;
 
-        private RabbitMQueueSubscriber _rabbitMQueueEventConsumer;
-        private QueueConsumerService<CustomerEvent> _rabbitMQueueEventConsumerService;
+        private RabbitMQueueSubscriber _rabbitMQueueCustEventConsumer;
+        private QueueConsumerService<CustomerEvent> _rabbitMQueueCustEventConsumerService;
+        private QueueConfiguration _rabbitMCustomerQConfig = new QueueConfiguration("TestCustomerExchange", ExchangeType.Direct, "CustomerQueue", "Customer.Test", false, true);
 
-
-        private void UpdateListView(EventMessage<CustomerEvent> data)
+        private void UpdateListView(EventMessage data)
         {
             if (listView1.InvokeRequired)
             {
@@ -112,10 +130,11 @@ namespace RAbbitTest
             }
             else
             {
-                var result = $"Event ID: {data.Id}\nCreated On: {data.CreationDate}\n";
+                var result = $"Event ID: {data.Id}\nCreated On: {data.CreationDate}\n DataType : {data.GetType().Name}";
                 listView1.Items.Add(new ListViewItem(result));
-                result = $" Name: {data.Data.Name} \n email : {data.Data.Email}";
-                listView1.Items.Add(new ListViewItem(result));
+                //CustomerEvent obj = data as CustomerEvent;
+                //result = $" Name: {obj.Name} \n email : {obj.Email}";
+                //listView1.Items.Add(new ListViewItem(result));
             }
         }
 
@@ -132,16 +151,14 @@ namespace RAbbitTest
 
             //var resut = _context.EventDetails.Count().ToString();
             //listView1.Items.Add(new ListViewItem($"Event Count : {resut}"));
-            _service = new IntegrationEventCommandService(_context);
+            _service = new IntegrationEventManagerService(_context);
             //Publisher
-            _rabbitMQueueEventPublisher = RabbitMQueuePublisher.Create();
-            _rabbitMQueueEventPublisher.Configure(_rabbitMQConfig);
-            _eventPublisher = new DomainEventPublisher(_context, _rabbitMQueueEventPublisher);
+            _rabbitMQueueCustEventPublisher = RabbitMQueuePublisher.Create(_rabbitMCustomerQConfig.ExchangeName, _rabbitMQConfigurationManager);
+            _customerIntegrationEventDispatcher = IntegrationEventDispatcher.Create(_context, _rabbitMQueueCustEventPublisher, _rabbitMQConfigurationManager);
 
             ///Subscriber
-            _rabbitMQueueEventConsumer = RabbitMQueueSubscriber.Create();
-            _rabbitMQueueEventConsumer.Configure(_rabbitMQConfig);
-            _rabbitMQueueEventConsumerService = new QueueConsumerService<CustomerEvent>(_rabbitMQueueEventConsumer, UpdateListView);
+            _rabbitMQueueCustEventConsumer = RabbitMQueueSubscriber.Create(_rabbitMCustomerQConfig.QueueName, _rabbitMQConfigurationManager);
+            _rabbitMQueueCustEventConsumerService = new QueueConsumerService<CustomerEvent>(_rabbitMQueueCustEventConsumer, UpdateListView);
 
             button2.Enabled = true;
             button3.Enabled = true;
@@ -149,7 +166,7 @@ namespace RAbbitTest
             button5.Enabled = true;
         }
 
-        IntegrationEventCommandService _service;
+        IntegrationEventManagerService _service;
         private async void button2_Click_1(object sender, EventArgs e)
         {
             try
@@ -177,7 +194,7 @@ namespace RAbbitTest
                 var result = await _service.RetrieveAllPendingEventLogsToPublishAsync();
                 foreach (var item in result.ToList())
                 {
-                    listView1.Items.Add(new ListViewItem($"{item.CreationTime} :: {item.IntegrationEvent.Id} :: {item.IntegrationEvent.CreationDate}"));
+                    listView1.Items.Add(new ListViewItem($"{item.CreationTime} :: {item.EventId} :: {item.IntegrationEvent.CreationDate}"));
                 }
 
             }
@@ -197,7 +214,7 @@ namespace RAbbitTest
 
                 foreach (var id in tids)
                 {
-                    var result = await _eventPublisher.Publish<CustomerEvent>(id);
+                    var result = await _customerIntegrationEventDispatcher.Publish<CustomerEvent>(id);
                     listView1.Items.Add(new ListViewItem($" Publish ID {id} Status : {result.ToString()}"));
                 }
                 listView1.Items.Add("--------Publish Done-----------");
@@ -213,7 +230,7 @@ namespace RAbbitTest
             try
             {
                 button5.Enabled = false;
-                _rabbitMQueueEventConsumerService.StartAsync(new CancellationToken());
+                _rabbitMQueueCustEventConsumerService.StartAsync(new CancellationToken());
             }
             finally
             {
