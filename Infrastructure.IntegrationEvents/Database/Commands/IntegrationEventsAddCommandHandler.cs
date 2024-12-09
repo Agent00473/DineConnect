@@ -1,5 +1,4 @@
-﻿using Infrastructure.IntegrationEvents.Entities;
-using Infrastructure.Messaging.Entities;
+﻿using Infrastructure.IntegrationEvents.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;

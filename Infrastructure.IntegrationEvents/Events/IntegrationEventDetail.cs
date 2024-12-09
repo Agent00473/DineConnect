@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructure.IntegrationEvents.Entities
+namespace Infrastructure.IntegrationEvents.Events
 {
- public enum EventStateEnum
+    public enum EventStateEnum
     {
         NotPublished = 0,
         InProgress = 1,

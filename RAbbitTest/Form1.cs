@@ -1,13 +1,11 @@
 using Infrastructure.IntegrationEvents;
 using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Entities;
 using Infrastructure.IntegrationEvents.EventHandlers;
+using Infrastructure.IntegrationEvents.Events;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using InfraTest;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
 namespace RAbbitTest

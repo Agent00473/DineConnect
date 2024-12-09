@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Infrastructure.IntegrationEvents.Entities
+namespace Infrastructure.IntegrationEvents.Events
 {
     /// <summary>
     /// Integration Event Serializer for outbox table
@@ -14,7 +14,7 @@ namespace Infrastructure.IntegrationEvents.Entities
 
         public static string Serialize(IntegrationEvent entity)
         {
-           return JsonSerializer.Serialize(entity, entity.GetType(), s_indentedOptions);
+            return JsonSerializer.Serialize(entity, entity.GetType(), s_indentedOptions);
         }
 
         public static IntegrationEvent DeSerialize(string json, Type type)

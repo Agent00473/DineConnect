@@ -1,5 +1,4 @@
-﻿
-using Infrastructure.IntegrationEvents.Entities;
+﻿using Infrastructure.IntegrationEvents.Events;
 using Infrastructure.Messaging.Entities;
 
 namespace Infrastructure.IntegrationEvents

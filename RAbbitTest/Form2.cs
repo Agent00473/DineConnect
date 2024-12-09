@@ -1,7 +1,7 @@
 ﻿using Infrastructure.IntegrationEvents;
 using Infrastructure.IntegrationEvents.Common;
 using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Entities;
+using Infrastructure.IntegrationEvents.Events;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;

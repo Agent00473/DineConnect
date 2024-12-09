@@ -1,9 +1,8 @@
 ﻿using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Entities;
 using Infrastructure.IntegrationEvents.EventHandlers;
+using Infrastructure.IntegrationEvents.Events;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Common;
-using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using System.Timers;
 using Timer = System.Timers.Timer;

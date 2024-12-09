@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Infrastructure.IntegrationEvents.Entities
+namespace Infrastructure.IntegrationEvents.Events
 {
 
     public record OrderEvent : IntegrationEvent
@@ -17,7 +17,7 @@ namespace Infrastructure.IntegrationEvents.Entities
         [JsonInclude]
         public EventActionCategory Category { get; set; }
 
-        public OrderEvent(Guid orderId,  Guid customerId, string name, EventActionCategory category) : base()
+        public OrderEvent(Guid orderId, Guid customerId, string name, EventActionCategory category) : base()
         {
             OrderId = orderId;
             CustomerId = customerId;

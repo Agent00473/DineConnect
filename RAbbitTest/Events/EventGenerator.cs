@@ -1,7 +1,4 @@
-﻿using Infrastructure.IntegrationEvents.Entities;
-using System;
-using System.Collections.Generic;
-
+﻿using Infrastructure.IntegrationEvents.Events;
 namespace InfraTest.Events
 {
 

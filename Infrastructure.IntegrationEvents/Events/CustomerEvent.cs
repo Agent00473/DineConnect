@@ -1,21 +1,21 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Infrastructure.IntegrationEvents.Entities
+namespace Infrastructure.IntegrationEvents.Events
 
 {
     public enum EventActionCategory
     {
-        Created =0,
+        Created = 0,
         Updated = 1,
         Deleted = 2
     }
 
-    public record CustomerEvent: IntegrationEvent
+    public record CustomerEvent : IntegrationEvent
     {
-        [JsonInclude] 
+        [JsonInclude]
         public Guid CustomerId { get; set; }
 
-        [JsonInclude] 
+        [JsonInclude]
         public string Name { get; set; }
 
         [JsonInclude]
@@ -24,7 +24,7 @@ namespace Infrastructure.IntegrationEvents.Entities
         [JsonInclude]
         public EventActionCategory Category { get; set; }
 
-        public CustomerEvent(Guid customerId, string name, string email, EventActionCategory category): base()
+        public CustomerEvent(Guid customerId, string name, string email, EventActionCategory category) : base()
         {
             CustomerId = customerId;
             Name = name;

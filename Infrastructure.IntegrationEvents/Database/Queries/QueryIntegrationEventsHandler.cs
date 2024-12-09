@@ -1,4 +1,4 @@
-﻿using Infrastructure.IntegrationEvents.Entities;
+﻿using Infrastructure.IntegrationEvents.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
