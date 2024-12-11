@@ -42,7 +42,7 @@ namespace DineConnect.OrderManagementService.Domain.Customers
         #region Domain Events
         public void CustomerCreated()
         {
-            AddDomainEvent(CustomerCreatedEvent.Create(this));
+            AddDomainEvent(CustomerEvent.Create(this, EventActionCategory.Created));
         }
         #endregion Domain Events
 
