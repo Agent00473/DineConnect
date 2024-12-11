@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Application.Interfaces;
 using DineConnect.OrderManagementService.Infrastructure.ExceptionHandlers;
 using DineConnect.OrderManagementService.Infrastructure.EventHandlers;
+using Infrastructure.IntegrationEvents.Common.Configs;
+using Infrastructure.IntegrationEvents.Common;
+using Infrastructure.Messaging.Implementation.RabbitMQ;
 
 namespace DineConnect.OrderManagementService.Infrastructure
 {
@@ -39,6 +42,30 @@ namespace DineConnect.OrderManagementService.Infrastructure
             services.AddScoped<IRepository<Restaurant>, RestaurantRepository>();
 
             
+            return services;
+        }
+
+
+        private static IServiceCollection AddIntegrationEventHandlers(this IServiceCollection services, IConfiguration configuration, IServiceProvider provider)
+        {
+            services.AddExceptionHandler<CreateCustomerExceptionHandler>();
+            var conString = configuration.GetConnectionString("DefaultConnection");
+            AddMessageQueue(services, conString);
+            return services;
+        }
+
+
+        private static IServiceCollection AddMessageQueue(IServiceCollection services, string connectionString)
+        {
+            var data = IntegrationConfiguration.GetQueueConfiguration();
+            var rabbitMQConfigurationManager = new RabbitMQConfigurationManager(data);
+            rabbitMQConfigurationManager.Initialize();
+            services.AddSingleton<IRabbitMQConfigurationManager>(rabbitMQConfigurationManager);
+            services.AddSingleton<IIntegrationEventDataDispatcher>(sp =>
+            {
+                var qConfig = sp.GetRequiredService<IRabbitMQConfigurationManager>();
+                return IntegrationEventDataDispatcher.Create(connectionString, data.IntegrationExchangeName, qConfig);
+            });
             return services;
         }
     }

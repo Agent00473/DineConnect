@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DineConnect.OrderManagementService.Application\DineConnect.OrderManagementService.Application.csproj" />
     <ProjectReference Include="..\DineConnect.OrderManagementService.Domain\DineConnect.OrderManagementService.Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure.IntegrationEvents\Infrastructure.IntegrationEvents.csproj" />
     <ProjectReference Include="..\Infrastructure.PostgressExceptions\Infrastructure.PostgressExceptions.csproj" />
   </ItemGroup>
 
