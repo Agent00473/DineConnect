@@ -10,7 +10,7 @@ namespace Infrastructure.IntegrationEvents.Events
         Deleted = 2
     }
 
-    public record CustomerEvent : IntegrationEvent
+    public record CustomerIntegrationEvent : IntegrationEvent
     {
         [JsonInclude]
         public Guid CustomerId { get; set; }
@@ -24,7 +24,7 @@ namespace Infrastructure.IntegrationEvents.Events
         [JsonInclude]
         public EventActionCategory Category { get; set; }
 
-        public CustomerEvent(Guid customerId, string name, string email, EventActionCategory category) : base()
+        public CustomerIntegrationEvent(Guid customerId, string name, string email, EventActionCategory category) : base()
         {
             CustomerId = customerId;
             Name = name;

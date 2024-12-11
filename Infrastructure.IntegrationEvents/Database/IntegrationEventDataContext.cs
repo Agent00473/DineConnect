@@ -1,11 +1,20 @@
 ﻿using Infrastructure.IntegrationEvents.Events;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.Database
 {
+    /// <summary>
+    /// TO BE USED ONLY FOR DB MIGRATION
+    /// </summary>
     public sealed class IntegrationEventDataContext: DbContext
     {
         private readonly string _connectionString;
+
+        public IntegrationEventDataContext(DbContextOptions<IntegrationEventDataContext> options) : base(options)
+        {
+            _connectionString = Database.GetConnectionString();
+        }
 
         public IntegrationEventDataContext(DbContextOptions<IntegrationEventDataContext> options, string connectionString) : base(options)
         {
@@ -20,12 +29,8 @@ namespace Infrastructure.IntegrationEvents.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<IntegrationEventDetail>(builder =>
-            {
-                builder.ToTable("IntegrationEventData");
-                builder.HasKey(e => e.EventId);
-            });
-
+            modelBuilder
+                .ApplyConfigurationsFromAssembly(typeof(IntegrationEventDataContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }
 

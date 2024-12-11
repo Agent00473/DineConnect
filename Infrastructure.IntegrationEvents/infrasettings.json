@@ -1,0 +1,50 @@
+{
+  "QueueConfigurations" : {
+    "RabbitMQ": {
+      "HostName": "localhost",
+      "Port": 5672,
+      //"UserName": "guest",
+      //"Password": "guest",
+      "Exchanges": [
+        {
+          "Name": "IntegrationExchange",
+          "Type": "direct",
+          "Durable": false
+        },
+        {
+          "Name": "PulseExchange",
+          "Type": "direct",
+          "Durable": false
+        }
+      ],
+      "Queues": [
+        {
+          "Name": "CustomerQueue",
+          "Exchange": "IntegrationExchange",
+          "RoutingKey": "CustomerEvent",
+          "Durable": true
+        },
+        {
+          "Name": "OrderQueue",
+          "Exchange": "IntegrationExchange",
+          "RoutingKey": "OrderEvent",
+          "Durable": true
+        },
+        {
+          "Name": "HeartBeatQueue",
+          "Exchange": "PulseExchange",
+          "RoutingKey": "HeartBeatEvent",
+          "Durable": true
+        }
+      ]
+    }
+  },
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ]
+}

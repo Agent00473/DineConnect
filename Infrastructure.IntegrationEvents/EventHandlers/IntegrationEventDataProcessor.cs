@@ -1,23 +1,21 @@
-﻿using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Database.Commands;
+﻿using Infrastructure.IntegrationEvents.Database.Commands;
 using Infrastructure.IntegrationEvents.Database.Queries;
 using Infrastructure.IntegrationEvents.Events;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.IntegrationEvents.EventHandlers
 {
     /// <summary>
-    /// Dispatches Integration Events to Queues Configured
+    /// Publishes Integration Events to Queues Configured
     /// </summary>
-    public class IntegrationEventDispatcher : IEventPublisher 
+    public class IntegrationEventPublisher : IEventPublisher 
     {
         #region Private & Protected Fields
-        private IQueueMessagePublisher _messagePublisher;
-        private readonly IQueryIntegrationEventsHandler _queryIntegrationEvents;
-        private readonly IIntegrationEventsAddCommandHandler _eventsAddCommandHandler;
+        private IMessagePublisher _messagePublisher;
+        private readonly IIntegrationEventsQueryHandler _queryIntegrationEvents;
+        private readonly IAddIntegrationEventCommandHandler _eventsAddCommandHandler;
         private readonly string _connectionString;
 
         ///TODO: Make this a Seperate class Injected Refer RouteKeyManager
@@ -33,7 +31,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
         private async Task<bool> PublishEvents(IEnumerable<IntegrationEventDetail> pendingLogEvents)
         {
             bool allEventsProcessed = true;
-            using (var publishCommandsHandler = IntegrationEventPublishCommandsHandler.Create(_connectionString))
+            using (var publishCommandsHandler = PublishIntegrationEventCommandHandler.Create(_connectionString))
             {
 
                 foreach (var logEvt in pendingLogEvents)
@@ -87,7 +85,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
             return allEventsProcessed;
         }
 
-        private bool ProcessEvent(IIntegrationEventPublishCommandsHandler handler ,IntegrationEventDetail logEvt)
+        private bool ProcessEvent(IPublishIntegrationEventCommandHandler handler ,IntegrationEventDetail logEvt)
         {
             handler.MarkEventAsInProgress(logEvt.EventId);
             var obj = logEvt.IntegrationEvent;
@@ -103,8 +101,8 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
         #endregion
 
         #region Constructors
-        private IntegrationEventDispatcher(IQueryIntegrationEventsHandler queryIntegrationEvents,
-            IIntegrationEventsAddCommandHandler eventsAddCommandHandler, IQueueMessagePublisher messagePublisher, string connectionString)
+        private IntegrationEventPublisher(IIntegrationEventsQueryHandler queryIntegrationEvents,
+            IAddIntegrationEventCommandHandler eventsAddCommandHandler, IMessagePublisher messagePublisher, string connectionString)
         {
             _queryIntegrationEvents = queryIntegrationEvents;
             _messagePublisher = messagePublisher;
@@ -142,15 +140,14 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
         #endregion
 
         #region Factory Methods
-        public static IntegrationEventDispatcher Create(IntegrationEventDataContext context, IQueueMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        public static IntegrationEventPublisher Create(string connectionString, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
         {
-            var connectionString = context.Database.GetDbConnection().ConnectionString;
-            var qryHandler = QueryIntegrationEventsHandler.Create(connectionString);
-            var addHandler = IntegrationEventsAddCommandHandler.Create(connectionString);
-            var dispatcher =  new IntegrationEventDispatcher(qryHandler, addHandler, messagePublisher, connectionString);
+            var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
+            var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
+            var dispatcher =  new IntegrationEventPublisher(qryHandler, addHandler, messagePublisher, connectionString);
             
             var key = configurationManager.GetRoutingKey("CustomerQueue");
-            dispatcher.AddRouteData(typeof(CustomerEvent), key);
+            dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), key);
 
             key = configurationManager.GetRoutingKey("OrderQueue");
             dispatcher.AddRouteData(typeof(OrderEvent), key);

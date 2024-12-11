@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Infrastructure.Messaging.Entities;
 using Infrastructure.IntegrationEvents.Events;
 
 namespace Infrastructure.IntegrationEvents
 {
+    /// <summary>
+    /// OBSELETE CLASS
+    /// </summary>
     internal interface IIntegrationEventManagerService
     {
         bool MarkEventAsFailed(Guid eventId);
