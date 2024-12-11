@@ -5,14 +5,31 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.Database.Commands
 {
-    internal interface IIntegrationEventsAddCommandHandler
+    public class TransactionId 
+    {
+        private TransactionId(Guid value)
+        {
+            IdValue = value;
+        }
+        public Guid IdValue { get; protected set; }
+
+        public static TransactionId Create(Guid value)
+        {
+            return new(value);
+        }
+    }
+
+    public interface IAddIntegrationEventCommandHandler
     {
         Task<bool> AddHeartBeatEventDataAsync();
         Task AddIntegrationEventAsync(IEnumerable<IntegrationEvent> events);
         Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction);
+        Task AddIntegrationEventAsync(IntegrationEvent data, Guid transactionID);
+
+        Task AddIntegrationEventAsync(IntegrationEvent data);
     }
 
-    internal class IntegrationEventsAddCommandHandler : IIntegrationEventsAddCommandHandler
+    public class AddIntegrationEventCommandHandler : IAddIntegrationEventCommandHandler
     {
         #region Constants and Static Fields
         // Add constants and static fields here
@@ -27,7 +44,7 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         #endregion
 
         #region Constructors
-        public IntegrationEventsAddCommandHandler(string connectionString)
+        private AddIntegrationEventCommandHandler(string connectionString)
         {
             _connectionString = connectionString;
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventDataContext>();
@@ -40,7 +57,18 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         #endregion
 
         #region Public Methods
-        public Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction)
+        public async Task AddIntegrationEventAsync(IntegrationEvent data, Guid transactionID)
+        {
+            if (transactionID == Guid.Empty) throw new ArgumentNullException(nameof(transactionID));
+            using (var context = new IntegrationEventDataContext(_dbContextOptions, _connectionString))
+            {
+                var eventLogEntry = new IntegrationEventDetail(data, transactionID);
+                context.EventDetails.Add(eventLogEntry);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction)
         {
 
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
@@ -50,11 +78,11 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
 
                 context.Database.UseTransaction(transaction.GetDbTransaction());
                 context.EventDetails.Add(eventLogEntry);
-                return context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
-        public Task AddIntegrationEventAsync(IEnumerable<IntegrationEvent> events)
+        public async Task AddIntegrationEventAsync(IEnumerable<IntegrationEvent> events)
         {
             using (var context = new IntegrationEventDataContext(_dbContextOptions, _connectionString))
             {
@@ -66,15 +94,38 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
                         {
                             var eventLogEntry = new IntegrationEventDetail(item, transaction.TransactionId);
                             context.EventDetails.Add(eventLogEntry);
-                            context.SaveChangesAsync();
+                            await context.SaveChangesAsync();
                         }
-                        return transaction.CommitAsync();
+                        await transaction.CommitAsync();
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
                         //TODO: Add logging here, e.g., logger.LogError(ex, "Error adding heartbeat");
-                        return Task.FromException(new Exception("AddIntegrationEventAsync: Failed to Save Integration Events"));
+                        await Task.FromException(new Exception("AddIntegrationEventAsync: Failed to Save Integration Events"));
+                    }
+                }
+            }
+        }
+
+        public async Task AddIntegrationEventAsync(IntegrationEvent data)
+        {
+            using (var context = new IntegrationEventDataContext(_dbContextOptions, _connectionString))
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var eventLogEntry = new IntegrationEventDetail(data, transaction.TransactionId);
+                        context.EventDetails.Add(eventLogEntry);
+                        await context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        //TODO: Add logging here, e.g., logger.LogError(ex, "Error adding heartbeat");
+                        await Task.FromException(new Exception("AddIntegrationEventAsync(data): Failed to Save Integration Events"));
                     }
                 }
             }
@@ -110,16 +161,17 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         #endregion
 
         #region Factory Methods
-        public static IntegrationEventsAddCommandHandler Create(IConfiguration configuration)
+        public static AddIntegrationEventCommandHandler Create(IConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration cannot be null");
-            return new IntegrationEventsAddCommandHandler(configuration.GetConnectionString("DefaultConnection"));
+            return new AddIntegrationEventCommandHandler(configuration.GetConnectionString("IntegrationConnection"));
         }
-        public static IntegrationEventsAddCommandHandler Create(string connectionString)
+        public static AddIntegrationEventCommandHandler Create(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException("Configuration cannot be null");
-            return new IntegrationEventsAddCommandHandler(connectionString);
+            return new AddIntegrationEventCommandHandler(connectionString);
         }
+
         #endregion
     }
 }

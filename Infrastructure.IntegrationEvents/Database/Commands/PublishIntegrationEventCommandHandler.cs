@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.Database.Commands
 {
-    internal interface IIntegrationEventPublishCommandsHandler : IDisposable
+    internal interface IPublishIntegrationEventCommandHandler : IDisposable
     {
         bool MarkEventAsFailed(Guid eventId);
         bool MarkEventAsInProgress(Guid eventId);
@@ -12,7 +12,7 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         public Task<int> SaveChagesAsync();
     }
 
-    internal sealed class IntegrationEventPublishCommandsHandler : IIntegrationEventPublishCommandsHandler
+    internal sealed class PublishIntegrationEventCommandHandler : IPublishIntegrationEventCommandHandler
     {
         #region Constants and Static Fields
         // Add constants and static fields here
@@ -24,7 +24,6 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         private readonly IntegrationEventDataContext _context;
         private bool _disposedValue;
         #endregion
-
 
         #region Private & Protected Methods
         private bool UpdateEventState(Guid eventId, EventStateEnum status)
@@ -44,7 +43,7 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         #endregion
 
         #region Constructors
-        public IntegrationEventPublishCommandsHandler(string connectionString)
+        public PublishIntegrationEventCommandHandler(string connectionString)
         {
             _connectionString = connectionString;
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventDataContext>();
@@ -99,15 +98,15 @@ namespace Infrastructure.IntegrationEvents.Database.Commands
         #endregion
 
         #region Factory Methods
-        public static IntegrationEventPublishCommandsHandler Create(IConfiguration configuration)
+        public static PublishIntegrationEventCommandHandler Create(IConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration cannot be null");
-            return new IntegrationEventPublishCommandsHandler(configuration.GetConnectionString("DefaultConnection"));
+            return new PublishIntegrationEventCommandHandler(configuration.GetConnectionString("DefaultConnection"));
         }
-        public static IntegrationEventPublishCommandsHandler Create(string connectionString)
+        public static PublishIntegrationEventCommandHandler Create(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException("Configuration cannot be null");
-            return new IntegrationEventPublishCommandsHandler(connectionString);
+            return new PublishIntegrationEventCommandHandler(connectionString);
         }
         #endregion
     }

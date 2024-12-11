@@ -4,13 +4,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.Database.Queries
 {
-    internal interface IQueryIntegrationEventsHandler
+    internal interface IIntegrationEventsQueryHandler
     {
         Task<IEnumerable<IntegrationEventDetail>> RetrieveAllPendingEventLogsToPublishAsync();
         Task<IEnumerable<IntegrationEventDetail>> RetrievePendingEventLogsToPublishAsync(Guid transactionId);
     }
 
-    internal class QueryIntegrationEventsHandler : IQueryIntegrationEventsHandler
+    internal class IntegrationEventsQueryHandler : IIntegrationEventsQueryHandler
     {
         #region Constants and Static Fields
         #endregion
@@ -25,7 +25,7 @@ namespace Infrastructure.IntegrationEvents.Database.Queries
         #endregion
 
         #region Constructors
-        public QueryIntegrationEventsHandler(string connectionString)
+        public IntegrationEventsQueryHandler(string connectionString)
         {
             _connectionString = connectionString;
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventDataContext>();
@@ -80,15 +80,15 @@ namespace Infrastructure.IntegrationEvents.Database.Queries
         #endregion
 
         #region Factory Methods
-        public static QueryIntegrationEventsHandler Create(IConfiguration configuration)
+        public static IntegrationEventsQueryHandler Create(IConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration cannot be null");
-            return new QueryIntegrationEventsHandler(configuration.GetConnectionString("DefaultConnection"));
+            return new IntegrationEventsQueryHandler(configuration.GetConnectionString("DefaultConnection"));
         }
-        public static QueryIntegrationEventsHandler Create(string connectionString)
+        public static IntegrationEventsQueryHandler Create(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException("Configuration cannot be null");
-            return new QueryIntegrationEventsHandler(connectionString);
+            return new IntegrationEventsQueryHandler(connectionString);
         }
         #endregion
     }
