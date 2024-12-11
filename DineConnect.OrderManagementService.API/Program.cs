@@ -1,13 +1,18 @@
+using DineConnect.OrderManagementService.API;
 using DineConnect.OrderManagementService.Application;
 using DineConnect.OrderManagementService.Infrastructure;
+using Infrastructure.IntegrationEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddOrderManagementInfrastructureDependencies(builder.Configuration)
+builder.Services
+    .AddServiceBlockInfrastructure("IntegrationEvents")
+    .AddOrderManagementInfrastructureDependencies(builder.Configuration)
     .AddOrderManagementContractsDependencies(builder.Configuration)
     .AddOrderManagementApplicationDependencies(builder.Configuration);
+    
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,5 +32,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+IntializeStartup.Start(app);
 
 app.Run();
+
+IntializeStartup.Shutdown(app);
+

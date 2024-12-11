@@ -12,7 +12,7 @@ namespace InfraTest
 {
     public partial class Form2 : Form
     {
-        private QueuedEventDispatcher _eventDispatcher;
+        private IntegrationEventDataDispatcher _eventDispatcher;
         private IRabbitMQConfigurationManager _rabbitMQConfigurationManager;
         public Form2()
         {
@@ -24,15 +24,16 @@ namespace InfraTest
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["IntegrationEvents"].ConnectionString;
+
             var configs = RabbitMQConfigLoader.LoadFromXml(".\\App.config");
             _rabbitMQConfigurationManager = new RabbitMQConfigurationManager(configs);
-            _rabbitMQConfigurationManager.Initialize();
-            _eventDispatcher = QueuedEventDispatcher.Create(connectionString, "IntegrationExchange", _rabbitMQConfigurationManager);
+            //_rabbitMQConfigurationManager.Initialize();
+            _eventDispatcher = IntegrationEventDataDispatcher.Create(connectionString, "IntegrationExchange", _rabbitMQConfigurationManager);
 
 
             _rabbitMQueueCustEventConsumer = RabbitMQueueSubscriber.Create("CustomerQueue", _rabbitMQConfigurationManager);
-            _rabbitMQueueCustEventConsumerService = new QueueConsumerService<CustomerEvent>(_rabbitMQueueCustEventConsumer, UpdateListView);
+            _rabbitMQueueCustEventConsumerService = new QueueConsumerService<CustomerIntegrationEvent>(_rabbitMQueueCustEventConsumer, UpdateListView);
 
             _rabbitMQueueOrderEventConsumer = RabbitMQueueSubscriber.Create("OrderQueue", _rabbitMQConfigurationManager);
             _rabbitMQueueOrderEventConsumerService = new QueueConsumerService<OrderEvent>(_rabbitMQueueOrderEventConsumer, UpdateOrderListView);
@@ -44,6 +45,8 @@ namespace InfraTest
             _context = new IntegrationEventDataContext(connectionString);
             _service = new IntegrationEventManagerService(_context);
 
+            //_eventDbSaver = QueuedIntegrationEventDbSaver.Create(connectionString);
+            //_eventDbSaver.Start();
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -61,7 +64,7 @@ namespace InfraTest
         }
 
         private RabbitMQueueSubscriber _rabbitMQueueCustEventConsumer;
-        private QueueConsumerService<CustomerEvent> _rabbitMQueueCustEventConsumerService;
+        private QueueConsumerService<CustomerIntegrationEvent> _rabbitMQueueCustEventConsumerService;
 
 
         private RabbitMQueueSubscriber _rabbitMQueueOrderEventConsumer;
@@ -100,7 +103,7 @@ namespace InfraTest
                 var result = $"Customer Event ID: {data.Id}\nCreated On: {data.CreationDate}\n DataType : {data.GetType().Name}";
                 listView1.Items.Add(new ListViewItem(result));
 
-                CustomerEvent obj = data as CustomerEvent;
+                CustomerIntegrationEvent obj = data as CustomerIntegrationEvent;
                 result = $" Customer Name: {obj.Name} \n email : {obj.Email}";
                 listView1.Items.Add(new ListViewItem(result));
             }
@@ -190,6 +193,27 @@ namespace InfraTest
         {
             listView1.Items.Clear();
             listView1.Clear();
+        }
+
+        private IQueuedIntegrationEventDbSaver _eventDbSaver ;
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+            //try
+            //{
+            //    button1.Enabled = false;
+            //    var events = EventGenerator.GenerateRandomEvents();
+
+            //    foreach (var item in events)
+            //    {
+            //        _eventDbSaver.AddData(item);
+            //    }
+            //}
+            //finally
+            //{
+            //    button1.Enabled = true;
+            //}
+
         }
     }
 }

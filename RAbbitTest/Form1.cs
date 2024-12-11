@@ -28,9 +28,9 @@ namespace RAbbitTest
             listView1.Columns[0].Width = listView1.ClientSize.Width;
             var configs = RabbitMQConfigLoader.LoadFromXml(".\\App.config");
             _rabbitMQConfigurationManager = new RabbitMQConfigurationManager(configs);
-            _rabbitMQConfigurationManager.Initialize();
-            _rabbitMQConfigurationManager.AddQueue(_rabbitMSampleQConfig);
-            _rabbitMQConfigurationManager.AddQueue(_rabbitMCustomerQConfig);
+            //_rabbitMQConfigurationManager.Initialize();
+            //_rabbitMQConfigurationManager.AddQueue(_rabbitMSampleQConfig);
+            //_rabbitMQConfigurationManager.AddQueue(_rabbitMCustomerQConfig);
 
 
         }
@@ -118,8 +118,8 @@ namespace RAbbitTest
         private RabbitMQueuePublisher _rabbitMQueueCustEventPublisher;
 
         private RabbitMQueueSubscriber _rabbitMQueueCustEventConsumer;
-        private QueueConsumerService<CustomerEvent> _rabbitMQueueCustEventConsumerService;
-        private QueueConfiguration _rabbitMCustomerQConfig = new QueueConfiguration("IntegrationExchange", ExchangeType.Direct, "CustomerQueue", "CustomerEvent", false, true);
+        private QueueConsumerService<CustomerIntegrationEvent> _rabbitMQueueCustEventConsumerService;
+        private QueueConfiguration _rabbitMCustomerQConfig = new QueueConfiguration("IntegrationExchange", ExchangeType.Direct, "CustomerQueue", "CustomerIntegrationEvent", false, true);
 
 
         private RabbitMQueueSubscriber _rabbitMQueueOrderEventConsumer;
@@ -138,7 +138,7 @@ namespace RAbbitTest
                 var result = $"Customer Event ID: {data.Id}\nCreated On: {data.CreationDate}\n DataType : {data.GetType().Name}";
                 listView1.Items.Add(new ListViewItem(result));
 
-                CustomerEvent obj = data as CustomerEvent;
+                CustomerIntegrationEvent obj = data as CustomerIntegrationEvent;
                 result = $" Customer Name: {obj.Name} \n email : {obj.Email}";
                 listView1.Items.Add(new ListViewItem(result));
             }
@@ -164,7 +164,7 @@ namespace RAbbitTest
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["IntegrationEvents"].ConnectionString;
 
             _context = new IntegrationEventDataContext(connectionString);
             // _context.Database.EnsureCreated();
@@ -175,11 +175,11 @@ namespace RAbbitTest
             _service = new IntegrationEventManagerService(_context);
             //Publisher
             _rabbitMQueueCustEventPublisher = RabbitMQueuePublisher.Create(_rabbitMCustomerQConfig.ExchangeName, _rabbitMQConfigurationManager);
-            _customerIntegrationEventDispatcher = IntegrationEventDispatcher.Create(_context, _rabbitMQueueCustEventPublisher, _rabbitMQConfigurationManager);
+            _customerIntegrationEventDispatcher = IntegrationEventPublisher.Create(connectionString, _rabbitMQueueCustEventPublisher, _rabbitMQConfigurationManager);
 
             ///Subscriber
             _rabbitMQueueCustEventConsumer = RabbitMQueueSubscriber.Create(_rabbitMCustomerQConfig.QueueName, _rabbitMQConfigurationManager);
-            _rabbitMQueueCustEventConsumerService = new QueueConsumerService<CustomerEvent>(_rabbitMQueueCustEventConsumer, UpdateListView);
+            _rabbitMQueueCustEventConsumerService = new QueueConsumerService<CustomerIntegrationEvent>(_rabbitMQueueCustEventConsumer, UpdateListView);
 
             ///Subscriber Order
             _rabbitMQueueOrderEventConsumer = RabbitMQueueSubscriber.Create(_rabbitMOrderQConfig.QueueName, _rabbitMQConfigurationManager);
@@ -199,7 +199,7 @@ namespace RAbbitTest
             {
                 button2.Enabled = false;
                 var trnasaction = _context.Database.BeginTransaction();
-                var data = new CustomerEvent(Guid.NewGuid(), "Joe Doe", "JD@unknown.com", EventActionCategory.Created);
+                var data = new CustomerIntegrationEvent(Guid.NewGuid(), "Joe Doe", "JD@unknown.com", EventActionCategory.Created);
                 await _service.SaveIntegrationEventAsync(data, trnasaction);
 
                 var orderId = Guid.NewGuid();
@@ -210,7 +210,7 @@ namespace RAbbitTest
                 await _service.SaveIntegrationEventAsync(deletedOrderEvent, trnasaction);
 
 
-                data = new CustomerEvent(Guid.NewGuid(), "Mary Doe", "MD@unknown.com", EventActionCategory.Updated);
+                data = new CustomerIntegrationEvent(Guid.NewGuid(), "Mary Doe", "MD@unknown.com", EventActionCategory.Updated);
                 await _service.SaveIntegrationEventAsync(data, trnasaction);
 
                 orderId = Guid.NewGuid();
@@ -257,7 +257,7 @@ namespace RAbbitTest
 
                 foreach (var id in tids)
                 {
-                    var result = await _customerIntegrationEventDispatcher.Publish<CustomerEvent>(id);
+                    var result = await _customerIntegrationEventDispatcher.Publish<CustomerIntegrationEvent>(id);
                     listView1.Items.Add(new ListViewItem($" Publish ID {id} Status : {result.ToString()}"));
                 }
                 listView1.Items.Add("--------Publish Done-----------");
@@ -296,6 +296,11 @@ namespace RAbbitTest
                 button6.Enabled = true;
 
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

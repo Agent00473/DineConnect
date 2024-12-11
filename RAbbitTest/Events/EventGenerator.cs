@@ -36,7 +36,7 @@ namespace InfraTest.Events
                     var randomEmail = CustomerEmails[Random.Next(CustomerEmails.Count)];
                     var randomAction = (EventActionCategory)Random.Next(0, 3);
 
-                    events.Add(new CustomerEvent(Guid.NewGuid(), randomName, randomEmail, randomAction));
+                    events.Add(new CustomerIntegrationEvent(Guid.NewGuid(), randomName, randomEmail, randomAction));
                 }
                 else
                 {
