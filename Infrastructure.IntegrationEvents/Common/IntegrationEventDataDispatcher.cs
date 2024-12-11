@@ -1,5 +1,4 @@
-﻿using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.EventHandlers;
+﻿using Infrastructure.IntegrationEvents.EventHandlers;
 using Infrastructure.IntegrationEvents.Events;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Common;
@@ -8,7 +7,7 @@ using System.Timers;
 using Timer = System.Timers.Timer;
 namespace Infrastructure.IntegrationEvents.Common
 {
-    public class QueuedEventDispatcher : QueuedDataProcessor<Guid>
+    public class IntegrationEventDataDispatcher : QueuedDataProcessor<Guid>, IIntegrationEventDataDispatcher
     {
         private const int INTERVAL_MINS = 1;
         private static Guid ALLEVENTS = Guid.Empty;
@@ -21,9 +20,20 @@ namespace Infrastructure.IntegrationEvents.Common
             var result = await _eventPublisher.AddPulse<HeartBeatEvent>();
             //TODO: Use this Result to Trigger Service Down Error.
             AddData(ALLEVENTS);
-
         }
-        protected override Task<bool> DispatchData(Guid transactionId)
+
+        private IntegrationEventDataDispatcher(IEventPublisher eventPublisher) : base()
+        {
+            _eventPublisher = eventPublisher;
+
+            _timer = new Timer(TimeSpan.FromMinutes(INTERVAL_MINS).TotalMilliseconds);
+            //_timer = new Timer(30000);
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+        }
+
+        protected override Task<bool> ProcessData(Guid transactionId)
         {
             try
             {
@@ -40,16 +50,27 @@ namespace Infrastructure.IntegrationEvents.Common
 
         }
 
-        private QueuedEventDispatcher(IEventPublisher eventPublisher) : base()
+        protected override void Dispose(bool disposing)
         {
-            _eventPublisher = eventPublisher;
-
-            _timer = new Timer(TimeSpan.FromMinutes(INTERVAL_MINS).TotalMilliseconds);
-            //_timer = new Timer(30000);
-            _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
+            base.Dispose(disposing);
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    _timer?.Dispose();
+                }
+                _isDisposed = true;
+            }
         }
+
+        #region Factory Methods
+        public static IntegrationEventDataDispatcher Create(string connectionString, string exchangeName, IRabbitMQConfigurationManager configurationManager)
+        {
+            IMessagePublisher publisher = RabbitMQueuePublisher.Create(exchangeName, configurationManager);
+            var dispatcher = IntegrationEventPublisher.Create(connectionString, publisher, configurationManager);
+            return new IntegrationEventDataDispatcher(dispatcher);
+        }
+        #endregion
 
         public override void Start()
         {
@@ -68,28 +89,5 @@ namespace Infrastructure.IntegrationEvents.Common
             _timer.Stop();
             base.Pause();
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (!_isDisposed)
-            {
-                if (disposing)
-                {
-                    _timer?.Dispose();
-                }
-                _isDisposed = true;
-            }
-        }
-
-        #region Factory Methods
-        public static QueuedEventDispatcher Create(string connectionString, string exchangeName, IRabbitMQConfigurationManager configurationManager)
-        {
-            var context = new IntegrationEventDataContext(connectionString);
-            IQueueMessagePublisher publisher = RabbitMQueuePublisher.Create(exchangeName, configurationManager);
-            var dispatcher = IntegrationEventDispatcher.Create(context, publisher, configurationManager);
-            return new QueuedEventDispatcher(dispatcher);
-        }
-        #endregion
     }
 }
