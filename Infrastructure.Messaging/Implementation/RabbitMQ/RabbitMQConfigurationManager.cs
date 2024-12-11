@@ -12,7 +12,7 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         string GetRoutingKey(string queueName);
         void Initialize();
         public IConnection GetConnection();
-
+        public string IntegrationExchangeName { get; }
     }
 
     /// <summary>
@@ -24,6 +24,9 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         private bool disposedValue;
         private IConnection _connection;
         private IDictionary<string, string> _queueRouteTable = new Dictionary<string, string>();
+
+        public string IntegrationExchangeName => _settings.IntegrationExchangeName;
+
         public RabbitMQConfigurationManager(IOptions<QueueConfigurations> options)
         {
             _settings = options.Value;
@@ -56,11 +59,13 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         private void ConfigureExchangesAndQueues(IModel channel, QueueConfiguration configuration)
         {
             channel.ExchangeDeclare(configuration.ExchangeName, configuration.ExchangeType, configuration.IsExchangeDurable);
-            var config = new QueueConfig() { 
-                Durable = configuration.IsQueueDurable, 
-                Exchange = configuration.ExchangeName, 
-                Name = configuration.QueueName, 
-                RoutingKey = configuration.RoutingKey };
+            var config = new QueueConfig()
+            {
+                Durable = configuration.IsQueueDurable,
+                Exchange = configuration.ExchangeName,
+                Name = configuration.QueueName,
+                RoutingKey = configuration.RoutingKey
+            };
             ConfigureQueue(channel, config);
 
             channel.QueueDeclare(configuration.QueueName, configuration.IsQueueDurable, false, false, null);
@@ -108,7 +113,10 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
 
         public string GetRoutingKey(string queueName)
         {
-            return _queueRouteTable[queueName];
+            if (_queueRouteTable.TryGetValue(queueName, out var routingKey))
+                return routingKey;
+
+            return string.Empty;
         }
 
         private void Dispose(bool disposing)

@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Messaging
 {
-    public interface IQueueMessagePublisher: IMessageServiceBase
+    public interface IMessagePublisher: IMessageServiceBase
     {
         bool SendMessage(string routingkey, EventMessage message);
     }

@@ -10,13 +10,24 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
     [XmlRoot("QueueConfigurations")]
     public class QueueConfigurations
     {
+
         [XmlElement("RabbitMQ")]
         public RabbitMQSettings RabbitMQ { get; set; }
+
+        private string GetExchangeName(string key)
+        {
+            var result =  RabbitMQ?.Exchanges?.FirstOrDefault(x => x.Name == key);
+            return result?.Name ?? string.Empty;
+        }
 
         public QueueConfigurations()
         {
             RabbitMQ = new RabbitMQSettings();
         }
+
+        [XmlIgnore]
+        public string IntegrationExchangeName => GetExchangeName("IntegrationExchange");
+
     }
 
 
@@ -35,6 +46,7 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
         [XmlArray("Queues")]
         [XmlArrayItem("Queue")]
         public List<QueueConfig> Queues { get; set; } = new();
+                
     }
 
     public class ExchangeConfig

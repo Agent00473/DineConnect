@@ -30,3 +30,7 @@ dotnet ef database update 0 --verbose --project ./DineConnect.PaymentManagementS
 
 Remove Migration [Working]
 dotnet ef migrations remove --project ./DineConnect.PaymentManagementService.Infrastructure/DineConnect.PaymentManagementService.Infrastructure.csproj --context DineOutPaymentDbContext --startup-project ./DineConnect.PaymentManagementService.API/DineConnect.PaymentManagementService.API.csproj
+
+
+Integration Event Order Management
+dotnet ef migrations add AddIntegrationEvents --project ./Infrastructure.IntegrationEvents/Infrastructure.IntegrationEvents.csproj --context IntegrationEventDataContext --startup-project ./DineConnect.OrderManagementService.API/DineConnect.OrderManagementService.API.csproj

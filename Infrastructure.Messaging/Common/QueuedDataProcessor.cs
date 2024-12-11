@@ -7,7 +7,7 @@ namespace Infrastructure.Messaging.Common
     /// Base class for processing jobs in a queued order with configurable worker threads.
     /// </summary>
     /// <typeparam name="TData"></typeparam>
-    public abstract class QueuedDataProcessor<TData> : IDisposable
+    public abstract class QueuedDataProcessor<TData> : IDisposable, IQueuedDataProcessor<TData>
     {
         private readonly Queue<TData> _queue = new();
         private readonly AutoResetEvent _itemAddedEvent = new(false);
@@ -41,13 +41,13 @@ namespace Infrastructure.Messaging.Common
                         continue; // Handle spurious wakeups
                     item = _queue.Dequeue();
                 }
-                DispatchData(item).Wait();
+                ProcessData(item).Wait();
                 // Process the item outside the lock
                 Debug.WriteLine($"Consumed: {item} on Thread {Thread.CurrentThread.ManagedThreadId}");
             }
         }
 
-        protected abstract Task<bool> DispatchData(TData transactionId);
+        protected abstract Task<bool> ProcessData(TData data);
 
         public QueuedDataProcessor(int threadCount = 2)
         {
