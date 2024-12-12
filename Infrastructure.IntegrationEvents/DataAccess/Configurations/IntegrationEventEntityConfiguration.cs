@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Infrastructure.IntegrationEvents.Events;
+using Infrastructure.IntegrationEvents.Entities;
 
 namespace Infrastructure.IntegrationEvents.DataAccess.Configurations
 {
-    internal class IntegrationEventConfiguration : IEntityTypeConfiguration<IntegrationEventDetail>
+    internal class IntegrationEventEntityConfiguration : IEntityTypeConfiguration<IntegrationEventDetail>
     {
         #region Interface Implementations
         public void Configure(EntityTypeBuilder<IntegrationEventDetail> builder)
