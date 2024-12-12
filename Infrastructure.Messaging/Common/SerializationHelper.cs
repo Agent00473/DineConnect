@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Infrastructure.Messaging
+namespace Infrastructure.Messaging.Common
 {
     /// <summary>
     /// Event Message Serilization Helpers 
@@ -10,9 +10,10 @@ namespace Infrastructure.Messaging
     internal static class SerializationHelper
     {
 
-        private static readonly JsonSerializerOptions s_caseInsensitiveOptions = new() { 
+        private static readonly JsonSerializerOptions s_caseInsensitiveOptions = new()
+        {
             PropertyNameCaseInsensitive = true,
-              PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         private static readonly JsonSerializerOptions s_writeOptions = new() { WriteIndented = false };
@@ -26,7 +27,7 @@ namespace Infrastructure.Messaging
         {
             return JsonSerializer.SerializeToUtf8Bytes(message, message.GetType(), s_writeOptions);
         }
-   
+
         public static EventMessage? DeserializeMessage(byte[] data, Type type)
         {
             return JsonSerializer.Deserialize(data, type, s_caseInsensitiveOptions) as EventMessage;

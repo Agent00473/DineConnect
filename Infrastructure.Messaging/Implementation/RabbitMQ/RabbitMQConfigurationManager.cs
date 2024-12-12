@@ -1,4 +1,5 @@
 ﻿using global::RabbitMQ.Client;
+using Infrastructure.Messaging.Common;
 using Infrastructure.Messaging.Implementation.RabbitMQ.Configs;
 using Microsoft.Extensions.Options;
 

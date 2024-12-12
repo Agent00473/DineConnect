@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Messaging
+﻿namespace Infrastructure.Messaging.Common
 {
     /// <summary>
     /// Record representing the configuration required to dynamically create an Exchange, Queue, and their Binding.
@@ -10,10 +10,10 @@
     /// <param name="IsExchangeDurable"></param>
     /// <param name="IsQueueDurable"></param>
     public record QueueConfiguration(
-         string ExchangeName,         
-         string ExchangeType,         
-         string QueueName,            
-         string RoutingKey,          
+         string ExchangeName,
+         string ExchangeType,
+         string QueueName,
+         string RoutingKey,
          bool IsExchangeDurable,
         bool IsQueueDurable
      );

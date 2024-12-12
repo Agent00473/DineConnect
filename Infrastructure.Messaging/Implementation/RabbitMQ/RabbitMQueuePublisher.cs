@@ -1,4 +1,5 @@
-﻿using Infrastructure.Messaging.Entities;
+﻿using Infrastructure.Messaging.Common;
+using Infrastructure.Messaging.Entities;
 using RabbitMQ.Client;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ

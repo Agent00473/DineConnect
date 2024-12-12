@@ -1,4 +1,5 @@
-﻿using Infrastructure.Messaging.Entities;
+﻿using Infrastructure.Messaging.Common;
+using Infrastructure.Messaging.Entities;
 using Microsoft.Extensions.Hosting;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ

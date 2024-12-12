@@ -1,0 +1,18 @@
+
+When to Use Each:
+TransactionScope : is ideal when you need to commit changes across multiple DbContext instances (e.g., working with different tables or even different microservices) that share the same connection.
+BeginTransaction : is appropriate when you're only managing a transaction for a single DbContext and don't need to coordinate multiple contexts.
+
+Saved as part of Transaction.
+Integration Event Managed by Service Building Blocks.
+Decided to Use BeginTransaction thus by sharing the DBContext to Service Building Blocks.
+DBContext to be Made Scoped.
+All other Consumers of DB Context are Transient.
+This Helps managing Transactions 
+
+
+*****************
+Publish Integration Events.
+Each MS to have one BG service Performing this.
+Integratione Events to be Published to Broker by BG Service.
+Integration Events to be Stored as a Table in Services Own Database.
