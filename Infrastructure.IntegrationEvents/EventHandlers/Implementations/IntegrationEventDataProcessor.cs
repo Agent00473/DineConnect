@@ -1,16 +1,18 @@
-﻿using Infrastructure.IntegrationEvents.Database.Commands;
-using Infrastructure.IntegrationEvents.Database.Queries;
-using Infrastructure.IntegrationEvents.Events;
+﻿using Infrastructure.IntegrationEvents.DataAccess.Commands;
+using Infrastructure.IntegrationEvents.DataAccess.Queries;
+using Infrastructure.IntegrationEvents.DomainModels.Events;
+using Infrastructure.IntegrationEvents.Entities;
+using Infrastructure.IntegrationEvents.Entities.Events;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 
-namespace Infrastructure.IntegrationEvents.EventHandlers
+namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
 {
     /// <summary>
     /// Publishes Integration Events to Queues Configured
     /// </summary>
-    public class IntegrationEventPublisher : IEventPublisher 
+    public class IntegrationEventPublisher : IEventPublisher
     {
         #region Private & Protected Fields
         private IMessagePublisher _messagePublisher;
@@ -85,7 +87,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
             return allEventsProcessed;
         }
 
-        private bool ProcessEvent(IPublishIntegrationEventCommandHandler handler ,IntegrationEventDetail logEvt)
+        private bool ProcessEvent(IPublishIntegrationEventCommandHandler handler, IntegrationEventDetail logEvt)
         {
             handler.MarkEventAsInProgress(logEvt.EventId);
             var obj = logEvt.IntegrationEvent;
@@ -118,8 +120,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
 
         #region Public Methods
 
-        internal void AddRouteData(Type key, string value) {
-            _routedata[key]= value;
+        internal void AddRouteData(Type key, string value)
+        {
+            _routedata[key] = value;
         }
         public async Task<bool> Publish<TData>(Guid transactionId) where TData : IntegrationEvent
         {
@@ -144,8 +147,8 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
         {
             var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
             var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
-            var dispatcher =  new IntegrationEventPublisher(qryHandler, addHandler, messagePublisher, connectionString);
-            
+            var dispatcher = new IntegrationEventPublisher(qryHandler, addHandler, messagePublisher, connectionString);
+
             var key = configurationManager.GetRoutingKey("CustomerQueue");
             dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), key);
 
@@ -154,11 +157,11 @@ namespace Infrastructure.IntegrationEvents.EventHandlers
             key = configurationManager.GetRoutingKey("HeartBeatQueue");
             dispatcher.AddRouteData(typeof(HeartBeatEvent), key);
 
-            
+
             return dispatcher;
         }
 
-       
+
         #endregion
     }
 }
