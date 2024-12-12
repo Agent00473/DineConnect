@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Application.Interfaces;
 using DineConnect.OrderManagementService.Infrastructure.ExceptionHandlers;
 using DineConnect.OrderManagementService.Infrastructure.EventHandlers;
-using Infrastructure.IntegrationEvents.Common.Configs;
-using Infrastructure.IntegrationEvents.Common;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
+using Infrastructure.IntegrationEvents.Common;
+using Infrastructure.IntegrationEvents.EventHandlers.Implementations;
+using Infrastructure.IntegrationEvents;
+using Infrastructure.IntegrationEvents.DataAccess.Commands;
 
 namespace DineConnect.OrderManagementService.Infrastructure
 {
@@ -21,7 +23,8 @@ namespace DineConnect.OrderManagementService.Infrastructure
                                     IConfiguration configration)
         {
             services.AddPersistance(configration)
-                    .AddExceptionHandler(configration);
+                    .AddExceptionHandler(configration)
+                    .AddIntegrationEventHandler();
             return services;
         }
 
@@ -40,33 +43,21 @@ namespace DineConnect.OrderManagementService.Infrastructure
             services.AddScoped<IRepository<OrderItem>, MenuItemRepository>();
             services.AddScoped<IRepository<Customer>, CustomerRepository>();
             services.AddScoped<IRepository<Restaurant>, RestaurantRepository>();
+            return services;
+        }
 
+        private static IServiceCollection AddIntegrationEventHandler(this IServiceCollection services)
+        {
             
-            return services;
-        }
-
-
-        private static IServiceCollection AddIntegrationEventHandlers(this IServiceCollection services, IConfiguration configuration, IServiceProvider provider)
-        {
-            services.AddExceptionHandler<CreateCustomerExceptionHandler>();
-            var conString = configuration.GetConnectionString("DefaultConnection");
-            AddMessageQueue(services, conString);
-            return services;
-        }
-
-
-        private static IServiceCollection AddMessageQueue(IServiceCollection services, string connectionString)
-        {
-            var data = IntegrationConfiguration.GetQueueConfiguration();
-            var rabbitMQConfigurationManager = new RabbitMQConfigurationManager(data);
-            rabbitMQConfigurationManager.Initialize();
-            services.AddSingleton<IRabbitMQConfigurationManager>(rabbitMQConfigurationManager);
-            services.AddSingleton<IIntegrationEventDataDispatcher>(sp =>
+            services.AddTransient<ICreateIntegrationEventCommandHandler>(sp =>
             {
-                var qConfig = sp.GetRequiredService<IRabbitMQConfigurationManager>();
-                return IntegrationEventDataDispatcher.Create(connectionString, data.IntegrationExchangeName, qConfig);
+                var ctxt = sp.GetRequiredService<DineOutOrderDbContext>();
+                return CreateIntegrationEventCommandHandler<DineOutOrderDbContext>.Create(ctxt);
             });
             return services;
         }
+
+       
+
     }
 }

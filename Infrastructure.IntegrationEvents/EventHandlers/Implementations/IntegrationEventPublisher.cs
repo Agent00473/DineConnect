@@ -1,6 +1,5 @@
 ﻿using Infrastructure.IntegrationEvents.DataAccess.Commands;
 using Infrastructure.IntegrationEvents.DataAccess.Queries;
-using Infrastructure.IntegrationEvents.DomainModels.Events;
 using Infrastructure.IntegrationEvents.Entities;
 using Infrastructure.IntegrationEvents.Entities.Events;
 using Infrastructure.Messaging;
@@ -18,8 +17,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         private IMessagePublisher _messagePublisher;
         private readonly IIntegrationEventsQueryHandler _queryIntegrationEvents;
         private readonly IAddIntegrationEventCommandHandler _eventsAddCommandHandler;
-        private readonly string _connectionString;
-
+        private readonly IPublishIntegrationEventCommandHandler _handler;
         ///TODO: Make this a Seperate class Injected Refer RouteKeyManager
         private IDictionary<Type, string> _routedata = new Dictionary<Type, string>();
         #endregion
@@ -33,54 +31,50 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         private async Task<bool> PublishEvents(IEnumerable<IntegrationEventDetail> pendingLogEvents)
         {
             bool allEventsProcessed = true;
-            using (var publishCommandsHandler = PublishIntegrationEventCommandHandler.Create(_connectionString))
+            foreach (var logEvt in pendingLogEvents)
             {
+                bool eventProcessed = false;
 
-                foreach (var logEvt in pendingLogEvents)
+                try
                 {
-                    bool eventProcessed = false;
-
-                    try
+                    // Retry logic
+                    for (int attempt = 1; attempt <= 3; attempt++)
                     {
-                        // Retry logic
-                        for (int attempt = 1; attempt <= 3; attempt++)
+                        if (ProcessEvent(_handler, logEvt))
                         {
-                            if (ProcessEvent(publishCommandsHandler, logEvt))
-                            {
-                                eventProcessed = true;
-                                break; // Exit retry loop on success
-                            }
+                            eventProcessed = true;
+                            break; // Exit retry loop on success
+                        }
 
-                            if (attempt == 3)
-                            {
-                                // Mark as failed after maximum retries
-                                publishCommandsHandler.MarkEventAsFailed(logEvt.EventId);
-                            }
+                        if (attempt == 3)
+                        {
+                            // Mark as failed after maximum retries
+                            _handler.MarkEventAsFailed(logEvt.EventId);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error processing event {logEvt.EventId}: {ex.Message}");
-                        // Mark the event as failed in case of exception
-                        publishCommandsHandler.MarkEventAsFailed(logEvt.EventId);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error processing event {logEvt.EventId}: {ex.Message}");
+                    // Mark the event as failed in case of exception
+                    _handler.MarkEventAsFailed(logEvt.EventId);
+                }
 
-                    // Save changes after processing each event
-                    try
-                    {
-                        await publishCommandsHandler.SaveChagesAsync();
-                    }
-                    catch (Exception saveEx)
-                    {
-                        Console.WriteLine($"Error saving changes for event {logEvt.EventId}: {saveEx.Message}");
-                        return false; // Fail fast if saving changes fails
-                    }
+                // Save changes after processing each event
+                try
+                {
+                    await _handler.SaveChagesAsync();
+                }
+                catch (Exception saveEx)
+                {
+                    Console.WriteLine($"Error saving changes for event {logEvt.EventId}: {saveEx.Message}");
+                    return false; // Fail fast if saving changes fails
+                }
 
-                    // Update the overall status
-                    if (!eventProcessed)
-                    {
-                        allEventsProcessed = false;
-                    }
+                // Update the overall status
+                if (!eventProcessed)
+                {
+                    allEventsProcessed = false;
                 }
             }
 
@@ -104,12 +98,13 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
 
         #region Constructors
         private IntegrationEventPublisher(IIntegrationEventsQueryHandler queryIntegrationEvents,
-            IAddIntegrationEventCommandHandler eventsAddCommandHandler, IMessagePublisher messagePublisher, string connectionString)
+            IAddIntegrationEventCommandHandler eventsAddCommandHandler,
+            IPublishIntegrationEventCommandHandler handler, IMessagePublisher messagePublisher)
         {
             _queryIntegrationEvents = queryIntegrationEvents;
             _messagePublisher = messagePublisher;
             _eventsAddCommandHandler = eventsAddCommandHandler;
-            _connectionString = connectionString;
+            _handler = handler;
         }
 
         #endregion
@@ -143,11 +138,25 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         #endregion
 
         #region Factory Methods
-        public static IntegrationEventPublisher Create(string connectionString, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        //public static IntegrationEventPublisher Create(string connectionString, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        //{
+        //    var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
+        //    var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
+        //    var dispatcher = new IntegrationEventPublisher(qryHandler, addHandler, messagePublisher);
+
+        //    var key = configurationManager.GetRoutingKey("CustomerQueue");
+        //    dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), key);
+
+        //    key = configurationManager.GetRoutingKey("OrderQueue");
+        //    dispatcher.AddRouteData(typeof(OrderEvent), key);
+        //    key = configurationManager.GetRoutingKey("HeartBeatQueue");
+        //    dispatcher.AddRouteData(typeof(HeartBeatEvent), key);
+        //    return dispatcher;
+        //}
+
+        public static IntegrationEventPublisher Create(IIntegrationEventsQueryHandler qryHandler, IAddIntegrationEventCommandHandler addCmdHandler, IPublishIntegrationEventCommandHandler pubHandler, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
         {
-            var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
-            var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
-            var dispatcher = new IntegrationEventPublisher(qryHandler, addHandler, messagePublisher, connectionString);
+            var dispatcher = new IntegrationEventPublisher(qryHandler, addCmdHandler, pubHandler, messagePublisher);
 
             var key = configurationManager.GetRoutingKey("CustomerQueue");
             dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), key);

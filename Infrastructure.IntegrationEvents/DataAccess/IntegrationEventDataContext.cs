@@ -6,7 +6,7 @@ using RabbitMQ.Client;
 namespace Infrastructure.IntegrationEvents.DataAccess
 {
     /// <summary>
-    /// TO BE USED ONLY FOR DB MIGRATION
+    /// DBContext to be used to Manage IntegrationEvent Table. Use only for Non Transactional scoped works. 
     /// </summary>
     public sealed class IntegrationEventDataContext : DbContext
     {

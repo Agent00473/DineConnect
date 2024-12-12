@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.DataAccess.Queries
 {
-    internal interface IIntegrationEventsQueryHandler
+    public interface IIntegrationEventsQueryHandler
     {
         Task<IEnumerable<IntegrationEventDetail>> RetrieveAllPendingEventLogsToPublishAsync();
         Task<IEnumerable<IntegrationEventDetail>> RetrievePendingEventLogsToPublishAsync(Guid transactionId);
     }
 
-    internal class IntegrationEventsQueryHandler : IIntegrationEventsQueryHandler
+    public class IntegrationEventsQueryHandler : IIntegrationEventsQueryHandler
     {
         #region Constants and Static Fields
         #endregion

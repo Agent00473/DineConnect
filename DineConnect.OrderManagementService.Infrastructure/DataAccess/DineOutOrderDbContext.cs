@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using DineConnect.OrderManagementService.Domain.Interfaces;
 using DineConnect.OrderManagementService.Domain.Customers;
 using Microsoft.Extensions.Configuration;
+using Infrastructure.IntegrationEvents.Entities;
+using Infrastructure.IntegrationEvents.DataAccess;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess
 {
@@ -15,7 +17,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess
         public DbSet<OrderItem> MenuItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Restaurant> Restaurant { get; set; }
-
+        public DbSet<IntegrationEventDetail> EventDetails { get; set; }
         public DineOutOrderDbContext(DbContextOptions<DineOutOrderDbContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
@@ -35,6 +37,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess
             modelBuilder
                 .Ignore<List<IDomainEvent>>()
                 .ApplyConfigurationsFromAssembly(typeof(DineOutOrderDbContext).Assembly);
+          
             base.OnModelCreating(modelBuilder);
         }
 

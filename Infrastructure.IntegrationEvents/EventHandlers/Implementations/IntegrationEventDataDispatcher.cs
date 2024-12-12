@@ -1,11 +1,12 @@
-﻿using Infrastructure.IntegrationEvents.DomainModels.Events;
-using Infrastructure.Messaging;
+﻿using Infrastructure.IntegrationEvents.Entities.Events;
 using Infrastructure.Messaging.Common;
-using Infrastructure.Messaging.Implementation.RabbitMQ;
 using System.Timers;
 using Timer = System.Timers.Timer;
 namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
 {
+    /// <summary>
+    /// Manages publishing of integration Events to Message Broker 
+    /// </summary>
     public class IntegrationEventDataDispatcher : QueuedDataProcessor<Guid>, IIntegrationEventDataDispatcher
     {
         private const int INTERVAL_MINS = 1;
@@ -16,9 +17,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         private async void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             Console.WriteLine($"Event generated at {DateTime.Now}");
-            var result = await _eventPublisher.AddPulse<HeartBeatEvent>();
+            //var result = await _eventPublisher.AddPulse<HeartBeatEvent>();
             //TODO: Use this Result to Trigger Service Down Error.
-            AddData(ALLEVENTS);
+           // AddData(ALLEVENTS);
         }
 
         private IntegrationEventDataDispatcher(IEventPublisher eventPublisher) : base()
@@ -63,11 +64,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         }
 
         #region Factory Methods
-        public static IntegrationEventDataDispatcher Create(string connectionString, string exchangeName, IRabbitMQConfigurationManager configurationManager)
+        public static IntegrationEventDataDispatcher Create(IEventPublisher eventPublisher)
         {
-            IMessagePublisher publisher = RabbitMQueuePublisher.Create(exchangeName, configurationManager);
-            var dispatcher = IntegrationEventPublisher.Create(connectionString, publisher, configurationManager);
-            return new IntegrationEventDataDispatcher(dispatcher);
+            return new IntegrationEventDataDispatcher(eventPublisher);
         }
         #endregion
 

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.IntegrationEvents.EventHandlers
+﻿namespace Infrastructure.IntegrationEvents
 {
     public interface IIntegrationEventDataDispatcher
     {

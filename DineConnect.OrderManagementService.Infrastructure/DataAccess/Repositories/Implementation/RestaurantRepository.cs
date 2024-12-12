@@ -1,8 +1,7 @@
 ﻿using DineConnect.OrderManagementService.Application.Interfaces;
 using DineConnect.OrderManagementService.Domain.Orders;
-using Infrastructure.IntegrationEvents.Database.Commands;
+using Infrastructure.IntegrationEvents;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories.Implementation
 {

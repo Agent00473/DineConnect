@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services
-    .AddServiceBlockInfrastructure("IntegrationEvents")
+    .AddServiceBlockInfrastructure("DefaultConnection")
     .AddOrderManagementInfrastructureDependencies(builder.Configuration)
     .AddOrderManagementContractsDependencies(builder.Configuration)
     .AddOrderManagementApplicationDependencies(builder.Configuration);

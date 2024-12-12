@@ -1,16 +1,20 @@
 ﻿using DineConnect.OrderManagementService.Application.Interfaces;
 using DineConnect.OrderManagementService.Domain.Customers;
 using DineConnect.OrderManagementService.Domain.Customers.Events;
-using Infrastructure.IntegrationEvents.Database.Commands;
-using Infrastructure.IntegrationEvents.Events;
+using Infrastructure.IntegrationEvents;
+using Infrastructure.IntegrationEvents.Entities.Events;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositories.Implementation
 {
     public class CustomerRepository : Repository<Customer>, IRepository<Customer>
     {
-        public CustomerRepository(IMediator mediator,  DineOutOrderDbContext context, IAddIntegrationEventCommandHandler integrationEvents) : base(context, mediator, integrationEvents) { }
+        private readonly ICreateIntegrationEventCommandHandler _commandHandler;
+        public CustomerRepository(IMediator mediator,  DineOutOrderDbContext context, ICreateIntegrationEventCommandHandler commandHandler, IAddIntegrationEventCommandHandler integrationEvents)
+            : base(context, mediator, integrationEvents) 
+        {
+            _commandHandler = commandHandler;
+        }
 
         protected override string GetEntityName()
         {
@@ -22,7 +26,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             foreach (CustomerEvent item in entity.DomainEvents)
             {
                 var data = new CustomerIntegrationEvent(item.Customer.Id.IdValue, item.Customer.Name, item.Customer.Email, EnumMapper.MapToIntegrationEvent(item.EventCategory));
-                await _integrationEvents.AddIntegrationEventAsync(data, transactionId);
+                await _commandHandler.AddIntegrationEventAsync(data, GetCurrentTransaction());
                 await Publish(item);
             }
             entity.ClearDomainEvents();

@@ -1,11 +1,10 @@
-﻿using Infrastructure.IntegrationEvents.DataAccess;
-using Infrastructure.IntegrationEvents.Entities;
+﻿using Infrastructure.IntegrationEvents.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.IntegrationEvents.DataAccess.Commands
 {
-    internal interface IPublishIntegrationEventCommandHandler : IDisposable
+    public interface IPublishIntegrationEventCommandHandler : IDisposable
     {
         bool MarkEventAsFailed(Guid eventId);
         bool MarkEventAsInProgress(Guid eventId);
@@ -16,12 +15,9 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
     internal sealed class PublishIntegrationEventCommandHandler : IPublishIntegrationEventCommandHandler
     {
         #region Constants and Static Fields
-        // Add constants and static fields here
         #endregion
 
         #region Private & Protected Fields
-        private readonly string _connectionString;
-        private readonly DbContextOptions<IntegrationEventDataContext> _dbContextOptions;
         private readonly IntegrationEventDataContext _context;
         private bool _disposedValue;
         #endregion
@@ -46,11 +42,15 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
         #region Constructors
         public PublishIntegrationEventCommandHandler(string connectionString)
         {
-            _connectionString = connectionString;
             var optionsBuilder = new DbContextOptionsBuilder<IntegrationEventDataContext>();
-            optionsBuilder.UseNpgsql(_connectionString);
-            _dbContextOptions = optionsBuilder.Options;
-            _context = new IntegrationEventDataContext(_dbContextOptions, _connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
+            var dbContextOptions = optionsBuilder.Options;
+            _context = new IntegrationEventDataContext(dbContextOptions, connectionString);
+        }
+
+        public PublishIntegrationEventCommandHandler(IntegrationEventDataContext dataContext)
+        {
+            _context = dataContext;
         }
         #endregion
 
@@ -108,6 +108,12 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException("Configuration cannot be null");
             return new PublishIntegrationEventCommandHandler(connectionString);
+        }
+
+        public static PublishIntegrationEventCommandHandler Create(IntegrationEventDataContext dataContext)
+        {
+            if (dataContext == null) throw new ArgumentNullException("dataContext cannot be null");
+            return new PublishIntegrationEventCommandHandler(dataContext);
         }
         #endregion
     }

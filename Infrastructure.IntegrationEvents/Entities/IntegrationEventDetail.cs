@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Infrastructure.IntegrationEvents.Entities.Events;
 
 namespace Infrastructure.IntegrationEvents.Entities
 {
@@ -24,6 +25,7 @@ namespace Infrastructure.IntegrationEvents.Entities
             TimesSent = 0;
             TransactionId = transactionId;
         }
+        [Key]
         public Guid EventId { get; private set; }
         [Required]
         public string EventTypeName { get; private set; }

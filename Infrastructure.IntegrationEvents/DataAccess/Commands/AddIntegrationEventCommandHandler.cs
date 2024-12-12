@@ -1,5 +1,5 @@
-﻿using Infrastructure.IntegrationEvents.DataAccess;
-using Infrastructure.IntegrationEvents.DomainModels.Events;
+﻿using Infrastructure.IntegrationEvents.Entities;
+using Infrastructure.IntegrationEvents.Entities.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
@@ -18,16 +18,6 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
         {
             return new(value);
         }
-    }
-
-    public interface IAddIntegrationEventCommandHandler
-    {
-        Task<bool> AddHeartBeatEventDataAsync();
-        Task AddIntegrationEventAsync(IEnumerable<IntegrationEvent> events);
-        Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction);
-        Task AddIntegrationEventAsync(IntegrationEvent data, Guid transactionID);
-
-        Task AddIntegrationEventAsync(IntegrationEvent data);
     }
 
     public class AddIntegrationEventCommandHandler : IAddIntegrationEventCommandHandler
@@ -165,7 +155,7 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
         public static AddIntegrationEventCommandHandler Create(IConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration cannot be null");
-            return new AddIntegrationEventCommandHandler(configuration.GetConnectionString("IntegrationConnection"));
+            return new AddIntegrationEventCommandHandler(configuration.GetConnectionString("DefaultConnection"));
         }
         public static AddIntegrationEventCommandHandler Create(string connectionString)
         {

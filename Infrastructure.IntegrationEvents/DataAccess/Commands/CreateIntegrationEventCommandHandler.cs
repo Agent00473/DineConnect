@@ -1,19 +1,10 @@
-﻿using Infrastructure.IntegrationEvents.DomainModels.Events;
-using Infrastructure.IntegrationEvents.Entities;
+﻿using Infrastructure.IntegrationEvents.Entities;
+using Infrastructure.IntegrationEvents.Entities.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.IntegrationEvents.DataAccess.Commands
 {
-
-    public interface ICreateIntegrationEventCommandHandler
-    {
-        Task<bool> AddHeartBeatEventDataAsync();
-        Task AddIntegrationEventAsync(IEnumerable<IntegrationEvent> events, IDbContextTransaction transaction);
-        Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction);
-
-    }
-
     public class CreateIntegrationEventCommandHandler<TDBContext> : ICreateIntegrationEventCommandHandler where TDBContext : DbContext
     {
         #region Constants and Static Fields

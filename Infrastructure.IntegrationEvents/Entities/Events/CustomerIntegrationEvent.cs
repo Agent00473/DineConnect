@@ -1,5 +1,4 @@
-﻿using Infrastructure.IntegrationEvents.DomainModels.Events;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Infrastructure.IntegrationEvents.Entities.Events
 
