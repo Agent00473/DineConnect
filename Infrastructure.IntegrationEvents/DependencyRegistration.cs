@@ -1,7 +1,8 @@
 ﻿using Infrastructure.IntegrationEvents.Common;
-using Infrastructure.IntegrationEvents.Common.Configs;
-using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Database.Commands;
+using Infrastructure.IntegrationEvents.DataAccess;
+using Infrastructure.IntegrationEvents.DataAccess.Commands;
+using Infrastructure.IntegrationEvents.EventHandlers;
+using Infrastructure.IntegrationEvents.EventHandlers.Implementations;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +46,7 @@ namespace Infrastructure.IntegrationEvents
 
         private static IServiceCollection AddMessageQueue(this IServiceCollection services, string connectionStringKey)
         {
-            var data = IntegrationConfiguration.GetQueueConfiguration();
+            var data = MessageBrokerConfigLoader.GetQueueConfiguration();
             var rabbitMQConfigurationManager = new RabbitMQConfigurationManager(data);
             rabbitMQConfigurationManager.Initialize();
             services.AddSingleton<IRabbitMQConfigurationManager>(rabbitMQConfigurationManager);
