@@ -1,5 +1,5 @@
-﻿using Infrastructure.IntegrationEvents.Common;
-using Infrastructure.IntegrationEvents.Database;
+﻿using Infrastructure.IntegrationEvents.DataAccess;
+using Infrastructure.IntegrationEvents.EventHandlers;
 using Microsoft.EntityFrameworkCore;
 
 namespace DineConnect.OrderManagementService.API

@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Configuration;
 
 
-namespace Infrastructure.IntegrationEvents.Common.Configs
+namespace Infrastructure.IntegrationEvents.Common
 {
-    public static class IntegrationConfiguration
+    public static class MessageBrokerConfigLoader
     {
         private static IConfigurationRoot _configuration;
-        static IntegrationConfiguration()
+        static MessageBrokerConfigLoader()
         {
             var path = Directory.GetCurrentDirectory();
             string currentDirectory = Environment.CurrentDirectory;
@@ -22,7 +22,7 @@ namespace Infrastructure.IntegrationEvents.Common.Configs
         }
         public static string GetSetting(string key)
         {
-            return _configuration[key]?? string.Empty;
+            return _configuration[key] ?? string.Empty;
         }
 
         public static QueueConfigurations? GetQueueConfiguration()
