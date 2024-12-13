@@ -14,7 +14,7 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             return "OrderItem";
         }
 
-        protected override void PublishEvents(OrderItem entity, Guid transactionId)
+        protected override Task PublishEventsAsync(OrderItem entity, Guid transactionId)
         {
             throw new NotImplementedException();
         }

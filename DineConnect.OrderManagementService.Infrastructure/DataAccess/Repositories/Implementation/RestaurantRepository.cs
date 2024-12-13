@@ -13,18 +13,18 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             return "Restaurant";
         }
 
-        protected async override void PublishEvents(Restaurant entity, Guid transactionId)
+        protected async override Task PublishEventsAsync(Restaurant entity, Guid transactionId)
         {
             foreach (var item in entity.DomainEvents)
             {
-                await Publish(item);
+                await PublishAsync(item);
             }
             entity.ClearDomainEvents();
 
 
             //foreach (var item in entity.DomainEvents)
             //{
-            //    _mediator.Publish(item);
+            //    _mediator.PublishAsync(item);
             //}
             //entity.ClearDomainEvents();
         }

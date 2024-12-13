@@ -21,16 +21,17 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             return "Customer";
         }
 
-        protected override async void PublishEvents(Customer entity, Guid transactionId)
+        protected override async Task PublishEventsAsync(Customer entity, Guid transactionId)
         {
             foreach (CustomerEvent item in entity.DomainEvents)
             {
                 var data = new CustomerIntegrationEvent(item.Customer.Id.IdValue, item.Customer.Name, item.Customer.Email, EnumMapper.MapToIntegrationEvent(item.EventCategory));
                 await _commandHandler.AddIntegrationEventAsync(data, GetCurrentTransaction());
-                await Publish(item);
+                await PublishAsync(item);
             }
             entity.ClearDomainEvents();
         }
+
     }
 
 }
