@@ -31,14 +31,14 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
         #endregion
 
         #region Public Methods
-        public Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction)
+        public async Task AddIntegrationEventAsync(IntegrationEvent data, IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
 
             _dBContext.Database.UseTransaction(transaction.GetDbTransaction());
             var eventLogEntry = new IntegrationEventDetail(data, transaction.TransactionId);
-            _dBContext.Set<IntegrationEventDetail>().Add(eventLogEntry);
-            return _dBContext.SaveChangesAsync();
+            _dBContext.Set<IntegrationEventDetail>().Add (eventLogEntry);
+            await _dBContext.SaveChangesAsync();
         }
 
         public async Task AddIntegrationEventAsync(IEnumerable<IntegrationEvent> events, IDbContextTransaction transaction)
