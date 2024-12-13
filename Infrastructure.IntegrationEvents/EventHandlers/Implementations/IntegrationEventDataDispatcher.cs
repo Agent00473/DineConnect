@@ -17,9 +17,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         private async void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             Console.WriteLine($"Event generated at {DateTime.Now}");
-            //var result = await _eventPublisher.AddPulse<HeartBeatEvent>();
+            var result = await _eventPublisher.AddPulse<HeartBeatEvent>();
             //TODO: Use this Result to Trigger Service Down Error.
-           // AddData(ALLEVENTS);
+            AddData(ALLEVENTS);
         }
 
         private IntegrationEventDataDispatcher(IEventPublisher eventPublisher) : base()
@@ -33,18 +33,17 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
             _timer.Enabled = true;
         }
 
-        protected override Task<bool> ProcessData(Guid transactionId)
+        protected async override Task<bool> ProcessData(Guid transactionId)
         {
             try
             {
                 if (ALLEVENTS.Equals(transactionId))
-                    return _eventPublisher.PublishAll<IntegrationEvent>();
+                    return await _eventPublisher.PublishAll<IntegrationEvent>();
 
-                return _eventPublisher.Publish<IntegrationEvent>(transactionId);
+                return await _eventPublisher.Publish<IntegrationEvent>(transactionId);
             }
             catch (Exception)
             {
-
                 throw;
             }
 

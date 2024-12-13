@@ -89,8 +89,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
             var msg = obj;
             if (_messagePublisher.SendMessage(key, msg))
             {
-                handler.MarkEventAsPublished(logEvt.EventId);
-                return true;
+                return handler.MarkEventAsPublished(logEvt.EventId);
             }
             return false;
         }
@@ -131,9 +130,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
             return await PublishEvents(pendingLogEvents);
         }
 
-        public Task<bool> AddPulse<TData>() where TData : EventMessage
+        public async Task<bool> AddPulse<TData>() where TData : EventMessage
         {
-            return _eventsAddCommandHandler.AddHeartBeatEventDataAsync();
+            return await _eventsAddCommandHandler.AddHeartBeatEventDataAsync();
         }
         #endregion
 
@@ -156,6 +155,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
 
         public static IntegrationEventPublisher Create(IIntegrationEventsQueryHandler qryHandler, IAddIntegrationEventCommandHandler addCmdHandler, IPublishIntegrationEventCommandHandler pubHandler, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
         {
+            Console.WriteLine("###### IntegrationEventPublisher Created ...!! ######");
             var dispatcher = new IntegrationEventPublisher(qryHandler, addCmdHandler, pubHandler, messagePublisher);
 
             var key = configurationManager.GetRoutingKey("CustomerQueue");
@@ -169,8 +169,6 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
 
             return dispatcher;
         }
-
-
         #endregion
     }
 }
