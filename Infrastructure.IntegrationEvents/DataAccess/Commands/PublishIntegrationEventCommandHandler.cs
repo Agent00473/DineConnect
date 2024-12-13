@@ -25,6 +25,7 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
         #region Private & Protected Methods
         private bool UpdateEventState(Guid eventId, EventStateEnum status)
         {
+            Console.WriteLine($"********* ACCESS Context Named ************ : {_context.DebugName}");
             var eventLogEntry = _context.EventDetails.Single(ie => ie.EventId == eventId);
             return UpdateEventState(eventLogEntry, status);
         }
@@ -94,6 +95,8 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
 
         public void Dispose()
         {
+            Console.WriteLine("###### PublishIntegrationEventCommandHandler DISPOSED ...!! ######");
+
             Dispose(disposing: true);
         }
         #endregion
@@ -112,6 +115,8 @@ namespace Infrastructure.IntegrationEvents.DataAccess.Commands
 
         public static PublishIntegrationEventCommandHandler Create(IntegrationEventDataContext dataContext)
         {
+            Console.WriteLine("###### PublishIntegrationEventCommandHandler Created ...!! ######");
+
             if (dataContext == null) throw new ArgumentNullException("dataContext cannot be null");
             return new PublishIntegrationEventCommandHandler(dataContext);
         }
