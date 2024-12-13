@@ -1,8 +1,11 @@
-using Infrastructure.IntegrationEvents;
-using Infrastructure.IntegrationEvents.Database;
+using Infrastructure.IntegrationEvents.DataAccess;
+using Infrastructure.IntegrationEvents.DataAccess.Commands;
+using Infrastructure.IntegrationEvents.DataAccess.Queries;
+using Infrastructure.IntegrationEvents.Entities.Events;
 using Infrastructure.IntegrationEvents.EventHandlers;
-using Infrastructure.IntegrationEvents.Events;
+using Infrastructure.IntegrationEvents.EventHandlers.Implementations;
 using Infrastructure.Messaging;
+using Infrastructure.Messaging.Common;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
 using InfraTest;
@@ -162,6 +165,16 @@ namespace RAbbitTest
             }
         }
 
+        public IntegrationEventPublisher CreateIntegrationEventPublisher(string connectionString, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        {
+            var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
+            var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
+            var pubHandler = PublishIntegrationEventCommandHandler.Create(connectionString);
+            var dispatcher = IntegrationEventPublisher.Create(qryHandler, addHandler, pubHandler, messagePublisher, configurationManager);
+
+            return dispatcher;
+        }
+        private IntegrationEventsQueryHandler _service;
         private void button1_Click_1(object sender, EventArgs e)
         {
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["IntegrationEvents"].ConnectionString;
@@ -172,10 +185,10 @@ namespace RAbbitTest
 
             //var resut = _context.EventDetails.Count().ToString();
             //listView1.Items.Add(new ListViewItem($"Event Count : {resut}"));
-            _service = new IntegrationEventManagerService(_context);
+            _service =  IntegrationEventsQueryHandler.Create(connectionString);
             //Publisher
             _rabbitMQueueCustEventPublisher = RabbitMQueuePublisher.Create(_rabbitMCustomerQConfig.ExchangeName, _rabbitMQConfigurationManager);
-            _customerIntegrationEventDispatcher = IntegrationEventPublisher.Create(connectionString, _rabbitMQueueCustEventPublisher, _rabbitMQConfigurationManager);
+            _customerIntegrationEventDispatcher = CreateIntegrationEventPublisher(connectionString, _rabbitMQueueCustEventPublisher, _rabbitMQConfigurationManager);
 
             ///Subscriber
             _rabbitMQueueCustEventConsumer = RabbitMQueueSubscriber.Create(_rabbitMCustomerQConfig.QueueName, _rabbitMQConfigurationManager);
@@ -192,41 +205,40 @@ namespace RAbbitTest
             button5.Enabled = true;
         }
 
-        IntegrationEventManagerService _service;
         private async void button2_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                button2.Enabled = false;
-                var trnasaction = _context.Database.BeginTransaction();
-                var data = new CustomerIntegrationEvent(Guid.NewGuid(), "Joe Doe", "JD@unknown.com", EventActionCategory.Created);
-                await _service.SaveIntegrationEventAsync(data, trnasaction);
+            //try
+            //{
+            //    button2.Enabled = false;
+            //    var trnasaction = _context.Database.BeginTransaction();
+            //    var data = new CustomerIntegrationEvent(Guid.NewGuid(), "Joe Doe", "JD@unknown.com", EventActionCategory.Created);
+            //    await _service.SaveIntegrationEventAsync(data, trnasaction);
 
-                var orderId = Guid.NewGuid();
-                Guid customerId = Guid.NewGuid();
-                string orderName = "Deleted Order for Tablet";
-                EventActionCategory category = EventActionCategory.Deleted;
-                OrderEvent deletedOrderEvent = new OrderEvent(orderId, customerId, orderName, category);
-                await _service.SaveIntegrationEventAsync(deletedOrderEvent, trnasaction);
+            //    var orderId = Guid.NewGuid();
+            //    Guid customerId = Guid.NewGuid();
+            //    string orderName = "Deleted Order for Tablet";
+            //    EventActionCategory category = EventActionCategory.Deleted;
+            //    OrderEvent deletedOrderEvent = new OrderEvent(orderId, customerId, orderName, category);
+            //    await _service.SaveIntegrationEventAsync(deletedOrderEvent, trnasaction);
 
 
-                data = new CustomerIntegrationEvent(Guid.NewGuid(), "Mary Doe", "MD@unknown.com", EventActionCategory.Updated);
-                await _service.SaveIntegrationEventAsync(data, trnasaction);
+            //    data = new CustomerIntegrationEvent(Guid.NewGuid(), "Mary Doe", "MD@unknown.com", EventActionCategory.Updated);
+            //    await _service.SaveIntegrationEventAsync(data, trnasaction);
 
-                orderId = Guid.NewGuid();
-                customerId = Guid.NewGuid();
-                orderName = "Created Order for Laptop";
-                category = EventActionCategory.Created;
-                OrderEvent evt = new OrderEvent(orderId, customerId, orderName, category);
-                await _service.SaveIntegrationEventAsync(evt, trnasaction);
+            //    orderId = Guid.NewGuid();
+            //    customerId = Guid.NewGuid();
+            //    orderName = "Created Order for Laptop";
+            //    category = EventActionCategory.Created;
+            //    OrderEvent evt = new OrderEvent(orderId, customerId, orderName, category);
+            //    await _service.SaveIntegrationEventAsync(evt, trnasaction);
 
-                var tid = trnasaction.TransactionId;
-                trnasaction.Commit();
-            }
-            finally
-            {
-                button2.Enabled = true;
-            }
+            //    var tid = trnasaction.TransactionId;
+            //    trnasaction.Commit();
+            //}
+            //finally
+            //{
+            //    button2.Enabled = true;
+            //}
         }
 
         private async void button3_Click_1(object sender, EventArgs e)

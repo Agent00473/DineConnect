@@ -1,4 +1,4 @@
-﻿using Infrastructure.IntegrationEvents.Events;
+﻿using Infrastructure.IntegrationEvents.Entities.Events;
 namespace InfraTest.Events
 {
 

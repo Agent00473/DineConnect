@@ -1,7 +1,9 @@
 ﻿using Infrastructure.IntegrationEvents;
-using Infrastructure.IntegrationEvents.Common;
-using Infrastructure.IntegrationEvents.Database;
-using Infrastructure.IntegrationEvents.Events;
+using Infrastructure.IntegrationEvents.DataAccess;
+using Infrastructure.IntegrationEvents.DataAccess.Commands;
+using Infrastructure.IntegrationEvents.DataAccess.Queries;
+using Infrastructure.IntegrationEvents.Entities.Events;
+using Infrastructure.IntegrationEvents.EventHandlers.Implementations;
 using Infrastructure.Messaging;
 using Infrastructure.Messaging.Entities;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
@@ -22,6 +24,23 @@ namespace InfraTest
             listView1.Columns[0].Width = listView1.ClientSize.Width;
         }
 
+        public IntegrationEventPublisher CreateIntegrationEventPublisher(string connectionString, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        {
+            var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
+            var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
+            var pubHandler = PublishIntegrationEventCommandHandler.Create(connectionString);
+            var dispatcher = IntegrationEventPublisher.Create(qryHandler, addHandler, pubHandler, messagePublisher, configurationManager);
+
+            return dispatcher;
+        }
+
+        public IntegrationEventDataDispatcher CreateIntegrationEventDataDispatcher(string connectionString, string exchangeName, IRabbitMQConfigurationManager configurationManager)
+        {
+            IMessagePublisher publisher = RabbitMQueuePublisher.Create(exchangeName, configurationManager);
+            var dispatcher = CreateIntegrationEventPublisher(connectionString, publisher, configurationManager);
+            return IntegrationEventDataDispatcher.Create(dispatcher);
+        }
+
         private void Form2_Load(object sender, EventArgs e)
         {
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["IntegrationEvents"].ConnectionString;
@@ -29,7 +48,7 @@ namespace InfraTest
             var configs = RabbitMQConfigLoader.LoadFromXml(".\\App.config");
             _rabbitMQConfigurationManager = new RabbitMQConfigurationManager(configs);
             //_rabbitMQConfigurationManager.Initialize();
-            _eventDispatcher = IntegrationEventDataDispatcher.Create(connectionString, "IntegrationExchange", _rabbitMQConfigurationManager);
+            _eventDispatcher = CreateIntegrationEventDataDispatcher(connectionString, "IntegrationExchange", _rabbitMQConfigurationManager);
 
 
             _rabbitMQueueCustEventConsumer = RabbitMQueueSubscriber.Create("CustomerQueue", _rabbitMQConfigurationManager);
@@ -43,7 +62,7 @@ namespace InfraTest
 
 
             _context = new IntegrationEventDataContext(connectionString);
-            _service = new IntegrationEventManagerService(_context);
+            _service = AddIntegrationEventCommandHandler.Create(connectionString);
 
             //_eventDbSaver = QueuedIntegrationEventDbSaver.Create(connectionString);
             //_eventDbSaver.Start();
@@ -165,7 +184,7 @@ namespace InfraTest
 
         }
         private IntegrationEventDataContext _context;
-        IntegrationEventManagerService _service;
+        IAddIntegrationEventCommandHandler _service;
 
         private async void button2_Click(object sender, EventArgs e)
         {
@@ -177,7 +196,7 @@ namespace InfraTest
 
                 foreach (var item in events)
                 {
-                    await _service.SaveIntegrationEventAsync(item, trnasaction);
+                    await _service.AddIntegrationEventAsync(item, trnasaction);
                 }
                 var tid = trnasaction.TransactionId;
                 trnasaction.Commit();
@@ -195,7 +214,6 @@ namespace InfraTest
             listView1.Clear();
         }
 
-        private IQueuedIntegrationEventDbSaver _eventDbSaver ;
         private void button1_Click_1(object sender, EventArgs e)
         {
 

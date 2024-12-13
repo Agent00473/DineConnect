@@ -1,5 +1,6 @@
 ﻿using Infrastructure.IntegrationEvents;
 using Infrastructure.IntegrationEvents.DataAccess;
+using Infrastructure.Messaging.Implementation.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
 
 namespace DineConnect.OrderManagementService.API
@@ -10,20 +11,8 @@ namespace DineConnect.OrderManagementService.API
         {
             using (var scope = app.Services.CreateScope())
             {
-                //Temporary Solution
-                var context = scope.ServiceProvider.GetRequiredService<IntegrationEventDataContext>();
-                var str =    context.Database.GetConnectionString();
-                bool result = context.Database.EnsureCreated();
-                if (result)
-                {
-                    Console.Write("Created...!!");
-                }
-                else
-                {
-                    Console.Write("Failure...!!");
-
-
-                }
+                var qManager = scope.ServiceProvider.GetRequiredService<IRabbitMQConfigurationManager>();
+                qManager.Initialize();
 
                 var startupService = scope.ServiceProvider.GetRequiredService<IIntegrationEventDataDispatcher>();
                 startupService.Start(); // Call a custom start method

@@ -47,6 +47,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderManagementService", "OrderManagementService", "{BA0DFCB5-5F73-48B9-9D3B-639C48EFE3B8}"
 	ProjectSection(SolutionItems) = preProject
 		DomainEvents.txt = DomainEvents.txt
+		IntegrationEvent.txt = IntegrationEvent.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServicesBuildingBlocks", "ServicesBuildingBlocks", "{F3B265F0-EF0C-4732-A253-DECB8C34659D}"
