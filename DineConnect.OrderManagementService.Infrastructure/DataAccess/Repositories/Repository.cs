@@ -23,12 +23,11 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
         protected IAddIntegrationEventCommandHandler _integrationEvents;
         protected abstract string GetEntityName();
 
-        protected abstract void PublishEvents(T entity, Guid transactionId);
-        protected Task Publish<TData>(TData item) where TData : class
+        protected abstract Task PublishEventsAsync(T entity, Guid transactionId);
+        protected async Task PublishAsync<TData>(TData item) where TData : class
         {
             var model = NotificationModel<TData>.Create(item);
-
-            return _mediator.Publish(model);
+            await _mediator.Publish(model);
         }
 
         private async Task<int> SaveChangesAsync(string failuremessage, CancellationToken cancellationToken = default)
@@ -45,20 +44,20 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             }
         }
 
-        private async Task<IDbContextTransaction> BeginTransaction()
+        private async Task<IDbContextTransaction> BeginTransactionAsync()
         {
             if (_contextTransaction == null)
                 _contextTransaction = await _context.Database.BeginTransactionAsync();
             return _contextTransaction;
         }
 
-        private async Task CommitTransaction()
+        private async Task CommitTransactionAsync()
         {
             if (_contextTransaction == null) throw new Exception("No Transaction to commit");
             await _contextTransaction.CommitAsync();
         }
 
-        private async Task RollbackTransaction()
+        private async Task RollbackTransactionAsync()
         {
             if (_contextTransaction == null) throw new Exception("No Transaction to Rollback");
             await _contextTransaction.RollbackAsync();
@@ -86,21 +85,24 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
         {
             try
             {
-                var transaction = await BeginTransaction();
+                var transaction = await BeginTransactionAsync();
                 await _dbSet.AddAsync(entity);
                 await SaveChangesAsync($"Error in Create {GetEntityName()}");
-                PublishEvents(entity, transaction.TransactionId);
-                await CommitTransaction();
+                await PublishEventsAsync(entity, transaction.TransactionId);
+                await CommitTransactionAsync();
             }
             catch (Exception)
             {
-                await RollbackTransaction();
+                await RollbackTransactionAsync();
                 throw;
             }
             finally
             {
-                _contextTransaction?.Dispose();
-                _contextTransaction = null;
+                if (_contextTransaction != null)
+                {
+                    await _contextTransaction.DisposeAsync();
+                    _contextTransaction = null;
+                }
             }
         }
 
@@ -109,24 +111,27 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
         {
             try
             {
-                var transaction = await BeginTransaction();
+                var transaction = await BeginTransactionAsync();
                 await _dbSet.AddRangeAsync(entities);
                 await SaveChangesAsync($"Error in Create Entities {GetEntityName()}");
                 foreach (var entity in entities)
                 {
-                    PublishEvents(entity, transaction.TransactionId);
+                    await PublishEventsAsync(entity, transaction.TransactionId);
                 }
-                await CommitTransaction();
+                await CommitTransactionAsync();
             }
             catch (Exception)
             {
-                await RollbackTransaction();
+                await RollbackTransactionAsync();
                 throw;
             }
             finally
             {
-                _contextTransaction?.Dispose();
-                _contextTransaction = null;
+                if (_contextTransaction != null)
+                {
+                    await _contextTransaction.DisposeAsync();
+                    _contextTransaction = null;
+                }
             }
         }
 
@@ -135,21 +140,24 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
 
             try
             {
-                var transaction = await BeginTransaction();
+                var transaction = await BeginTransactionAsync();
                 _dbSet.Update(entity);
                 await SaveChangesAsync($"Error in Update {GetEntityName()}");
-                PublishEvents(entity, transaction.TransactionId);
-                await CommitTransaction();
+                await PublishEventsAsync(entity, transaction.TransactionId);
+                await CommitTransactionAsync();
             }
             catch (Exception)
             {
-                await RollbackTransaction();
+                await RollbackTransactionAsync();
                 throw;
             }
             finally
             {
-                _contextTransaction?.Dispose();
-                _contextTransaction = null;
+                if (_contextTransaction != null)
+                {
+                    await _contextTransaction.DisposeAsync();
+                    _contextTransaction = null;
+                }
             }
 
         }
@@ -161,21 +169,24 @@ namespace DineConnect.OrderManagementService.Infrastructure.DataAccess.Repositor
             {
                 try
                 {
-                    var transaction = await BeginTransaction();
+                    var transaction = await BeginTransactionAsync();
                     _dbSet.Remove(entity);
                     await SaveChangesAsync($"Error in Delete {GetEntityName()}");
-                    PublishEvents(entity, transaction.TransactionId);
-                    await CommitTransaction();
+                    await PublishEventsAsync(entity, transaction.TransactionId);
+                    await CommitTransactionAsync();
                 }
                 catch (Exception)
                 {
-                    await RollbackTransaction();
+                    await RollbackTransactionAsync();
                     throw;
                 }
                 finally
                 {
-                    _contextTransaction?.Dispose();
-                    _contextTransaction = null;
+                    if (_contextTransaction != null)
+                    {
+                        await _contextTransaction.DisposeAsync();
+                        _contextTransaction = null;
+                    }
                 }
             }
         }

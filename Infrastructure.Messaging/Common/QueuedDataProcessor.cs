@@ -19,7 +19,7 @@ namespace Infrastructure.Messaging.Common
         private bool _disposedValue;
         private ManualResetEvent _pauseEvent = new ManualResetEvent(true); // Initially set to true (not paused)
 
-        private void Consume()
+        private async Task Consume()
         {
             while (true)
             {
@@ -41,10 +41,15 @@ namespace Infrastructure.Messaging.Common
                         continue; // Handle spurious wakeups
                     item = _queue.Dequeue();
                 }
-                ProcessData(item).Wait();
+                await ProcessData(item);
                 // Process the item outside the lock
                 Debug.WriteLine($"Consumed: {item} on Thread {Thread.CurrentThread.ManagedThreadId}");
             }
+        }
+
+        private void StartConsuming()
+        {
+            Consume().GetAwaiter().GetResult();
         }
 
         protected abstract Task<bool> ProcessData(TData data);
@@ -53,7 +58,7 @@ namespace Infrastructure.Messaging.Common
         {
             for (int i = 0; i < threadCount; i++)
             {
-                var workerThread = new Thread(Consume);
+                var workerThread = new Thread(StartConsuming);
                 _workerThreads.Add(workerThread);
             }
         }
