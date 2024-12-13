@@ -18,20 +18,34 @@ namespace Infrastructure.IntegrationEvents
                                  string connectionStringKey = "DefaultConnection")
         {
             services.AddPersistance(connectionStringKey).
-                AddMessageQueue(connectionStringKey).
-                AddCreateIntegrationEventHandler(connectionStringKey).
+                AddMessageQueueConfiguration(connectionStringKey).
+                AddIntegrationEventHandlers(connectionStringKey).
                 AddIntegrationEventDispatcher();
             return services;
         }
 
-        private static IServiceCollection AddCreateIntegrationEventHandler(this IServiceCollection services, string connectionStringKey)
+        private static IServiceCollection AddIntegrationEventHandlers(this IServiceCollection services, string connectionStringKey)
         {
-            //services.AddScoped<IAddIntegrationEventCommandHandler>(sp =>
-            //{
-            //    var configuration = sp.GetRequiredService<IConfiguration>();
-            //    var connectionString = configuration.GetConnectionString(connectionStringKey);
-            //    return AddIntegrationEventCommandHandler.Create(connectionString);
-            //});
+            services.AddTransient<IAddIntegrationEventCommandHandler>(sp =>
+            {
+                var config = sp.GetRequiredService<IConfiguration>();
+                return AddIntegrationEventCommandHandler.Create(config);
+            });
+
+            services.AddTransient<IIntegrationEventsQueryHandler>(sp =>
+            {
+                var config = sp.GetRequiredService<IConfiguration>();
+                return IntegrationEventsQueryHandler.Create(config);
+            });
+
+            services.AddTransient<IPublishIntegrationEventCommandHandler>(sp =>
+            {
+                //Created a Scopefactory to keep the DataContext alive through out the lifetime of IntegrationEventCommandHandler
+                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
+                var scope = scopeFactory.CreateScope();
+                var ctxt = scope.ServiceProvider.GetRequiredService<IntegrationEventDataContext>();
+                return PublishIntegrationEventCommandHandler.Create(ctxt);
+            });
             return services;
         }
 
@@ -47,24 +61,21 @@ namespace Infrastructure.IntegrationEvents
             return services;
         }
 
-        private static IServiceCollection AddMessageQueue(this IServiceCollection services, string connectionStringKey)
+        private static IServiceCollection AddMessageQueueConfiguration(this IServiceCollection services, string connectionStringKey)
         {
-            var data = MessageBrokerConfigLoader.GetQueueConfiguration();
-            var rabbitMQConfigurationManager = new RabbitMQConfigurationManager(data);
-            rabbitMQConfigurationManager.Initialize();
-            services.AddSingleton<IRabbitMQConfigurationManager>(rabbitMQConfigurationManager);
-
-            services.AddTransient<IIntegrationEventsQueryHandler>(sp =>
+            services.AddSingleton<IRabbitMQConfigurationManager>((sp) =>
             {
-                var config = sp.GetRequiredService<IConfiguration>();
-                return IntegrationEventsQueryHandler.Create(config);
+                var data = MessageBrokerConfigLoader.GetQueueConfiguration();
+                var rabbitMQConfigurationManager = new RabbitMQConfigurationManager(data);
+                //rabbitMQConfigurationManager.Initialize();
+                return rabbitMQConfigurationManager;
             });
 
-            services.AddTransient<IAddIntegrationEventCommandHandler>(sp =>
-            {
-                var config = sp.GetRequiredService<IConfiguration>();
-                return AddIntegrationEventCommandHandler.Create(config);
-            });
+            return services;
+        }
+
+        private static IServiceCollection AddIntegrationEventDispatcher(this IServiceCollection services)//, string connectionStringKey)
+        {
 
             services.AddTransient<IMessagePublisher>(sp =>
             {
@@ -72,46 +83,22 @@ namespace Infrastructure.IntegrationEvents
                 return RabbitMQueuePublisher.Create(config.IntegrationExchangeName, config);
             });
 
-            services.AddTransient<IPublishIntegrationEventCommandHandler>(sp =>
-            {
-                using (var scope = sp.CreateScope()) // Create a scope to resolve scoped services
-                {
-                    var ctxt = scope.ServiceProvider.GetRequiredService<IntegrationEventDataContext>();
-                    return PublishIntegrationEventCommandHandler.Create(ctxt);
-                }
-            });
-
-
             services.AddTransient<IEventPublisher>(sp =>
             {
                 var config = sp.GetRequiredService<IRabbitMQConfigurationManager>();
                 var qryHandler = sp.GetRequiredService<IIntegrationEventsQueryHandler>();
                 var addCmdHandler = sp.GetRequiredService<IAddIntegrationEventCommandHandler>();
                 var messagePublisher = sp.GetRequiredService<IMessagePublisher>();
-                var pubHandler = sp.GetRequiredService<IPublishIntegrationEventCommandHandler>(); 
+                var pubHandler = sp.GetRequiredService<IPublishIntegrationEventCommandHandler>();
                 return IntegrationEventPublisher.Create(qryHandler, addCmdHandler, pubHandler, messagePublisher, config);
             });
-            return services;
-        }
 
-        private static IServiceCollection AddIntegrationEventDispatcher(this IServiceCollection services)//, string connectionStringKey)
-        {
             services.AddSingleton<IIntegrationEventDataDispatcher>(sp =>
             {
                 var publisher = sp.GetRequiredService<IEventPublisher>();
                 return IntegrationEventDataDispatcher.Create(publisher);
             });
             return services;
-
-            //services.AddSingleton<IIntegrationEventDataDispatcher>(sp =>
-            //{
-            //    var configuration = sp.GetRequiredService<IConfiguration>();
-            //    var connectionString = configuration.GetConnectionString(connectionStringKey);
-            //    var qConfig = sp.GetRequiredService<IRabbitMQConfigurationManager>();
-
-            //    return IntegrationEventDataDispatcher.Create(connectionString, qConfig.IntegrationExchangeName, qConfig);
-            //});
-            //return services;
         }
 
     }
