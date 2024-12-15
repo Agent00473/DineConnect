@@ -46,11 +46,9 @@ namespace RAbbitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _rabbitMSampleQueuePublisher = RabbitMQueuePublisher.Create(_rabbitMSampleQConfig.ExchangeName, _rabbitMQConfigurationManager);
-
+            _rabbitMSampleQueuePublisher = RabbitMQueuePublisher.Create(_rabbitMQConfigurationManager);
             _rabbitMSampleQueueSubscriber = RabbitMQueueSubscriber.Create(_rabbitMSampleQConfig.QueueName, _rabbitMQConfigurationManager);
             _rabbitMSampleQueueConsumerService = new QueueConsumerService<StringDataMessage>(_rabbitMSampleQueueSubscriber, UpdateListViewStringMessage);
-
             btnRabbitConsume.Enabled = true;
             btnRabbitPublish.Enabled = true;
             btnRabbitStop.Enabled = true;
@@ -79,8 +77,8 @@ namespace RAbbitTest
         {
             var msg = textBox1.Text == string.Empty ? GenerateRandomString(10) : textBox1.Text;
             var testEvent = new StringDataMessage(msg);
-
-            var result = _rabbitMSampleQueuePublisher.SendMessage(_rabbitMSampleQConfig.RoutingKey, testEvent);
+            var rData = new RouteData(_rabbitMSampleQConfig.ExchangeName, _rabbitMCustomerQConfig.RoutingKey, Infrastructure.Messaging.Implementation.RabbitMQ.Configs.ExchangeCategory.Integration);
+            var result = _rabbitMSampleQueuePublisher.SendMessage(rData, testEvent);
             listView1.Items.Add(result.ToString());
 
         }
@@ -169,8 +167,7 @@ namespace RAbbitTest
         {
             var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
             var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
-            var pubHandler = PublishIntegrationEventCommandHandler.Create(connectionString);
-            var dispatcher = IntegrationEventPublisher.Create(qryHandler, addHandler, pubHandler, messagePublisher, configurationManager);
+            var dispatcher = IntegrationEventPublisher.Create(qryHandler, addHandler, messagePublisher, configurationManager, connectionString);
 
             return dispatcher;
         }
@@ -187,7 +184,7 @@ namespace RAbbitTest
             //listView1.Items.Add(new ListViewItem($"Event Count : {resut}"));
             _service =  IntegrationEventsQueryHandler.Create(connectionString);
             //Publisher
-            _rabbitMQueueCustEventPublisher = RabbitMQueuePublisher.Create(_rabbitMCustomerQConfig.ExchangeName, _rabbitMQConfigurationManager);
+            _rabbitMQueueCustEventPublisher = RabbitMQueuePublisher.Create(_rabbitMQConfigurationManager);
             _customerIntegrationEventDispatcher = CreateIntegrationEventPublisher(connectionString, _rabbitMQueueCustEventPublisher, _rabbitMQConfigurationManager);
 
             ///Subscriber
@@ -205,7 +202,7 @@ namespace RAbbitTest
             button5.Enabled = true;
         }
 
-        private async void button2_Click_1(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
         {
             //try
             //{

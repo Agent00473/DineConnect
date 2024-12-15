@@ -9,7 +9,9 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         private IModel _channel;
         private bool disposedValue;
         protected bool _initialized = false;
-        protected string _exchangeName = string.Empty;
+        protected string _eventExchangeName = string.Empty;
+        protected string _pulseExchangeName = string.Empty;
+
         #endregion
 
         #region Private & Protected Methods

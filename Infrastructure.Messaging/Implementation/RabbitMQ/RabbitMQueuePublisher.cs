@@ -9,18 +9,17 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
     /// </summary>
     public class RabbitMQueuePublisher : RabbitMQueueBase, IMessagePublisher
     {
-        private RabbitMQueuePublisher(IConnection connection, string exchangeName) : base(connection)
+        private RabbitMQueuePublisher(IConnection connection) : base(connection)
         {
-            _exchangeName = exchangeName;
         }
-        public bool SendMessage(string routingkey, EventMessage message)
+        public bool SendMessage(RouteData route, EventMessage message)
         {
             try
             {
                 var body = SerializationHelper.SerializeMessage(message);
                 var properties = Channel.CreateBasicProperties();
-                Console.WriteLine($"Exchange : {_exchangeName} RouteKey : {routingkey}");
-                Channel.BasicPublish(_exchangeName, routingkey, true, properties, body);
+                Console.WriteLine($"Exchange : {route.ExchangeName} RouteKey : {route.RouteKey}");
+                Channel.BasicPublish(route.ExchangeName, route.RouteKey, true, properties, body);
                 return Channel.WaitForConfirms();
             }
             catch (Exception ex)
@@ -30,10 +29,10 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         }
 
 
-        public static RabbitMQueuePublisher Create(string exchangeName, IRabbitMQConfigurationManager configurationManager)
+        public static RabbitMQueuePublisher Create(IRabbitMQConfigurationManager configurationManager)
         {
             var connection = configurationManager.GetConnection();
-            return new RabbitMQueuePublisher(connection, exchangeName);
+            return new RabbitMQueuePublisher(connection);
         }
     }
 

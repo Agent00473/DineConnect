@@ -28,15 +28,13 @@ namespace InfraTest
         {
             var qryHandler = IntegrationEventsQueryHandler.Create(connectionString);
             var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
-            var pubHandler = PublishIntegrationEventCommandHandler.Create(connectionString);
-            var dispatcher = IntegrationEventPublisher.Create(qryHandler, addHandler, pubHandler, messagePublisher, configurationManager);
-
+            var dispatcher = IntegrationEventPublisher.Create(qryHandler, addHandler, messagePublisher, configurationManager, connectionString);
             return dispatcher;
         }
 
-        public IntegrationEventDataDispatcher CreateIntegrationEventDataDispatcher(string connectionString, string exchangeName, IRabbitMQConfigurationManager configurationManager)
+        public IntegrationEventDataDispatcher CreateIntegrationEventDataDispatcher(string connectionString, IRabbitMQConfigurationManager configurationManager)
         {
-            IMessagePublisher publisher = RabbitMQueuePublisher.Create(exchangeName, configurationManager);
+            IMessagePublisher publisher = RabbitMQueuePublisher.Create(configurationManager);
             var dispatcher = CreateIntegrationEventPublisher(connectionString, publisher, configurationManager);
             return IntegrationEventDataDispatcher.Create(dispatcher);
         }
@@ -48,7 +46,7 @@ namespace InfraTest
             var configs = RabbitMQConfigLoader.LoadFromXml(".\\App.config");
             _rabbitMQConfigurationManager = new RabbitMQConfigurationManager(configs);
             //_rabbitMQConfigurationManager.Initialize();
-            _eventDispatcher = CreateIntegrationEventDataDispatcher(connectionString, "IntegrationExchange", _rabbitMQConfigurationManager);
+            _eventDispatcher = CreateIntegrationEventDataDispatcher(connectionString, _rabbitMQConfigurationManager);
 
 
             _rabbitMQueueCustEventConsumer = RabbitMQueueSubscriber.Create("CustomerQueue", _rabbitMQConfigurationManager);
@@ -57,6 +55,7 @@ namespace InfraTest
             _rabbitMQueueOrderEventConsumer = RabbitMQueueSubscriber.Create("OrderQueue", _rabbitMQConfigurationManager);
             _rabbitMQueueOrderEventConsumerService = new QueueConsumerService<OrderEvent>(_rabbitMQueueOrderEventConsumer, UpdateOrderListView);
 
+            
             _rabbitMQueuePulseConsumer = RabbitMQueueSubscriber.Create("HeartBeatQueue", _rabbitMQConfigurationManager);
             _rabbitMQueuePulseEventConsumerService = new QueueConsumerService<HeartBeatEvent>(_rabbitMQueuePulseConsumer, UpdatePulseListView);
 

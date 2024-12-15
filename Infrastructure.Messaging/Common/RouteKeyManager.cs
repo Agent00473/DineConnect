@@ -11,9 +11,9 @@ namespace Infrastructure.Messaging.Common
         
          public static string GetRouteData(Type type)
         {
-            //var key = configurationManager.GetRoutingKey("SampleQueue");
+            //var key = configurationManager.GetRoutingData("SampleQueue");
             //dispatcher.AddRouteData(typeof(string), key);
-            //key = configurationManager.GetRoutingKey("CustomerQueue");
+            //key = configurationManager.GetRoutingData("CustomerQueue");
             //dispatcher.AddRouteData(typeof(CustomerEvent), key);
 
             return string.Empty;

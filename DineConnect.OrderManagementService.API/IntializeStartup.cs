@@ -1,7 +1,5 @@
 ﻿using Infrastructure.IntegrationEvents;
-using Infrastructure.IntegrationEvents.DataAccess;
 using Infrastructure.Messaging.Implementation.RabbitMQ;
-using Microsoft.EntityFrameworkCore;
 
 namespace DineConnect.OrderManagementService.API
 {

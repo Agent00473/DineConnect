@@ -5,15 +5,25 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Messaging.Implementation.RabbitMQ
 {
+    public record RouteData(string ExchangeName, string RouteKey, ExchangeCategory Category)
+    {
+        public RouteData() : this(string.Empty, string.Empty, ExchangeCategory.None)
+        {
+        }
+    };
+
+
     public interface IRabbitMQConfigurationManager : IDisposable
     {
         void AddQueue(QueueConfiguration configuration);
         IEnumerable<ExchangeConfig> Exchanges();
         IEnumerable<QueueConfig> Queues();
-        string GetRoutingKey(string queueName);
+        RouteData GetRoutingData(string queueName);
         void Initialize();
         public IConnection GetConnection();
         public string IntegrationExchangeName { get; }
+        public string PulseExchangeName { get; }
+
     }
 
     /// <summary>
@@ -21,41 +31,47 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
     /// </summary>
     public sealed class RabbitMQConfigurationManager : IRabbitMQConfigurationManager
     {
-        private readonly QueueConfigurations _settings;
+        private readonly QueueConfigurations _qConfigs;
         private bool disposedValue;
         private IConnection _connection;
-        private IDictionary<string, string> _queueRouteTable = new Dictionary<string, string>();
+        private IDictionary<string, RouteData> _queueRouteTable = new Dictionary<string, RouteData>();
 
-        public string IntegrationExchangeName => _settings.IntegrationExchangeName;
+        public string IntegrationExchangeName => _qConfigs.IntegrationExchangeName;
+        public string PulseExchangeName => _qConfigs.PulseExchangeName;
 
         public RabbitMQConfigurationManager(IOptions<QueueConfigurations> options)
         {
-            _settings = options.Value;
+            _qConfigs = options.Value;
         }
 
         public RabbitMQConfigurationManager(QueueConfigurations config)
         {
-            _settings = config;
+            _qConfigs = config;
         }
 
         private void ConfigureExchangesAndQueues(IModel channel)
         {
-            foreach (var exchange in _settings.RabbitMQ.Exchanges)
+            foreach (var exchange in _qConfigs.RabbitMQ.Exchanges)
             {
                 channel.ExchangeDeclare(exchange.Name, exchange.Type, exchange.Durable);
             }
 
-            foreach (var queue in _settings.RabbitMQ.Queues)
+            foreach (var queue in _qConfigs.RabbitMQ.Queues)
             {
                 ConfigureQueue(channel, queue);
             }
+        }
+
+        private ExchangeCategory GetExchangeCategory(string exchangeName)
+        {
+            return _qConfigs.GetExchangeCategory(exchangeName);
         }
 
         private void ConfigureQueue(IModel channel, QueueConfig config)
         {
             channel.QueueDeclare(config.Name, config.Durable, false, false, null);
             channel.QueueBind(config.Name, config.Exchange, config.RoutingKey);
-            _queueRouteTable[config.Name] = config.RoutingKey;
+            _queueRouteTable[config.Name] = new RouteData(config.Exchange,config.RoutingKey, GetExchangeCategory(config.Exchange));
         }
         private void ConfigureExchangesAndQueues(IModel channel, QueueConfiguration configuration)
         {
@@ -66,6 +82,7 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
                 Exchange = configuration.ExchangeName,
                 Name = configuration.QueueName,
                 RoutingKey = configuration.RoutingKey
+                
             };
             ConfigureQueue(channel, config);
 
@@ -77,7 +94,7 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
         {
             if (_connection == null)
             {
-                var factory = QueueConnectionFactory.GetFactory(_settings.RabbitMQ);
+                var factory = QueueConnectionFactory.GetFactory(_qConfigs.RabbitMQ);
                 _connection = factory.CreateConnection();
             }
             return _connection;
@@ -104,20 +121,20 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ
 
         public IEnumerable<ExchangeConfig> Exchanges()
         {
-            return _settings.RabbitMQ.Exchanges.AsReadOnly();
+            return _qConfigs.RabbitMQ.Exchanges.AsReadOnly();
         }
 
         public IEnumerable<QueueConfig> Queues()
         {
-            return _settings.RabbitMQ.Queues.AsReadOnly();
+            return _qConfigs.RabbitMQ.Queues.AsReadOnly();
         }
 
-        public string GetRoutingKey(string queueName)
+        public RouteData GetRoutingData(string queueName)
         {
             if (_queueRouteTable.TryGetValue(queueName, out var routingKey))
                 return routingKey;
 
-            return string.Empty;
+            return new RouteData();
         }
 
         private void Dispose(bool disposing)

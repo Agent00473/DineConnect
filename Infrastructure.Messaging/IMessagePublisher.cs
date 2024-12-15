@@ -1,9 +1,11 @@
 ﻿using Infrastructure.Messaging.Entities;
+using Infrastructure.Messaging.Implementation.RabbitMQ;
+using Infrastructure.Messaging.Implementation.RabbitMQ.Configs;
 
 namespace Infrastructure.Messaging
 {
     public interface IMessagePublisher: IMessageServiceBase
     {
-        bool SendMessage(string routingkey, EventMessage message);
+        bool SendMessage(RouteData route, EventMessage message);
     }
 }

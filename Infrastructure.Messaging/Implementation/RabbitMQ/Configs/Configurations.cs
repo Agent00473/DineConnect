@@ -4,6 +4,12 @@ using System.Xml.Serialization;
 namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
 {
 
+    public enum ExchangeCategory
+    {
+        None = 0,
+        Pulse = 1,
+        Integration
+    }
     /// <summary>
     /// Queue configurations definition loaded from config file.
     /// </summary>
@@ -11,12 +17,9 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
     public class QueueConfigurations
     {
 
-        [XmlElement("RabbitMQ")]
-        public RabbitMQSettings RabbitMQ { get; set; }
-
-        private string GetExchangeName(string key)
+        private string GetExchangeName(ExchangeCategory key)
         {
-            var result =  RabbitMQ?.Exchanges?.FirstOrDefault(x => x.Name == key);
+            var result =  RabbitMQ?.Exchanges?.FirstOrDefault(x => x.Category == key);
             return result?.Name ?? string.Empty;
         }
 
@@ -25,9 +28,21 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
             RabbitMQ = new RabbitMQSettings();
         }
 
-        [XmlIgnore]
-        public string IntegrationExchangeName => GetExchangeName("IntegrationExchange");
+        public ExchangeCategory GetExchangeCategory(string exchangeName)
+        {
+            var result = RabbitMQ?.Exchanges?.FirstOrDefault(x => x.Name == exchangeName);
+            return result?.Category ?? ExchangeCategory.None;
+        }
 
+        [XmlElement("RabbitMQ")]
+        public RabbitMQSettings RabbitMQ { get; set; }
+
+
+        [XmlIgnore]
+        public string IntegrationExchangeName => GetExchangeName(ExchangeCategory.Integration);
+
+        [XmlIgnore]
+        public string PulseExchangeName => GetExchangeName(ExchangeCategory.Pulse);
     }
 
 
@@ -51,6 +66,13 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
 
     public class ExchangeConfig
     {
+        public ExchangeConfig()
+        {
+            Name = string.Empty;
+            Type = string.Empty;
+            Category = ExchangeCategory.None;
+        }
+
         [XmlElement("Name")]
         public string Name { get; set; }
 
@@ -60,15 +82,27 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
         [XmlElement("Durable")]
         public bool Durable { get; set; }
 
-        public ExchangeConfig()
+        [XmlElement(ElementName = "ExchangeCategory")]
+        public int CategoryValue
         {
-            Name = string.Empty;
-            Type = string.Empty;
+            get => (int)Category; 
+            set => Category = (ExchangeCategory)value; 
         }
+
+        [XmlIgnore] 
+        public ExchangeCategory Category { get; set; }
+
     }
 
     public class QueueConfig
     {
+        public QueueConfig()
+        {
+            Name = string.Empty;
+            Exchange = string.Empty;
+            RoutingKey = string.Empty;
+        }
+
         [XmlElement("Name")]
         public string Name { get; set; } // Name of the queue
 
@@ -81,12 +115,6 @@ namespace Infrastructure.Messaging.Implementation.RabbitMQ.Configs
         [XmlElement("Durable")]
         public bool Durable { get; set; }
 
-        public QueueConfig()
-        {
-            Name = string.Empty;
-            Exchange = string.Empty;
-            RoutingKey = string.Empty;
-        }
     }
 
 }
