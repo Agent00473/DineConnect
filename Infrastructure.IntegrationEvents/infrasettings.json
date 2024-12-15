@@ -9,11 +9,13 @@
         {
           "Name": "IntegrationExchange",
           "Type": "direct",
+          "Category": "2",
           "Durable": false
         },
         {
           "Name": "PulseExchange",
           "Type": "direct",
+          "Category": "1",
           "Durable": false
         }
       ],

@@ -20,7 +20,7 @@ namespace Infrastructure.IntegrationEvents
             services.AddPersistance(connectionStringKey).
                 AddMessageQueueConfiguration(connectionStringKey).
                 AddIntegrationEventHandlers(connectionStringKey).
-                AddIntegrationEventDispatcher();
+                AddIntegrationEventDispatcher(connectionStringKey);
             return services;
         }
 
@@ -74,13 +74,13 @@ namespace Infrastructure.IntegrationEvents
             return services;
         }
 
-        private static IServiceCollection AddIntegrationEventDispatcher(this IServiceCollection services)//, string connectionStringKey)
+        private static IServiceCollection AddIntegrationEventDispatcher(this IServiceCollection services, string connectionStringKey)
         {
 
             services.AddTransient<IMessagePublisher>(sp =>
             {
                 var config = sp.GetRequiredService<IRabbitMQConfigurationManager>();
-                return RabbitMQueuePublisher.Create(config.IntegrationExchangeName, config);
+                return RabbitMQueuePublisher.Create(config);
             });
 
             services.AddTransient<IEventPublisher>(sp =>
@@ -89,8 +89,9 @@ namespace Infrastructure.IntegrationEvents
                 var qryHandler = sp.GetRequiredService<IIntegrationEventsQueryHandler>();
                 var addCmdHandler = sp.GetRequiredService<IAddIntegrationEventCommandHandler>();
                 var messagePublisher = sp.GetRequiredService<IMessagePublisher>();
-                var pubHandler = sp.GetRequiredService<IPublishIntegrationEventCommandHandler>();
-                return IntegrationEventPublisher.Create(qryHandler, addCmdHandler, pubHandler, messagePublisher, config);
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                var connectionString = configuration.GetConnectionString(connectionStringKey);
+                return IntegrationEventPublisher.Create(qryHandler, addCmdHandler, messagePublisher, config, connectionString);
             });
 
             services.AddSingleton<IIntegrationEventDataDispatcher>(sp =>
