@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Infrastructure.PostgressExceptions\Infrastructure.PostgressExceptions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataAccess\Interceptors\" />
+  </ItemGroup>
+
 </Project>
