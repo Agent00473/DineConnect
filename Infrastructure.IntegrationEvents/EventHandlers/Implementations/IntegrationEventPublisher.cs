@@ -17,13 +17,14 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         private IMessagePublisher _messagePublisher;
         private readonly IIntegrationEventsQueryHandler _queryIntegrationEvents;
         private readonly IAddIntegrationEventCommandHandler _eventsAddCommandHandler;
-        private readonly IPublishIntegrationEventCommandHandler _handler;
+        private readonly string _connectionString;
+
         ///TODO: Make this a Seperate class Injected Refer RouteKeyManager
-        private IDictionary<Type, string> _routedata = new Dictionary<Type, string>();
+        private IDictionary<Type, RouteData> _routedata = new Dictionary<Type, RouteData>();
         #endregion
 
         #region Protected & Private Methods
-        private string GetRouteKey(Type type)
+        private RouteData GetRouteData(Type type)
         {
             return _routedata[type];
         }
@@ -31,53 +32,58 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         private async Task<bool> PublishEvents(IEnumerable<IntegrationEventDetail> pendingLogEvents)
         {
             bool allEventsProcessed = true;
-            foreach (var logEvt in pendingLogEvents)
+            if (pendingLogEvents.Any())
             {
-                bool eventProcessed = false;
-
-                try
+                using (var handler = new PublishIntegrationEventCommandHandler(_connectionString))
                 {
-                    // Retry logic
-                    for (int attempt = 1; attempt <= 3; attempt++)
+                    foreach (var logEvt in pendingLogEvents)
                     {
-                        if (ProcessEvent(_handler, logEvt))
+                        bool eventProcessed = false;
+
+                        try
                         {
-                            eventProcessed = true;
-                            break; // Exit retry loop on success
+                            // Retry logic
+                            for (int attempt = 1; attempt <= 3; attempt++)
+                            {
+                                if (ProcessEvent(handler, logEvt))
+                                {
+                                    eventProcessed = true;
+                                    break; // Exit retry loop on success
+                                }
+
+                                if (attempt == 3)
+                                {
+                                    // Mark as failed after maximum retries
+                                    handler.MarkEventAsFailed(logEvt.EventId);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error processing event {logEvt.EventId}: {ex.Message}");
+                            // Mark the event as failed in case of exception
+                            handler.MarkEventAsFailed(logEvt.EventId);
                         }
 
-                        if (attempt == 3)
+                        // Save changes after processing each event
+                        try
                         {
-                            // Mark as failed after maximum retries
-                            _handler.MarkEventAsFailed(logEvt.EventId);
+                            await handler.SaveChagesAsync();
+                        }
+                        catch (Exception saveEx)
+                        {
+                            Console.WriteLine($"Error saving changes for event {logEvt.EventId}: {saveEx.Message}");
+                            return false; // Fail fast if saving changes fails
+                        }
+
+                        // Update the overall status
+                        if (!eventProcessed)
+                        {
+                            allEventsProcessed = false;
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error processing event {logEvt.EventId}: {ex.Message}");
-                    // Mark the event as failed in case of exception
-                    _handler.MarkEventAsFailed(logEvt.EventId);
-                }
-
-                // Save changes after processing each event
-                try
-                {
-                    await _handler.SaveChagesAsync();
-                }
-                catch (Exception saveEx)
-                {
-                    Console.WriteLine($"Error saving changes for event {logEvt.EventId}: {saveEx.Message}");
-                    return false; // Fail fast if saving changes fails
-                }
-
-                // Update the overall status
-                if (!eventProcessed)
-                {
-                    allEventsProcessed = false;
-                }
             }
-
             return allEventsProcessed;
         }
 
@@ -85,9 +91,9 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         {
             handler.MarkEventAsInProgress(logEvt.EventId);
             var obj = logEvt.IntegrationEvent;
-            var key = GetRouteKey(obj.GetType());
+            var rData = GetRouteData(obj.GetType());
             var msg = obj;
-            if (_messagePublisher.SendMessage(key, msg))
+            if (_messagePublisher.SendMessage(rData, msg))
             {
                 return handler.MarkEventAsPublished(logEvt.EventId);
             }
@@ -103,9 +109,17 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
             _queryIntegrationEvents = queryIntegrationEvents;
             _messagePublisher = messagePublisher;
             _eventsAddCommandHandler = eventsAddCommandHandler;
-            _handler = handler;
         }
 
+        private IntegrationEventPublisher(IIntegrationEventsQueryHandler queryIntegrationEvents,
+       IAddIntegrationEventCommandHandler eventsAddCommandHandler,
+       IMessagePublisher messagePublisher, string connectionString)
+        {
+            _queryIntegrationEvents = queryIntegrationEvents;
+            _messagePublisher = messagePublisher;
+            _eventsAddCommandHandler = eventsAddCommandHandler;
+            _connectionString = connectionString;
+        }
         #endregion
 
         #region Public Properties
@@ -113,8 +127,7 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         #endregion
 
         #region Public Methods
-
-        internal void AddRouteData(Type key, string value)
+        internal void AddRouteData(Type key, RouteData value)
         {
             _routedata[key] = value;
         }
@@ -123,7 +136,6 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
             var pendingLogEvents = await _queryIntegrationEvents.RetrievePendingEventLogsToPublishAsync(transactionId);
             return await PublishEvents(pendingLogEvents);
         }
-
         public async Task<bool> PublishAll<TData>() where TData : IntegrationEvent
         {
             var pendingLogEvents = await _queryIntegrationEvents.RetrieveAllPendingEventLogsToPublishAsync();
@@ -143,28 +155,29 @@ namespace Infrastructure.IntegrationEvents.EventHandlers.Implementations
         //    var addHandler = AddIntegrationEventCommandHandler.Create(connectionString);
         //    var dispatcher = new IntegrationEventPublisher(qryHandler, addHandler, messagePublisher);
 
-        //    var key = configurationManager.GetRoutingKey("CustomerQueue");
-        //    dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), key);
+        //    var rData = configurationManager.GetRoutingData("CustomerQueue");
+        //    dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), rData);
 
-        //    key = configurationManager.GetRoutingKey("OrderQueue");
-        //    dispatcher.AddRouteData(typeof(OrderEvent), key);
-        //    key = configurationManager.GetRoutingKey("HeartBeatQueue");
-        //    dispatcher.AddRouteData(typeof(HeartBeatEvent), key);
+        //    rData = configurationManager.GetRoutingData("OrderQueue");
+        //    dispatcher.AddRouteData(typeof(OrderEvent), rData);
+        //    rData = configurationManager.GetRoutingData("HeartBeatQueue");
+        //    dispatcher.AddRouteData(typeof(HeartBeatEvent), rData);
         //    return dispatcher;
         //}
 
-        public static IntegrationEventPublisher Create(IIntegrationEventsQueryHandler qryHandler, IAddIntegrationEventCommandHandler addCmdHandler, IPublishIntegrationEventCommandHandler pubHandler, IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager)
+        public static IntegrationEventPublisher Create(IIntegrationEventsQueryHandler qryHandler, IAddIntegrationEventCommandHandler addCmdHandler, 
+           IMessagePublisher messagePublisher, IRabbitMQConfigurationManager configurationManager, string connectionString)
         {
             Console.WriteLine("###### IntegrationEventPublisher Created ...!! ######");
-            var dispatcher = new IntegrationEventPublisher(qryHandler, addCmdHandler, pubHandler, messagePublisher);
+            var dispatcher = new IntegrationEventPublisher(qryHandler, addCmdHandler, messagePublisher, connectionString);
 
-            var key = configurationManager.GetRoutingKey("CustomerQueue");
-            dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), key);
+            var rData = configurationManager.GetRoutingData("CustomerQueue");
+            dispatcher.AddRouteData(typeof(CustomerIntegrationEvent), rData);
 
-            key = configurationManager.GetRoutingKey("OrderQueue");
-            dispatcher.AddRouteData(typeof(OrderEvent), key);
-            key = configurationManager.GetRoutingKey("HeartBeatQueue");
-            dispatcher.AddRouteData(typeof(HeartBeatEvent), key);
+            rData = configurationManager.GetRoutingData("OrderQueue");
+            dispatcher.AddRouteData(typeof(OrderEvent), rData);
+            rData = configurationManager.GetRoutingData("HeartBeatQueue");
+            dispatcher.AddRouteData(typeof(HeartBeatEvent), rData);
 
 
             return dispatcher;
