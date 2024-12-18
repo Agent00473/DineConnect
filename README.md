@@ -31,7 +31,7 @@ This project is designed to explore concepts and principles, currently focusing 
 ## Web API Solution Name
     DineConnect
 ## Angular Solution Name
-    AppDine
+    [AppDine](https://github.com/Agent00473/app-dine)
 ## Decisions
    * Syncronous inter-service communication with gRPC.
    * Asyncronous Communication with RabbitMQ / Azure Service bus.
