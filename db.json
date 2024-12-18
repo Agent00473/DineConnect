@@ -1,0 +1,2019 @@
+{
+   "restaurants":[
+      {
+         "id":"1",
+         "name":"Pizza Place",
+         "cuisine":"Italian",
+         "rating":4.5,
+         "location":{
+            "street":"123 Main St",
+            "city":"Copenhagen",
+            "state":"Capital Region",
+            "country":"Denmark",
+            "pin":"1000"
+         },
+         "description":"A cozy spot for classic Italian pizza with a variety of toppings and fresh ingredients."
+      },
+      {
+         "id":"2",
+         "name":"Sushi Bar",
+         "cuisine":"Japanese",
+         "rating":4.8,
+         "location":{
+            "street":"456 Oak Ave",
+            "city":"Aarhus",
+            "state":"Central Jutland",
+            "country":"Denmark",
+            "pin":"8000"
+         },
+         "description":"Fresh sushi and sashimi served in a stylish, modern setting with top-quality ingredients."
+      },
+      {
+         "id":"3",
+         "name":"Curry House",
+         "cuisine":"Indian",
+         "rating":4.6,
+         "location":{
+            "street":"789 Pine Rd",
+            "city":"Odense",
+            "state":"Southern Denmark",
+            "country":"Denmark",
+            "pin":"5000"
+         },
+         "description":"Authentic Indian curry dishes with rich spices and flavors in a casual dining environment."
+      },
+      {
+         "id":"4",
+         "name":"Burger World",
+         "cuisine":"American",
+         "rating":4.3,
+         "location":{
+            "street":"101 Elm St",
+            "city":"Esbjerg",
+            "state":"Southern Denmark",
+            "country":"Denmark",
+            "pin":"6700"
+         },
+         "description":"Serving juicy, gourmet burgers with a variety of toppings in a relaxed, family-friendly atmosphere."
+      },
+      {
+         "id":"5",
+         "name":"Taco Haven",
+         "cuisine":"Mexican",
+         "rating":4.7,
+         "location":{
+            "street":"202 Maple Ave",
+            "city":"Randers",
+            "state":"Central Jutland",
+            "country":"Denmark",
+            "pin":"8900"
+         },
+         "description":"A vibrant spot offering delicious, authentic tacos and other Mexican specialties."
+      },
+      {
+         "id":"6",
+         "name":"Pasta Palace",
+         "cuisine":"Italian",
+         "rating":4.4,
+         "location":{
+            "street":"303 Birch Rd",
+            "city":"Viborg",
+            "state":"Central Jutland",
+            "country":"Denmark",
+            "pin":"8800"
+         },
+         "description":"Handmade pasta dishes with classic Italian sauces in a cozy and inviting setting."
+      },
+      {
+         "id":"7",
+         "name":"Dim Sum Delight",
+         "cuisine":"Chinese",
+         "rating":4.9,
+         "location":{
+            "street":"404 Cedar St",
+            "city":"Aalborg",
+            "state":"Nordjylland",
+            "country":"Denmark",
+            "pin":"9000"
+         },
+         "description":"A favorite for delicious dim sum and other traditional Chinese delicacies."
+      },
+      {
+         "id":"8",
+         "name":"Vegan Vibes",
+         "cuisine":"Vegan",
+         "rating":4.6,
+         "location":{
+            "street":"505 Pine St",
+            "city":"Horsens",
+            "state":"Eastern Jutland",
+            "country":"Denmark",
+            "pin":"8700"
+         },
+         "description":"Fresh and creative vegan dishes using local, seasonal ingredients in a relaxed atmosphere."
+      },
+      {
+         "id":"9",
+         "name":"Steakhouse Prime",
+         "cuisine":"Steakhouse",
+         "rating":4.8,
+         "location":{
+            "street":"606 Oak Rd",
+            "city":"Silkeborg",
+            "state":"Central Jutland",
+            "country":"Denmark",
+            "pin":"8600"
+         },
+         "description":"A premium steakhouse offering perfectly cooked steaks and hearty sides."
+      },
+      {
+         "id":"10",
+         "name":"Pasta & Pesto",
+         "cuisine":"Italian",
+         "rating":4.2,
+         "location":{
+            "street":"707 Elm Ave",
+            "city":"Herning",
+            "state":"Central Jutland",
+            "country":"Denmark",
+            "pin":"7400"
+         },
+         "description":"Delicious pasta and pesto dishes, focusing on fresh ingredients and simple Italian flavors."
+      },
+      {
+         "id":"11",
+         "name":"The Pancake House",
+         "cuisine":"Breakfast",
+         "rating":4.7,
+         "location":{
+            "street":"808 Oak St",
+            "city":"Fredericia",
+            "state":"Southern Denmark",
+            "country":"Denmark",
+            "pin":"7000"
+         },
+         "description":"A cozy breakfast spot serving sweet and savory pancakes with a variety of toppings."
+      },
+      {
+         "id":"12",
+         "name":"Seafood Haven",
+         "cuisine":"Seafood",
+         "rating":4.5,
+         "location":{
+            "street":"909 Birch Ave",
+            "city":"Kolding",
+            "state":"Southern Denmark",
+            "country":"Denmark",
+            "pin":"6000"
+         },
+         "description":"A seafood lover's paradise offering fresh catches and seafood dishes."
+      },
+      {
+         "id":"13",
+         "name":"BBQ Pit",
+         "cuisine":"American",
+         "rating":4.4,
+         "location":{
+            "street":"1010 Pine Rd",
+            "city":"Roskilde",
+            "state":"Zealand",
+            "country":"Denmark",
+            "pin":"4000"
+         },
+         "description":"Smoky, flavorful BBQ meats and sides served in a rustic, casual environment."
+      },
+      {
+         "id":"14",
+         "name":"Falafel Feast",
+         "cuisine":"Middle Eastern",
+         "rating":4.6,
+         "location":{
+            "street":"1111 Maple St",
+            "city":"Vordingborg",
+            "state":"Zealand",
+            "country":"Denmark",
+            "pin":"4760"
+         },
+         "description":"Offering delicious, freshly made falafel and other Middle Eastern dishes."
+      },
+      {
+         "id":"15",
+         "name":"Ramen Republic",
+         "cuisine":"Japanese",
+         "rating":4.7,
+         "location":{
+            "street":"1212 Cedar Ave",
+            "city":"Svendborg",
+            "state":"Southern Denmark",
+            "country":"Denmark",
+            "pin":"5700"
+         },
+         "description":"A casual spot for flavorful ramen bowls with rich broths and fresh toppings."
+      }
+   ],
+   "menus":[
+      {
+         "restaurantId":"1",
+         "menu":[
+            {
+               "name":"Margherita Pizza",
+               "price":12.99,
+               "image":"https://example.com/images/margherita.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic Margherita with fresh mozzarella and basil."
+            },
+            {
+               "name":"Pepperoni Pizza",
+               "price":14.99,
+               "image":"https://example.com/images/pepperoni.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"A pizza topped with spicy pepperoni slices."
+            },
+            {
+               "name":"Vegetarian Pizza",
+               "price":13.99,
+               "image":"https://example.com/images/vegetarian.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"A variety of fresh vegetables on a cheesy base."
+            },
+            {
+               "name":"BBQ Chicken Pizza",
+               "price":15.49,
+               "image":"https://example.com/images/bbqchicken.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"BBQ chicken with red onions and cilantro."
+            },
+            {
+               "name":"Marinara Pizza",
+               "price":11.99,
+               "image":"https://example.com/images/marinara.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"A simple pizza with tomato sauce and oregano."
+            },
+            {
+               "name":"Garlic Bread",
+               "price":5.99,
+               "image":"https://example.com/images/garlicbread.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Warm garlic bread with melted butter."
+            },
+            {
+               "name":"Caesar Salad",
+               "price":6.99,
+               "image":"https://example.com/images/caesarsalad.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crisp romaine with Caesar dressing."
+            },
+            {
+               "name":"Cheese Sticks",
+               "price":7.49,
+               "image":"https://example.com/images/cheesesticks.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Mozzarella sticks with marinara sauce."
+            },
+            {
+               "name":"Tiramisu",
+               "price":5.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Classic Italian dessert made with coffee and mascarpone."
+            },
+            {
+               "name":"Chocolate Lava Cake",
+               "price":6.49,
+               "image":"https://example.com/images/lava.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Warm cake with a molten chocolate center."
+            },
+            {
+               "name":"Fruit Salad",
+               "price":4.99,
+               "image":"https://example.com/images/fruitsalad.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Fresh seasonal fruits in a light dressing."
+            },
+            {
+               "name":"Coca Cola",
+               "price":2.49,
+               "image":"https://example.com/images/coke.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Classic soft drink."
+            },
+            {
+               "name":"Sprite",
+               "price":2.49,
+               "image":"https://example.com/images/sprite.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Lemon-lime soda."
+            },
+            {
+               "name":"Fanta",
+               "price":2.49,
+               "image":"https://example.com/images/fanta.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Orange soda."
+            }
+         ]
+      },
+      {
+         "restaurantId":"2",
+         "menu":[
+            {
+               "name":"California Roll",
+               "price":8.99,
+               "image":"https://example.com/images/california.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Sushi rolls with crab, avocado, and cucumber."
+            },
+            {
+               "name":"Spicy Tuna Roll",
+               "price":9.49,
+               "image":"https://example.com/images/spicytuna.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Tuna mixed with spicy mayo and rolled with rice."
+            },
+            {
+               "name":"Vegetable Tempura Roll",
+               "price":7.99,
+               "image":"https://example.com/images/tempura.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Tempura vegetables rolled with sushi rice."
+            },
+            {
+               "name":"Dragon Roll",
+               "price":10.99,
+               "image":"https://example.com/images/dragonroll.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Shrimp tempura with avocado and eel sauce."
+            },
+            {
+               "name":"Maki Rolls",
+               "price":7.49,
+               "image":"https://example.com/images/makirolls.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Simple rolled sushi with cucumber and avocado."
+            },
+            {
+               "name":"Edamame",
+               "price":4.99,
+               "image":"https://example.com/images/edamame.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Steamed soybeans with sea salt."
+            },
+            {
+               "name":"Seaweed Salad",
+               "price":5.99,
+               "image":"https://example.com/images/seaweed.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Fresh seaweed salad with sesame dressing."
+            },
+            {
+               "name":"Gyoza",
+               "price":6.49,
+               "image":"https://example.com/images/gyoza.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":1,
+               "description":"Japanese dumplings with a savory filling."
+            },
+            {
+               "name":"Matcha Ice Cream",
+               "price":4.49,
+               "image":"https://example.com/images/matcha.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Creamy green tea-flavored ice cream."
+            },
+            {
+               "name":"Mochi",
+               "price":3.99,
+               "image":"https://example.com/images/mochi.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Japanese rice cakes with various fillings."
+            },
+            {
+               "name":"Tiramisu",
+               "price":5.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"A creamy Italian dessert."
+            },
+            {
+               "name":"Sapporo Beer",
+               "price":3.49,
+               "image":"https://example.com/images/sapporo.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Japanese lager beer."
+            },
+            {
+               "name":"Green Tea",
+               "price":2.99,
+               "image":"https://example.com/images/greentea.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Fresh brewed green tea."
+            },
+            {
+               "name":"Coca Cola",
+               "price":2.49,
+               "image":"https://example.com/images/coke.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Classic soft drink."
+            }
+         ]
+      },
+      {
+         "restaurantId":"3",
+         "menu":[
+            {
+               "name":"Chicken Tikka Masala",
+               "price":12.99,
+               "image":"https://example.com/images/chickentikka.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Boneless chicken in a creamy, spiced tomato gravy."
+            },
+            {
+               "name":"Paneer Butter Masala",
+               "price":11.49,
+               "image":"https://example.com/images/paneerbutter.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Cottage cheese cooked in a rich and creamy gravy."
+            },
+            {
+               "name":"Aloo Gobi",
+               "price":9.99,
+               "image":"https://example.com/images/aloogobi.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Aromatic spiced cauliflower and potato curry."
+            },
+            {
+               "name":"Chicken Biryani",
+               "price":13.49,
+               "image":"https://example.com/images/chickenbiryani.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Fragrant rice cooked with marinated chicken."
+            },
+            {
+               "name":"Vegetable Samosa",
+               "price":4.99,
+               "image":"https://example.com/images/vegetablesamosa.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy pastry filled with spiced vegetables."
+            },
+            {
+               "name":"Naan",
+               "price":2.99,
+               "image":"https://example.com/images/naan.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Soft, fluffy flatbread."
+            },
+            {
+               "name":"Raita",
+               "price":3.49,
+               "image":"https://example.com/images/raita.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Yogurt-based side dish with spices."
+            },
+            {
+               "name":"Gulab Jamun",
+               "price":5.99,
+               "image":"https://example.com/images/gulabjamun.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Fried dough balls soaked in sweet syrup."
+            },
+            {
+               "name":"Ras Malai",
+               "price":6.49,
+               "image":"https://example.com/images/rasmalai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Soft cream-filled dumplings soaked in flavored milk."
+            },
+            {
+               "name":"Mango Lassi",
+               "price":3.49,
+               "image":"https://example.com/images/mangolassi.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Creamy mango yogurt drink."
+            },
+            {
+               "name":"Masala Chai",
+               "price":2.49,
+               "image":"https://example.com/images/masalachai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Spiced Indian tea brewed with milk."
+            },
+            {
+               "name":"Peach Iced Tea",
+               "price":2.99,
+               "image":"https://example.com/images/peachicedtea.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Refreshing iced tea infused with peach flavor."
+            }
+         ]
+      },
+      {
+         "restaurantId":"4",
+         "menu":[
+            {
+               "name":"Spaghetti Bolognese",
+               "price":14.99,
+               "image":"https://example.com/images/spaghetti.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Pasta served with a rich beef and tomato sauce."
+            },
+            {
+               "name":"Margherita Pizza",
+               "price":12.49,
+               "image":"https://example.com/images/margherita.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic pizza with fresh mozzarella, basil, and tomato sauce."
+            },
+            {
+               "name":"Lasagna",
+               "price":15.49,
+               "image":"https://example.com/images/lasagna.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Layers of pasta, beef, cheese, and marinara sauce."
+            },
+            {
+               "name":"Penne Arrabbiata",
+               "price":13.99,
+               "image":"https://example.com/images/pennearrabbiata.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Pasta with spicy tomato sauce and chili peppers."
+            },
+            {
+               "name":"Garlic Bread",
+               "price":4.49,
+               "image":"https://example.com/images/garlicbread.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Crispy bread topped with garlic and butter."
+            },
+            {
+               "name":"Caprese Salad",
+               "price":5.99,
+               "image":"https://example.com/images/caprese.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Tomato, mozzarella, basil, and olive oil."
+            },
+            {
+               "name":"Bruschetta",
+               "price":6.49,
+               "image":"https://example.com/images/bruschetta.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Toasted bread topped with diced tomatoes and basil."
+            },
+            {
+               "name":"Tiramisu",
+               "price":5.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone."
+            },
+            {
+               "name":"Panna Cotta",
+               "price":6.49,
+               "image":"https://example.com/images/pannacotta.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Creamy vanilla-flavored dessert topped with berry compote."
+            },
+            {
+               "name":"Gelato",
+               "price":3.99,
+               "image":"https://example.com/images/gelato.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Italian ice cream in various flavors."
+            },
+            {
+               "name":"Limoncello",
+               "price":4.49,
+               "image":"https://example.com/images/limoncello.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Italian lemon liqueur."
+            },
+            {
+               "name":"Cappuccino",
+               "price":3.99,
+               "image":"https://example.com/images/cappuccino.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Espresso with steamed milk and foam."
+            },
+            {
+               "name":"Espresso",
+               "price":2.49,
+               "image":"https://example.com/images/espresso.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Strong Italian coffee."
+            }
+         ]
+      },
+      {
+         "restaurantId":"5",
+         "menu":[
+            {
+               "name":"Beef Burger",
+               "price":10.99,
+               "image":"https://example.com/images/beefburger.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Juicy beef patty with lettuce, tomato, and cheese."
+            },
+            {
+               "name":"Vegan Burger",
+               "price":9.49,
+               "image":"https://example.com/images/veganburger.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Grilled veggie patty with fresh vegetables and vegan cheese."
+            },
+            {
+               "name":"Chicken Wrap",
+               "price":8.99,
+               "image":"https://example.com/images/chickenwrap.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Grilled chicken wrapped with veggies in a soft tortilla."
+            },
+            {
+               "name":"Fish Tacos",
+               "price":12.49,
+               "image":"https://example.com/images/fishtacos.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Crispy fish served with slaw and salsa in soft tacos."
+            },
+            {
+               "name":"Mozzarella Sticks",
+               "price":5.99,
+               "image":"https://example.com/images/mozzarellasticks.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy breaded mozzarella served with marinara sauce."
+            },
+            {
+               "name":"Garlic Parmesan Fries",
+               "price":3.99,
+               "image":"https://example.com/images/garlicfries.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Crispy fries tossed with garlic and parmesan."
+            },
+            {
+               "name":"Sweet Potato Fries",
+               "price":4.49,
+               "image":"https://example.com/images/sweetpotatofries.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy sweet potato fries with a side of aioli."
+            },
+            {
+               "name":"Chocolate Brownie",
+               "price":5.49,
+               "image":"https://example.com/images/chocolatebrownie.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Decadent chocolate brownie served with vanilla ice cream."
+            },
+            {
+               "name":"Apple Pie",
+               "price":4.99,
+               "image":"https://example.com/images/applepie.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Classic apple pie served with whipped cream."
+            },
+            {
+               "name":"Fruit Salad",
+               "price":6.99,
+               "image":"https://example.com/images/fruitsalad.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Fresh mixed fruits served with honey drizzle."
+            },
+            {
+               "name":"Iced Latte",
+               "price":3.49,
+               "image":"https://example.com/images/icedlatte.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Chilled espresso with milk and ice."
+            },
+            {
+               "name":"Lemonade",
+               "price":2.99,
+               "image":"https://example.com/images/lemonade.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Freshly squeezed lemonade served over ice."
+            },
+            {
+               "name":"Soft Drink",
+               "price":1.99,
+               "image":"https://example.com/images/softdrink.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Classic cola served cold."
+            }
+         ]
+      },
+      {
+         "restaurantId":"6",
+         "menu":[
+            {
+               "name":"Cheeseburger",
+               "price":11.99,
+               "image":"https://example.com/images/cheeseburger.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic beef burger with melted cheese and all the fixings."
+            },
+            {
+               "name":"Veggie Burrito",
+               "price":10.49,
+               "image":"https://example.com/images/veggieburrito.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Flour tortilla stuffed with rice, beans, veggies, and salsa."
+            },
+            {
+               "name":"Pulled Pork Sandwich",
+               "price":12.99,
+               "image":"https://example.com/images/pulledpork.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Slow-cooked pulled pork served on a soft bun with coleslaw."
+            },
+            {
+               "name":"Chicken Caesar Salad",
+               "price":9.99,
+               "image":"https://example.com/images/chickencaesar.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":1,
+               "description":"Grilled chicken served on a bed of romaine with Caesar dressing."
+            },
+            {
+               "name":"Crispy Tofu Bites",
+               "price":6.99,
+               "image":"https://example.com/images/crispytofu.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Crispy battered tofu served with dipping sauce."
+            },
+            {
+               "name":"Cauliflower Wings",
+               "price":7.49,
+               "image":"https://example.com/images/cauliflowerwings.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy cauliflower florets tossed in buffalo sauce."
+            },
+            {
+               "name":"Guacamole and Chips",
+               "price":5.99,
+               "image":"https://example.com/images/guacamolechips.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Fresh guacamole served with crispy tortilla chips."
+            },
+            {
+               "name":"Chocolate Mousse",
+               "price":5.49,
+               "image":"https://example.com/images/chocolatemousse.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Creamy chocolate mousse topped with whipped cream."
+            },
+            {
+               "name":"Coconut Macaroons",
+               "price":4.99,
+               "image":"https://example.com/images/coconutmacaroons.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Chewy coconut cookies drizzled with chocolate."
+            },
+            {
+               "name":"Carrot Cake",
+               "price":6.49,
+               "image":"https://example.com/images/carrotcake.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Spiced carrot cake with cream cheese frosting."
+            },
+            {
+               "name":"Iced Coffee",
+               "price":3.49,
+               "image":"https://example.com/images/icedcoffee.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Chilled coffee served with milk and ice."
+            },
+            {
+               "name":"Milkshake",
+               "price":4.49,
+               "image":"https://example.com/images/milkshake.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Creamy milkshake in vanilla, chocolate, or strawberry."
+            },
+            {
+               "name":"Sparkling Water",
+               "price":2.99,
+               "image":"https://example.com/images/sparklingwater.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Refreshing carbonated water."
+            }
+         ]
+      },
+      {
+         "restaurantId":"7",
+         "menu":[
+            {
+               "name":"Grilled Chicken Sandwich",
+               "price":9.99,
+               "image":"https://example.com/images/grilledchickensandwich.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Grilled chicken breast with lettuce, tomato, and mayo on toasted bread."
+            },
+            {
+               "name":"Vegetarian Wrap",
+               "price":8.49,
+               "image":"https://example.com/images/vegetarianwrap.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Hummus, cucumber, avocado, and mixed greens wrapped in a whole wheat tortilla."
+            },
+            {
+               "name":"Spaghetti Aglio e Olio",
+               "price":10.99,
+               "image":"https://example.com/images/spaghettiaglioeolio.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Pasta with garlic, olive oil, chili flakes, and parsley."
+            },
+            {
+               "name":"Cheese Pizza",
+               "price":11.49,
+               "image":"https://example.com/images/cheesepizza.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic pizza with mozzarella cheese and tomato sauce."
+            },
+            {
+               "name":"Crispy Onion Rings",
+               "price":5.99,
+               "image":"https://example.com/images/crispyonionrings.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Golden, crispy onion rings served with a tangy dipping sauce."
+            },
+            {
+               "name":"Loaded Nachos",
+               "price":7.49,
+               "image":"https://example.com/images/loadednachos.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Tortilla chips loaded with cheese, guacamole, salsa, and sour cream."
+            },
+            {
+               "name":"Garlic Bread",
+               "price":4.49,
+               "image":"https://example.com/images/garlicbread.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Toasted bread with garlic butter."
+            },
+            {
+               "name":"Chocolate Lava Cake",
+               "price":6.99,
+               "image":"https://example.com/images/chocolatelavacake.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Rich chocolate cake with a molten chocolate center, served with vanilla ice cream."
+            },
+            {
+               "name":"Tiramisu",
+               "price":5.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Classic Italian dessert with layers of coffee-soaked sponge and mascarpone cream."
+            },
+            {
+               "name":"Lemon Sorbet",
+               "price":4.99,
+               "image":"https://example.com/images/lemonsorbet.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Refreshing lemon sorbet served chilled."
+            },
+            {
+               "name":"Iced Tea",
+               "price":2.99,
+               "image":"https://example.com/images/icedtea.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Chilled tea served with ice and a lemon wedge."
+            },
+            {
+               "name":"Fresh Orange Juice",
+               "price":3.49,
+               "image":"https://example.com/images/orangejuice.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Freshly squeezed orange juice served chilled."
+            },
+            {
+               "name":"Sparkling Lemonade",
+               "price":3.99,
+               "image":"https://example.com/images/sparklelemonaide.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Sparkling water mixed with freshly squeezed lemon juice."
+            }
+         ]
+      },
+      {
+         "restaurantId":"8",
+         "menu":[
+            {
+               "name":"Chicken Tikka Masala",
+               "price":13.49,
+               "image":"https://example.com/images/chickentikkamasala.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Tender chicken in a rich, creamy tomato sauce with spices."
+            },
+            {
+               "name":"Palak Paneer",
+               "price":12.49,
+               "image":"https://example.com/images/palakpaneer.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Cottage cheese in a flavorful spinach gravy with spices."
+            },
+            {
+               "name":"Biryani",
+               "price":14.99,
+               "image":"https://example.com/images/biryani.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Aromatic rice dish with marinated meat and spices."
+            },
+            {
+               "name":"Chole Bhature",
+               "price":11.99,
+               "image":"https://example.com/images/cholebhature.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Spicy chickpea curry served with fried bread."
+            },
+            {
+               "name":"Samosa",
+               "price":4.49,
+               "image":"https://example.com/images/samosa.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Crispy pastry filled with spiced potatoes and peas."
+            },
+            {
+               "name":"Onion Bhaji",
+               "price":5.49,
+               "image":"https://example.com/images/onionbhaji.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy fried onion fritters served with chutney."
+            },
+            {
+               "name":"Aloo Tikki",
+               "price":4.99,
+               "image":"https://example.com/images/alootikki.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Spiced potato patties served with chutneys."
+            },
+            {
+               "name":"Gulab Jamun",
+               "price":4.99,
+               "image":"https://example.com/images/gulabjamun.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Soft and sweet dough balls soaked in syrup."
+            },
+            {
+               "name":"Kheer",
+               "price":5.99,
+               "image":"https://example.com/images/kheer.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Creamy rice pudding flavored with cardamom."
+            },
+            {
+               "name":"Ras Malai",
+               "price":6.49,
+               "image":"https://example.com/images/rasmalai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Soft cheese dumplings in sweetened milk with saffron."
+            },
+            {
+               "name":"Masala Chai",
+               "price":2.99,
+               "image":"https://example.com/images/masalachai.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Spiced Indian tea brewed with milk and herbs."
+            },
+            {
+               "name":"Mango Lassi",
+               "price":3.49,
+               "image":"https://example.com/images/mangolassi.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Sweet yogurt drink blended with mango."
+            },
+            {
+               "name":"Pineapple Juice",
+               "price":3.99,
+               "image":"https://example.com/images/pineapplejuice.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Freshly squeezed pineapple juice served chilled."
+            }
+         ]
+      },
+      {
+         "restaurantId":"9",
+         "menu":[
+            {
+               "name":"Beef Burger",
+               "price":12.99,
+               "image":"https://example.com/images/beefburger.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Juicy beef patty with lettuce, tomato, and cheese in a soft bun."
+            },
+            {
+               "name":"Grilled Veggie Burger",
+               "price":11.49,
+               "image":"https://example.com/images/grilledveggieburger.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Grilled vegetables with cheese and avocado in a toasted bun."
+            },
+            {
+               "name":"Chicken Caesar Salad",
+               "price":10.99,
+               "image":"https://example.com/images/chickencaesarsalad.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Grilled chicken, romaine lettuce, croutons, and Caesar dressing."
+            },
+            {
+               "name":"Penne Arrabbiata",
+               "price":9.99,
+               "image":"https://example.com/images/pennearrabbiata.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Penne pasta in a spicy tomato sauce with garlic and chili flakes."
+            },
+            {
+               "name":"Bruschetta",
+               "price":5.49,
+               "image":"https://example.com/images/bruschetta.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Grilled bread topped with tomatoes, basil, and balsamic glaze."
+            },
+            {
+               "name":"Mozzarella Sticks",
+               "price":6.49,
+               "image":"https://example.com/images/mozzarellasticks.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Fried mozzarella sticks served with marinara sauce."
+            },
+            {
+               "name":"Garlic Parmesan Fries",
+               "price":4.99,
+               "image":"https://example.com/images/garlicparmesanfries.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy fries tossed in garlic butter and parmesan."
+            },
+            {
+               "name":"Chocolate Mousse",
+               "price":6.99,
+               "image":"https://example.com/images/chocolatemousse.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Creamy chocolate mousse topped with whipped cream."
+            },
+            {
+               "name":"Vanilla Cupcakes",
+               "price":5.49,
+               "image":"https://example.com/images/vanillacupcakes.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Soft vanilla cupcakes topped with buttercream frosting."
+            },
+            {
+               "name":"Strawberry Cheesecake",
+               "price":7.99,
+               "image":"https://example.com/images/strawberrycheesecake.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Classic cheesecake with a strawberry topping."
+            },
+            {
+               "name":"Iced Coffee",
+               "price":3.99,
+               "image":"https://example.com/images/icedcoffee.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Chilled coffee served with ice and milk."
+            },
+            {
+               "name":"Lemonade",
+               "price":2.99,
+               "image":"https://example.com/images/lemonade.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Freshly squeezed lemonade served chilled."
+            },
+            {
+               "name":"Coca-Cola",
+               "price":1.99,
+               "image":"https://example.com/images/coca-cola.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Classic Coca-Cola served chilled."
+            }
+         ]
+      },
+      {
+         "restaurantId":"10",
+         "menu":[
+            {
+               "name":"Fish & Chips",
+               "price":13.49,
+               "image":"https://example.com/images/fishandchips.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Crispy battered fish served with fries and tartar sauce."
+            },
+            {
+               "name":"Vegetarian Tacos",
+               "price":10.99,
+               "image":"https://example.com/images/vegetariantacos.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Soft tacos filled with grilled vegetables, salsa, and avocado."
+            },
+            {
+               "name":"Grilled Salmon",
+               "price":14.99,
+               "image":"https://example.com/images/grilledsalmon.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Grilled salmon fillet with lemon butter sauce and vegetables."
+            },
+            {
+               "name":"Vegetable Stir Fry",
+               "price":12.49,
+               "image":"https://example.com/images/vegetablestirfry.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"A mix of stir-fried vegetables served with steamed rice."
+            },
+            {
+               "name":"Sweet Potato Fries",
+               "price":4.99,
+               "image":"https://example.com/images/sweetpotatofries.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Crispy sweet potato fries served with a dipping sauce."
+            },
+            {
+               "name":"Guacamole & Chips",
+               "price":5.49,
+               "image":"https://example.com/images/guacamoleandchips.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Fresh guacamole served with tortilla chips."
+            },
+            {
+               "name":"Mozzarella Caprese",
+               "price":6.99,
+               "image":"https://example.com/images/mozzarellacaprese.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Fresh mozzarella, tomatoes, and basil with balsamic glaze."
+            },
+            {
+               "name":"Banoffee Pie",
+               "price":6.99,
+               "image":"https://example.com/images/banoffeepie.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"A sweet pie made with bananas, caramel, and cream."
+            },
+            {
+               "name":"Apple Crumble",
+               "price":5.99,
+               "image":"https://example.com/images/applecrumble.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Baked apples with a crunchy crumble topping, served with vanilla ice cream."
+            },
+            {
+               "name":"Panna Cotta",
+               "price":6.49,
+               "image":"https://example.com/images/pannacotta.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Creamy vanilla panna cotta topped with mixed berries."
+            },
+            {
+               "name":"Hot Chocolate",
+               "price":3.99,
+               "image":"https://example.com/images/hotchocolate.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Rich and creamy hot chocolate served with whipped cream."
+            },
+            {
+               "name":"Iced Lemon Tea",
+               "price":2.99,
+               "image":"https://example.com/images/icedlemontea.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Refreshing iced tea with lemon."
+            },
+            {
+               "name":"Sparkling Water",
+               "price":2.49,
+               "image":"https://example.com/images/sparklingwater.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Chilled sparkling water served with a lemon slice."
+            }
+         ]
+      },
+      {
+         "restaurantId":"11",
+         "menu":[
+            {
+               "name":"Chicken Biryani",
+               "price":14.99,
+               "image":"https://example.com/images/chickenbiryani.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Fragrant rice cooked with marinated chicken and aromatic spices."
+            },
+            {
+               "name":"Paneer Tikka",
+               "price":10.99,
+               "image":"https://example.com/images/paneertikka.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Marinated paneer grilled to perfection and served with mint chutney."
+            },
+            {
+               "name":"Lamb Kebab",
+               "price":16.49,
+               "image":"https://example.com/images/lambkebab.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Juicy lamb skewers served with flatbread and salad."
+            },
+            {
+               "name":"Vegetable Samosa",
+               "price":4.99,
+               "image":"https://example.com/images/vegetablesamosa.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy pastry filled with spiced potatoes and peas."
+            },
+            {
+               "name":"Chana Masala",
+               "price":11.49,
+               "image":"https://example.com/images/chanamasala.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Spicy chickpea curry served with rice or naan."
+            },
+            {
+               "name":"Aloo Paratha",
+               "price":5.99,
+               "image":"https://example.com/images/alooparatha.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Whole wheat flatbread stuffed with spiced mashed potatoes."
+            },
+            {
+               "name":"Butter Chicken",
+               "price":13.99,
+               "image":"https://example.com/images/butterchicken.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Tender chicken in a rich tomato-based gravy with cream."
+            },
+            {
+               "name":"Gulab Jamun",
+               "price":4.99,
+               "image":"https://example.com/images/gulabjamun.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Deep-fried milk dumplings soaked in sweet syrup."
+            },
+            {
+               "name":"Ras Malai",
+               "price":5.49,
+               "image":"https://example.com/images/rasmalai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Soft cheese patties in a creamy, flavored milk syrup."
+            },
+            {
+               "name":"Mango Lassi",
+               "price":3.99,
+               "image":"https://example.com/images/mangolassi.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"A refreshing yogurt-based mango drink."
+            },
+            {
+               "name":"Masala Chai",
+               "price":2.99,
+               "image":"https://example.com/images/masalachai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Spiced Indian tea brewed with milk and sugar."
+            },
+            {
+               "name":"Nimbu Pani",
+               "price":2.49,
+               "image":"https://example.com/images/nimbupani.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Freshly squeezed lemon juice with a hint of salt and sugar."
+            }
+         ]
+      },
+      {
+         "restaurantId":"12",
+         "menu":[
+            {
+               "name":"Pizza Margherita",
+               "price":9.99,
+               "image":"https://example.com/images/pizzamargherita.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic pizza with tomato sauce, fresh mozzarella, and basil."
+            },
+            {
+               "name":"Pepperoni Pizza",
+               "price":11.49,
+               "image":"https://example.com/images/pepperonipizza.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Pizza topped with pepperoni, mozzarella, and tomato sauce."
+            },
+            {
+               "name":"Vegetarian Pizza",
+               "price":12.99,
+               "image":"https://example.com/images/vegetarianpizza.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Topped with a mix of fresh vegetables and mozzarella."
+            },
+            {
+               "name":"Garlic Bread",
+               "price":4.99,
+               "image":"https://example.com/images/garlicbread.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy bread brushed with garlic butter."
+            },
+            {
+               "name":"Caprese Salad",
+               "price":7.99,
+               "image":"https://example.com/images/capresesalad.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Fresh mozzarella, tomatoes, and basil with balsamic glaze."
+            },
+            {
+               "name":"Minestrone Soup",
+               "price":5.99,
+               "image":"https://example.com/images/minestronesoup.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Hearty vegetable soup with pasta and beans."
+            },
+            {
+               "name":"Tiramisu",
+               "price":6.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Classic Italian dessert made with coffee-soaked biscuits and mascarpone."
+            },
+            {
+               "name":"Panna Cotta",
+               "price":5.49,
+               "image":"https://example.com/images/pannacotta.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Smooth and creamy vanilla custard topped with fresh berries."
+            },
+            {
+               "name":"Lemon Sorbet",
+               "price":4.49,
+               "image":"https://example.com/images/lemonsorbet.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Refreshing lemon sorbet served chilled."
+            },
+            {
+               "name":"Espresso",
+               "price":2.49,
+               "image":"https://example.com/images/espresso.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Rich and bold espresso served in a small cup."
+            },
+            {
+               "name":"Iced Tea",
+               "price":2.99,
+               "image":"https://example.com/images/icedtea.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Chilled tea served with lemon slices."
+            },
+            {
+               "name":"Soft Drink",
+               "price":1.99,
+               "image":"https://example.com/images/softdrink.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Coca-Cola, Sprite, or Fanta served chilled."
+            }
+         ]
+      },
+      {
+         "restaurantId":"11",
+         "menu":[
+            {
+               "name":"Chicken Biryani",
+               "price":14.99,
+               "image":"https://example.com/images/chickenbiryani.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Fragrant rice cooked with marinated chicken and aromatic spices."
+            },
+            {
+               "name":"Paneer Tikka",
+               "price":10.99,
+               "image":"https://example.com/images/paneertikka.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Marinated paneer grilled to perfection and served with mint chutney."
+            },
+            {
+               "name":"Lamb Kebab",
+               "price":16.49,
+               "image":"https://example.com/images/lambkebab.jpg",
+               "veg":false,
+               "bestseller":false,
+               "category":2,
+               "description":"Juicy lamb skewers served with flatbread and salad."
+            },
+            {
+               "name":"Vegetable Samosa",
+               "price":4.99,
+               "image":"https://example.com/images/vegetablesamosa.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy pastry filled with spiced potatoes and peas."
+            },
+            {
+               "name":"Chana Masala",
+               "price":11.49,
+               "image":"https://example.com/images/chanamasala.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Spicy chickpea curry served with rice or naan."
+            },
+            {
+               "name":"Aloo Paratha",
+               "price":5.99,
+               "image":"https://example.com/images/alooparatha.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Whole wheat flatbread stuffed with spiced mashed potatoes."
+            },
+            {
+               "name":"Butter Chicken",
+               "price":13.99,
+               "image":"https://example.com/images/butterchicken.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Tender chicken in a rich tomato-based gravy with cream."
+            },
+            {
+               "name":"Gulab Jamun",
+               "price":4.99,
+               "image":"https://example.com/images/gulabjamun.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Deep-fried milk dumplings soaked in sweet syrup."
+            },
+            {
+               "name":"Ras Malai",
+               "price":5.49,
+               "image":"https://example.com/images/rasmalai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Soft cheese patties in a creamy, flavored milk syrup."
+            },
+            {
+               "name":"Mango Lassi",
+               "price":3.99,
+               "image":"https://example.com/images/mangolassi.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"A refreshing yogurt-based mango drink."
+            },
+            {
+               "name":"Masala Chai",
+               "price":2.99,
+               "image":"https://example.com/images/masalachai.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Spiced Indian tea brewed with milk and sugar."
+            },
+            {
+               "name":"Nimbu Pani",
+               "price":2.49,
+               "image":"https://example.com/images/nimbupani.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Freshly squeezed lemon juice with a hint of salt and sugar."
+            }
+         ]
+      },
+      {
+         "restaurantId":"12",
+         "menu":[
+            {
+               "name":"Pizza Margherita",
+               "price":9.99,
+               "image":"https://example.com/images/pizzamargherita.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic pizza with tomato sauce, fresh mozzarella, and basil."
+            },
+            {
+               "name":"Pepperoni Pizza",
+               "price":11.49,
+               "image":"https://example.com/images/pepperonipizza.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Pizza topped with pepperoni, mozzarella, and tomato sauce."
+            },
+            {
+               "name":"Vegetarian Pizza",
+               "price":12.99,
+               "image":"https://example.com/images/vegetarianpizza.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Topped with a mix of fresh vegetables and mozzarella."
+            },
+            {
+               "name":"Garlic Bread",
+               "price":4.99,
+               "image":"https://example.com/images/garlicbread.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Crispy bread brushed with garlic butter."
+            },
+            {
+               "name":"Caprese Salad",
+               "price":7.99,
+               "image":"https://example.com/images/capresesalad.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Fresh mozzarella, tomatoes, and basil with balsamic glaze."
+            },
+            {
+               "name":"Minestrone Soup",
+               "price":5.99,
+               "image":"https://example.com/images/minestronesoup.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Hearty vegetable soup with pasta and beans."
+            },
+            {
+               "name":"Tiramisu",
+               "price":6.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Classic Italian dessert made with coffee-soaked biscuits and mascarpone."
+            },
+            {
+               "name":"Panna Cotta",
+               "price":5.49,
+               "image":"https://example.com/images/pannacotta.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Smooth and creamy vanilla custard topped with fresh berries."
+            },
+            {
+               "name":"Lemon Sorbet",
+               "price":4.49,
+               "image":"https://example.com/images/lemonsorbet.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Refreshing lemon sorbet served chilled."
+            },
+            {
+               "name":"Espresso",
+               "price":2.49,
+               "image":"https://example.com/images/espresso.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Rich and bold espresso served in a small cup."
+            },
+            {
+               "name":"Iced Tea",
+               "price":2.99,
+               "image":"https://example.com/images/icedtea.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Chilled tea served with lemon slices."
+            },
+            {
+               "name":"Soft Drink",
+               "price":1.99,
+               "image":"https://example.com/images/softdrink.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Coca-Cola, Sprite, or Fanta served chilled."
+            }
+         ]
+      },
+      {
+         "restaurantId":"15",
+         "menu":[
+            {
+               "name":"Baked Ziti",
+               "price":14.99,
+               "image":"https://example.com/images/bakedziti.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Baked pasta with marinara sauce, mozzarella, and parmesan cheese."
+            },
+            {
+               "name":"Chicken Parmesan",
+               "price":16.49,
+               "image":"https://example.com/images/chickenparmesan.jpg",
+               "veg":false,
+               "bestseller":true,
+               "category":2,
+               "description":"Breaded chicken cutlet topped with marinara sauce and melted mozzarella cheese."
+            },
+            {
+               "name":"Vegetable Stir Fry",
+               "price":11.99,
+               "image":"https://example.com/images/vegetablestirfry.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Stir-fried vegetables served with a soy-based sauce."
+            },
+            {
+               "name":"Garlic Bread",
+               "price":4.49,
+               "image":"https://example.com/images/garlicbread.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":1,
+               "description":"Crispy toasted bread with garlic butter."
+            },
+            {
+               "name":"Bruschetta",
+               "price":7.49,
+               "image":"https://example.com/images/bruschetta.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":1,
+               "description":"Toasted bread topped with fresh tomatoes, basil, and balsamic vinegar."
+            },
+            {
+               "name":"Fettuccine Alfredo",
+               "price":15.99,
+               "image":"https://example.com/images/fettuccinealfredo.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":2,
+               "description":"Fettuccine pasta served in a creamy Alfredo sauce."
+            },
+            {
+               "name":"Margherita Pizza",
+               "price":13.99,
+               "image":"https://example.com/images/margheritapizza.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":2,
+               "description":"Classic pizza with tomato sauce, mozzarella, and basil."
+            },
+            {
+               "name":"Tiramisu",
+               "price":6.99,
+               "image":"https://example.com/images/tiramisu.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Layered coffee-soaked cake with mascarpone cream."
+            },
+            {
+               "name":"Cheesecake",
+               "price":7.99,
+               "image":"https://example.com/images/cheesecake.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":3,
+               "description":"Creamy cheesecake served with a strawberry topping."
+            },
+            {
+               "name":"Fruit Salad",
+               "price":5.49,
+               "image":"https://example.com/images/fruitsalad.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":3,
+               "description":"Fresh seasonal fruits served with a honey glaze."
+            },
+            {
+               "name":"Iced Tea",
+               "price":2.99,
+               "image":"https://example.com/images/icedtea.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Chilled tea served with lemon slices."
+            },
+            {
+               "name":"Soda",
+               "price":1.99,
+               "image":"https://example.com/images/soda.jpg",
+               "veg":true,
+               "bestseller":false,
+               "category":4,
+               "description":"Choose from Coca-Cola, Sprite, or Fanta."
+            },
+            {
+               "name":"Lemonade",
+               "price":2.49,
+               "image":"https://example.com/images/lemonade.jpg",
+               "veg":true,
+               "bestseller":true,
+               "category":4,
+               "description":"Refreshing lemonade served with ice."
+            }
+         ]
+      }
+   ]
+}
