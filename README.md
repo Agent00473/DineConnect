@@ -46,3 +46,30 @@ This project is designed to explore concepts and principles, currently focusing 
 ## Request Response Handling
 ![image](https://github.com/user-attachments/assets/7e011266-51bc-4ac0-a105-2131c891c954)
 
+𝐀𝐫𝐜𝐡𝐢𝐭𝐞𝐜𝐭𝐮𝐫𝐞 & 𝐃𝐞𝐬𝐢𝐠𝐧 𝐏𝐚𝐭𝐭𝐞𝐫𝐧𝐬
+✅ 𝗠𝗶𝗰𝗿𝗼𝘀𝗲𝗿𝘃𝗶𝗰𝗲 𝗔𝗿𝗰𝗵𝗶𝘁𝗲𝗰𝘁𝘂𝗿
+✅ **REST API**
+✅ Clean 𝗔𝗿𝗰𝗵𝗶𝘁𝗲𝗰𝘁𝘂𝗿𝗲
+✅ **𝗖𝗤𝗥S**
+✅ **Outbox Pattern**
+✅ **Sidecar Pattern**
+✅ **Result Pattern**
+✅ **Mediator Pattern**
+✅ **DDD Concepts**
+
+𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲 & 𝗢𝗥𝗠
+✅ 𝗣𝗼𝘀𝘁𝗴𝗿𝗲𝗦𝗤𝗟
+✅ 𝗘𝗙 𝗖𝗼𝗿𝗲
+
+𝗠𝗶𝗱𝗱𝗹𝗲𝘄𝗮𝗿𝗲
+✅ Use 𝗜𝗘𝘅𝗰𝗲𝗽𝘁𝗶𝗼𝗻𝗛𝗮𝗻𝗱𝗹𝗲𝗿 to handle exceptions globally
+
+Tools
+✅ Docker for RabbitMQ
+
+𝗟𝗶𝗯𝗿𝗮𝗿𝗶𝗲𝘀
+✅ 𝗠𝗲𝗱𝗶𝗮𝘁𝗥 for implementing 𝘾𝙌𝙍𝙎
+✅ 𝗙𝗹𝘂𝗲𝗻𝘁𝗩𝗮𝗹𝗶𝗱𝗮𝘁𝗶𝗼𝗻 for validating inputs and 𝗠𝗲𝗱𝗶𝗮𝘁𝗥 validation pipeline
+✅ **RabbitMQ** message broker for asyncronous Communication.
+✅ **gRPC** for communication between services.
+
