@@ -75,6 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.PostgressExc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.IntegrationEvents", "Infrastructure.IntegrationEvents\Infrastructure.IntegrationEvents.csproj", "{408296D7-C8FD-4157-881A-694F3E8F1EFC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Domain", "Infrastructure.Domain\Infrastructure.Domain.csproj", "{300AF965-6BA4-4470-9A25-A08F315E6655}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -177,6 +179,10 @@ Global
 		{408296D7-C8FD-4157-881A-694F3E8F1EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{408296D7-C8FD-4157-881A-694F3E8F1EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{408296D7-C8FD-4157-881A-694F3E8F1EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300AF965-6BA4-4470-9A25-A08F315E6655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300AF965-6BA4-4470-9A25-A08F315E6655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300AF965-6BA4-4470-9A25-A08F315E6655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300AF965-6BA4-4470-9A25-A08F315E6655}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{87685750-9E11-4453-8C19-CB10DC981C42} = {D5185C19-47E1-4F55-BBB1-F80A3BC6D96B}
 		{1CF51F1C-C7A9-4766-AB5B-C3695CD87898} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
 		{408296D7-C8FD-4157-881A-694F3E8F1EFC} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
+		{300AF965-6BA4-4470-9A25-A08F315E6655} = {F3B265F0-EF0C-4732-A253-DECB8C34659D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B7579AD-DC48-4DBC-BBA4-AA1004199EA6}
