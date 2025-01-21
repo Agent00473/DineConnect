@@ -45,7 +45,7 @@ This project is designed to explore concepts and principles, currently focusing 
   
   ✅ **Clean Architecture**
   
-  ✅ **CQS**
+  ✅ **CQS Pattern**
   
   ✅ **Outbox Pattern**
   
