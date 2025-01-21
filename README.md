@@ -31,11 +31,56 @@ This project is designed to explore concepts and principles, currently focusing 
 ## Web API Solution Name
     DineConnect
 ## Angular Solution Name
-    DineNow
+    [AppDine] (https://github.com/Agent00473/app-dine)
 ## Decisions
    * Syncronous inter-service communication with gRPC.
    * Asyncronous Communication with RabbitMQ / Azure Service bus.
    * Using RabbitMQ Publish/Subscribe Topic Exchange Model.
+
+## 𝐀𝐫𝐜𝐡𝐢𝐭𝐞𝐜𝐭𝐮𝐫𝐞 & 𝐃𝐞𝐬𝐢𝐠𝐧 𝐏𝐚𝐭𝐭𝐞𝐫𝐧𝐬
+
+  ✅ **Microservice Architecture**
+  
+  ✅ **REST API**
+  
+  ✅ **Clean Architecture**
+  
+  ✅ **CQS Pattern**
+  
+  ✅ **Outbox Pattern**
+  
+  ✅ **Sidecar Pattern**
+  
+  ✅ **Result Pattern**
+  
+  ✅ **Mediator Pattern**
+  
+  ✅ **DDD Concepts**
+
+## Database & ORM
+
+  ✅ **PostgreSQL**
+
+  ✅ **EF Core**
+
+## Middleware
+  
+  ✅ **IExceptionHandler to handle exceptions globally**
+
+## Tools
+
+  ✅ **Docker for RabbitMQ**
+
+## Libraries
+
+  ✅ **MediatR for implementing CQRS**
+
+  ✅ **FluentValidation for validating inputs and MediatR validation pipeline**
+
+  ✅ **RabbitMQ message broker for asyncronous Communication.**
+
+  ✅ **gRPC for communication between services.**
+  
 
 ## System Overview
 ![image](https://github.com/user-attachments/assets/eb5c59f3-b73b-4348-a60e-c5156f90f927)
@@ -45,4 +90,7 @@ This project is designed to explore concepts and principles, currently focusing 
 
 ## Request Response Handling
 ![image](https://github.com/user-attachments/assets/7e011266-51bc-4ac0-a105-2131c891c954)
+
+
+
 

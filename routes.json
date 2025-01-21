@@ -1,0 +1,4 @@
+{
+  "/restaurants/:id": "/restaurants/:id",
+  "/restaurants/:id/menu": "/restaurants/:id/menu"
+}
