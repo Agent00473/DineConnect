@@ -2,6 +2,7 @@
 using DineConnect.RestaurantManagementService.Domain.Catalogues.ValueObjects;
 using Infrastructure.Domain.Entities;
 
+
 namespace DineConnect.RestaurantManagementService.Domain.Catalogues
 {
     public class Catalogue : BaseAggregateRoot<CatalogueId, Guid>
@@ -31,10 +32,64 @@ namespace DineConnect.RestaurantManagementService.Domain.Catalogues
 
         #region Public Properties
         public IReadOnlyCollection<MenuItem> MenuItems => _menuItems.AsReadOnly();
+        public string Name {  get; private set; }
         #endregion
 
         #region Public Methods
+        public void UpdateDetails(string name, string description)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+        }
 
+        public void AddMenuItem(MenuItem menuItem)
+        {
+            if (_menuItems.Any(item => item.Id == menuItem.Id))
+                throw new InvalidOperationException($"MenuItem with ID {menuItem.Id} already exists.");
+
+            _menuItems.Add(menuItem);
+        }
+
+        public void UpdateMenuItem(MenuItemId menuItemId, MenuItem updatedMenuItem)
+        {
+            var menuItem = _menuItems.FirstOrDefault(item => item.Id == menuItemId);
+            if (menuItem == null)
+                throw new InvalidOperationException($"MenuItem with ID {menuItemId} not found.");
+
+            menuItem.UpdateDetails(updatedMenuItem.Name, updatedMenuItem.Price);
+        }
+
+        public void RemoveMenuItem(MenuItemId menuItemId)
+        {
+            var menuItem = _menuItems.FirstOrDefault(item => item.Id == menuItemId);
+            if (menuItem == null)
+                throw new InvalidOperationException($"MenuItem with ID {menuItemId} not found.");
+
+            _menuItems.Remove(menuItem);
+        }
+
+        public void GetMenuItem(MenuItemId menuItemId)
+        {
+            return _menuItems.FirstOrDefault(item => item.Id == menuItemId);
+            return 
+        }
+
+        public void DisableMenuItem(MenuItemId menuItemId)
+        {
+            var menuItem = _menuItems.FirstOrDefault(item => item.Id == menuItemId);
+            if (menuItem == null)
+                throw new InvalidOperationException($"MenuItem with ID {menuItemId} not found.");
+
+            menuItem.Disable();
+        }
+
+        public void EnableMenuItem(MenuItemId menuItemId)
+        {
+            var menuItem = _menuItems.FirstOrDefault(item => item.Id == menuItemId);
+            if (menuItem == null)
+                throw new InvalidOperationException($"MenuItem with ID {menuItemId} not found.");
+
+            menuItem.Enable();
+        }
         #endregion
 
         #region Factory Methods

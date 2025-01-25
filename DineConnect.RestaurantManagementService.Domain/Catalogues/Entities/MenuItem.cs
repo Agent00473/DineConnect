@@ -47,7 +47,17 @@ namespace DineConnect.RestaurantManagementService.Domain.Catalogues.Entities
         public bool Bestseller { get; private set; }
         public string Description { get; private set; }
         public ItemCategory Category { get; private set; }
+        public bool IsEnabled { get; private set; } = true;
 
+        public void UpdateDetails(string name, Price price)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Price = price ?? throw new ArgumentNullException(nameof(price));
+        }
+
+        public void Disable() => IsEnabled = false;
+
+        public void Enable() => IsEnabled = true;
         #endregion
 
 
